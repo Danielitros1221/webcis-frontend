@@ -11,7 +11,7 @@ Este es el repositorio para el desarrollo único del front. Se usará Vue.js y T
 | **npm**                      | 9.x o superior                         | Administrador de paquetes   |
 
 ### Comandos para verificación de requisitos previos:
-node -v \n
+node -v  
 npm -v
 
 ## Clona el Repo
@@ -20,6 +20,7 @@ cd webcis-frontend/project
 npm install  
 
 ## Ejecución del proyecto
+Comando para ejecutar el proyecto:  
 npm run dev  
 El proyecto quedará en la ruta del puerto: http://localhost:5173
 
