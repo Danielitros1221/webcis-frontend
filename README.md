@@ -7,11 +7,29 @@ Este es el repositorio para el desarrollo único del front. Se usará Vue.js y T
 
 | Herramienta                  | Versión recomendada                    | Descripción                 |
 | ---------------------------- | -------------------------------------- | --------------------------- |
-| **Node.js**                  | 20.x o superior                        | Entorno de ejecución JS     |
+| **Node.js**                  | 20.x o superior                        | https://nodejs.org/es/download |
 | **npm**                      | 9.x o superior                         | Administrador de paquetes   |
-| **Git**                      | Última versión                         | Control de versiones        |
 
-Requisitos previos:
-Instalar la ultima versión de Node.js en: https://nodejs.org/es/download 
+### Comandos para verificación de requisitos previos:
+node -v
+npm -v
 
-Para iniciar el projecto luego de clonarlo, es necesario que ejecuten
+## Clona el Repo
+https://github.com/Danielitros1221/webcis-frontend.git
+cd webcis-frontend/project
+npm install
+
+## Ejecución del proyecto
+npm run dev
+El proyecto quedará en la ruta del puerto: http://localhost:5173
+
+## Uso de Ramas (Git Flow del Proyecto)
+El proyecto sigue una estrategia Git Flow Adaptado, pensada para trabajo en equipo:
+#### Rama main: Contiene el código estable, probado y listo para producción. Solo se hace merge desde dev.
+#### Rama dev (rama de integración): Aquí se integran todas las funcionalidades antes de pasar a main. Es la rama donde normalmente debe estar trabajando el equipo.
+#### Ramas feature: feature/<tarea-especifica>: Se crean para desarrollar funcionalidades nuevas.
+  Ejemplos:
+  feature/login-usuario
+  feature/crear-componente-header
+
+
