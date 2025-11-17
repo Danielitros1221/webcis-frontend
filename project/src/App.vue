@@ -1,10 +1,9 @@
 <script setup>
-
+  import BienvenidaView from "@/views/BienvenidaView.vue";
 </script>
 
 <template>
-  <h1 class="text-red-500">Holaa</h1>
-  <h2>Mundo dos</h2>
+  <BienvenidaView></BienvenidaView>
 </template>
 
 <style scoped>
