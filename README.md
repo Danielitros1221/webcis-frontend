@@ -11,7 +11,7 @@ Este es el repositorio para el desarrollo único del front. Se usará Vue.js y T
 | **npm**                      | 9.x o superior                         | Administrador de paquetes   |
 
 ### Comandos para verificación de requisitos previos:
-node -v
+node -v \n
 npm -v
 
 ## Clona el Repo
