@@ -4,8 +4,7 @@ import Footer from "@/components/Footer.vue";
 </script>
 
 <template>
-  <BienvenidaView></BienvenidaView>
-  <Footer />
+  <BienvenidaView />
 </template>
 
 <style scoped>
