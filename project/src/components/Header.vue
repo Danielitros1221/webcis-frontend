@@ -6,19 +6,16 @@
 </script>
 
 <template>
-  <header class="bg-[#610D31] w-auto size-11">
-    <div>
+  <header>
+    <div class="bg-[#610D31] w-full h-11">
       <img :src="logoGobierno" alt="Logo del Gobierno de Mexico" class="w-25">
     </div>
-  </header>
-  <header class="bg-white w-auto size-15 px-7 py-3">
-    <div class="flex items-center space-x-11">
+    <div class=" bg-white w-full h-18 px-8 py-4 flex items-center space-x-11">
       <img :src="logoSEP" alt="Logo de la SEP" class="w-45">
       <img :src="logoTECNM" alt="Logo del TECNM" class="w-35">
       <img :src="logoITVER" alt="Logo de la ITVER" class="w-15">
     </div>
   </header>
-
 </template>
 
 <style scoped>

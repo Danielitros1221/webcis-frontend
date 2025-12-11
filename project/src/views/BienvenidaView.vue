@@ -5,12 +5,7 @@
 </script>
 
 <template>
-  <div>
-    <Header />
-  </div>
-  <div class="py-5">
-    <Menu />
-  </div>
+  <Header />
   <Footer/>
 </template>
 
