@@ -4,10 +4,13 @@
 </script>
 
 <template>
-  <Menu></Menu>
   <div>
     <Header />
   </div>
+  <div class="py-5">
+    <Menu />
+  </div>
+
 </template>
 
 <style scoped>
