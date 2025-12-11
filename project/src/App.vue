@@ -1,5 +1,5 @@
 <script setup>
-  import BienvenidaView from "@/views/BienvenidaView.vue";
+import BienvenidaView from "@/views/BienvenidaView.vue";
 </script>
 
 <template>
