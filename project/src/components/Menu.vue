@@ -1,10 +1,6 @@
 <script setup>
 
 </script>
-<link crossorigin="anonymous"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-      referrerpolicy="no-referrer" rel="stylesheet"/>
 <template>
   <div class=" font-poppins flex items-center justify-between h-16 w-screen bg-[#193A68] shadow-lg px-5">
     <img src="@/assets/images/Logo.png" alt="placeholder" class="h-22 w-auto">
