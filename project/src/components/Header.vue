@@ -11,7 +11,7 @@
       <img :src="logoGobierno" alt="Logo del Gobierno de Mexico" class="w-25">
     </div>
   </header>
-  <header class="bg-white w-auto size-15">
+  <header class="bg-white w-auto size-15 px-7 py-3">
     <div class="flex items-center space-x-11">
       <img :src="logoSEP" alt="Logo de la SEP" class="w-45">
       <img :src="logoTECNM" alt="Logo del TECNM" class="w-35">
