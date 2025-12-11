@@ -1,6 +1,6 @@
 <template>
-  <footer class="w-full font-sans">
-    <div class="bg-[#1B396A] text-white py-8 px-4 md:px-16">
+  <footer class="w-full font-inter">
+    <div class="bg-[#193A68] text-white py-8 px-4 md:px-16">
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-start">
 
         <div>
@@ -95,5 +95,4 @@
 </template>
 
 <script setup>
-// Componente Footer - sin lógica adicional necesaria
 </script>

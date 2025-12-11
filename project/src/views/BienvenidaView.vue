@@ -5,7 +5,8 @@
 </script>
 
 <template>
-  <Header />
+  <Header/>
+  <Menu/>
   <Footer/>
 </template>
 
