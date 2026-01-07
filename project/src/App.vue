@@ -1,9 +1,13 @@
 <script setup>
-import BienvenidaView from "@/views/BienvenidaView.vue";
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+import Menu from "@/components/Menu.vue";
 </script>
 
 <template>
-  <BienvenidaView></BienvenidaView>
+  <Header />
+  <Menu />
+  <Footer />
 </template>
 
 <style scoped>
