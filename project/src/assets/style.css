@@ -38,42 +38,42 @@
 
 @layer components {
   .ty-titulo {
-    font-family: var(--font-display, sans-serif);
+    font-family: var(--font-display), sans-serif;
     font-weight: 700; /* bold */
     font-size: 128px;
     line-height: 1.05;
   }
 
   .ty-encabezado1 {
-    font-family: var(--font-display, sans-serif);
+    font-family: var(--font-display), sans-serif;
     font-weight: 700; /* bold */
     font-size: 96px;
     line-height: 1.1;
   }
 
   .ty-encabezado2 {
-    font-family: var(--font-display, sans-serif);
+    font-family: var(--font-display), sans-serif;
     font-weight: 700; /* bold */
     font-size: 64px;
     line-height: 1.15;
   }
 
   .ty-encabezado3 {
-    font-family: var(--font-display, sans-serif);
+    font-family: var(--font-display), sans-serif;
     font-weight: 600; /* semibold */
     font-size: 48px;
     line-height: 1.2;
   }
 
   .ty-parrafo {
-    font-family: var(--font-body, sans-serif);
+    font-family: var(--font-body), sans-serif;
     font-weight: 400; /* regular */
     font-size: 50px;
     line-height: 1.5;
   }
 
   .ty-texto-pequeno {
-    font-family: var(--font-body, sans-serif);
+    font-family: var(--font-body), sans-serif;
     font-weight: 400; /* regular */
     font-size: 24px;
     line-height: 1.5;
@@ -83,6 +83,6 @@
 @layer base {
   body {
     @apply bg-fondo text-texto;
-    font-family: var(--font-body, sans-serif);
+    font-family: var(--font-body), sans-serif;
   }
 }
