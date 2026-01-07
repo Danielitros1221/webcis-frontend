@@ -4,13 +4,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 /*@custom-variant light (&:where(.light, .light *));*/
 @theme {
-  --color-fondo: #FFFFFF;
+  --color-fondo: #610D31;
   --color-texto: #0A0A0A;
 
   --color-oro-ingenieril: #CFA34E;
   --color-gris-codigo: #8C8C8C;
   --color-azul-depuracion: #173B6C;
   --color-cobre-digital: #A86E2E;
+  --color-guinda-fondo: #610D31;
 }
 
 @layer base {
