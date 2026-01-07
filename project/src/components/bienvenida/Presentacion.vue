@@ -5,8 +5,14 @@
 <template>
   <div>
     <div class="bg-color-white border-2 w-100 h-110 flex-auto justify-between">
-      <h1 class="text-center text-[#CFA34E] text-6xl font-bold">WebCIS</h1>
-      <p class="text-center">Diseñado para mejorar</p>
+      <h1 class="text-right text-oro-ingenieril text-6xl font-bold">WebCIS</h1>
+      <div class="w-50">
+        <p class="">Diseñado para mejorar las bases de programacion de las alumnos a traves de
+          contenidos educativos proporcionando un espacio de accesso a materiales que sirvan como complemento
+          al aprendizaje ne el aula.
+        </p>
+      </div>
+      <button></button>
     </div>
 
   </div>
