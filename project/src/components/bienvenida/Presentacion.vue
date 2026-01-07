@@ -3,6 +3,7 @@
 </script>
 
 <template>
+  <p>HOLA DESDE PRESENTACION</p>
 
 </template>
 
