@@ -4,8 +4,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 /*@custom-variant light (&:where(.light, .light *));*/
 @theme {
-  --color-fondo: #0A0A0A;
-  --color-texto: #FFFFFF;
+  --color-fondo: #FFFFFF;
+  --color-texto: #0A0A0A;
 
   --color-oro-ingenieril: #CFA34E;
   --color-gris-codigo: #8C8C8C;
