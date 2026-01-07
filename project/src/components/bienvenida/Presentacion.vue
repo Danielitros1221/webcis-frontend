@@ -16,7 +16,9 @@
           sirvan como complemento al aprendizaje en el aula.
         </p>
       </div>
-      <button></button>
+      <br>
+      <button class="text-color text-fondo  bg-azul-depuracion   text-2xl"> ¡MAS INFORMACÍON! </button>
+
     </div>
 
   </div>
