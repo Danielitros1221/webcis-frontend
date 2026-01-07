@@ -23,25 +23,25 @@ const router = createRouter({
     },
     {
       path: '/app',
-      component: () => import('@/layouts/AppLayout.vue'),
+      //component: () => import('@/layouts/AppLayout.vue'),
       meta: { requiresAuth: true },
       children: [
         {
           path: '',
           name: 'dashboard',
-          component: () => import('@/views/DashboardView.vue')
+          //component: () => import('@/views/DashboardView.vue')
         }
       ]
     },
     {
       path: '/admin',
-      component: () => import('@/layouts/AdminLayout.vue'),
+      //component: () => import('@/layouts/AdminLayout.vue'),
       meta: { requiresAuth: true, requiresAdmin: true },
       children: [
         {
           path: '',
           name: 'admin-dashboard',
-          component: () => import('@/views/admin/AdminDashboardView.vue')
+          //component: () => import('@/views/admin/AdminDashboardView.vue')
         }
       ]
     }
