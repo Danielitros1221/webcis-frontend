@@ -5,19 +5,20 @@
 <template>
   <div class="flex flex-col">
 
-    <div class="flex-auto bg-color-white border-2 w-120 h-115 ">
-      <h1 class="text-center text-oro-ingenieril text-6xl font-bold">
+    <div class="bg-gradient-to-r from-black to-transparent border-2 w-130 h-125 py-25">
+      <h1 class="px-28.5 text-oro-ingenieril text-6xl font-bold">
         WebCIS
       </h1>
-      <div class="flex items-center w-70 ">
-        <p class="self-start text-gris-codigo float-left">
-          Diseñado para mejorar las bases de programacion de las alumnos a traves de
-          contenidos educativos proporcionando un espacio de accesso a materiales que
-          sirvan como complemento al aprendizaje en el aula.
+      <br>
+      <div class="relative flex px-28">
+        <p class="text-gris-codigo">
+          Diseñado para mejorar las bases de programación de los alumnos a través de contenidos
+          educativos proporcionando un espacio de acceso a materiales que sirvan como complemento
+          al aprendizaje en el aula.
         </p>
       </div>
       <br>
-      <button class="text-color text-fondo  bg-azul-depuracion   text-2xl"> ¡MAS INFORMACÍON! </button>
+      <button class="text-color text-fondo  bg-azul-depuracion   text-2xl "> ¡MAS INFORMACÍON! </button>
 
     </div>
 
