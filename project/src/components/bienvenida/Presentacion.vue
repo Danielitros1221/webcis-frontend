@@ -5,9 +5,9 @@
 <template>
   <div class="flex flex-col">
 
-    <!-- px-28.5 text-oro-ingenieril text-6xl font-bold -->
+    <!-- -->
 
-    <div class="bg-gradient-to-r from-black to-transparent border-2 w-130 h-125 py-25">
+    <div class="bg-gradient-to-r from-black to-transparent w-130 h-125 py-25">
       <h1 class="ty-encabezado2 px-28.5 text-acento">
           WebCIS
       </h1>
