@@ -1,13 +1,29 @@
 <script setup>
+import { onMounted, onBeforeUnmount } from "vue";
+import { useAuthStore} from "@/stores/auth.js";
+
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import Menu from "@/components/Menu.vue";
+
+const auth = useAuthStore();
+let timerOut = null
+
+onMounted(() => {
+  auth.initFromStorage()
+  timerOut = setInterval(() => {
+    auth.ensureValidSession()
+  }, 30_000)
+})
+
+onBeforeUnmount(() => {
+  if (timerOut) clearInterval(timerOut)
+})
+
 </script>
 
 <template>
   <Header />
-  <Menu />
-  <router-view></router-view>
+  <RouterView />
   <Footer />
 </template>
 

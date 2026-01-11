@@ -1,48 +1,35 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'bienvenida',
-      component: () => import('@/views/BienvenidaView.vue'),
-      meta: { public: true }
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/LoginView.vue'),
-      meta: { guest: true }
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import('@/views/RegisterView.vue'),
-      meta: { guest: true }
+      component: () => import('@/layouts/PublicLayout.vue'),
+      children: [
+        { path: '', component: () => import('@/views/public/BienvenidaView.vue'), meta: { public: true } },
+        { path: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { guest: true } },
+        { path: 'register', component: () => import('@/views/public/RegisterView.vue'), meta: { guest: true } },
+      ]
     },
     {
       path: '/app',
-      //component: () => import('@/layouts/AppLayout.vue'),
+      component: () => import('@/layouts/AppLayout.vue'),
       meta: { requiresAuth: true },
       children: [
-        {
-          path: '',
-          name: 'dashboard',
-          //component: () => import('@/views/DashboardView.vue')
-        }
+        { path: '', component: () => import('@/views/app/MisCursosView.vue') },
+        //{ path: 'explorer', component: () => import('@/views/ExplorarView.vue') },
+        //{ path: 'repository', component: () => import('@/views/RepositorioView.vue') },
       ]
     },
     {
       path: '/admin',
-      //component: () => import('@/layouts/AdminLayout.vue'),
+      component: () => import('@/layouts/AdminLayout.vue'),
       meta: { requiresAuth: true, requiresAdmin: true },
       children: [
-        {
-          path: '',
-          name: 'admin-dashboard',
-          //component: () => import('@/views/admin/AdminDashboardView.vue')
-        }
+        { path: '', component: () => import('@/views/admin/AdminDashboard.vue') },
+        // otras rutas /admin/...
       ]
     }
   ]
@@ -51,30 +38,28 @@ const router = createRouter({
 //Comentario de Luis Daniel, revisar cuando el Back confirme cómo y qué elementos van a enviar en el token
 // de momento solo se trabaja suponiendo que:
 // {
-//  id:1
-//  rol: admin
+// Regla 1: El usuario no puede entrar a rutas privadas sin token
+// Regla 2: Un usuario autenticado no vuelve a login/registro
+// Regla 3: Un usuario no-admin no entra al panel admin
 // }
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token');
+  const auth = useAuthStore()
+  if (!auth.user && auth.token) auth.initFromStorage()
 
-  let userRole = null;
-  if (token) {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    userRole = payload.role;
+  const isGuestRoute = !!to.meta.guest
+  const needsAuth = !!to.meta.requiresAuth
+  const needsAdmin = !!to.meta.requiresAdmin
+
+  //Verifica validez del token siempre antes de navegar.
+  if (auth.token && !auth.ensureValidSession()) {
+    return {path: '/login'}
   }
 
-  if (to.meta.requiresAuth && !token) {
-    return next('/login');
-  }
-
-  if (to.meta.guest && token) {
-    return next('/app');
-  }
-
-  if (to.meta.requiresAdmin && userRole !== 'admin') {
-    return next('/app');
-  }
+  //Reglas de Navegación
+  if (needsAuth && !auth.isAuthenticated) return { path: '/login' }
+  if (isGuestRoute && auth.isAuthenticated) return { path: '/app' }
+  if (needsAdmin && auth.role !== 'admin') return { path: '/app' }
 
   next()
 })
