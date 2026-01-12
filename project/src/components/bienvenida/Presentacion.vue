@@ -6,7 +6,7 @@
     }"
   >
     <!-- Gradiente -->
-    <div class="absolute inset-0 bg-linear-to-r from-black/80 to-transparent"></div>
+    <div class="absolute inset-0 bg-linear-to-r from-black/85 to-transparent"></div>
 
     <!-- Contenido -->
     <div class="relative z-10 max-w-2xl px-28">
