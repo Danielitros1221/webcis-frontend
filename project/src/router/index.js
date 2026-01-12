@@ -8,7 +8,7 @@ const router = createRouter({
       path: '/',
       component: () => import('@/layouts/PublicLayout.vue'),
       children: [
-        { path: '', component: () => import('@/views/public/BienvenidaView.vue'), meta: { public: true } },
+        { path: '', component: () => import('@/views/public/BienvenidaView.vue') },
         { path: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { guest: true } },
         { path: 'register', component: () => import('@/views/public/RegisterView.vue'), meta: { guest: true } },
       ]
