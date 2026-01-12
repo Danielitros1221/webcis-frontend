@@ -1,11 +1,11 @@
 <script setup>
 
-import Presentacion from "@/components/home/Presentacion.vue";
+import Presentation from "@/components/home/Presentation.vue";
 </script>
 
 <template>
   <div>
-    <presentacion></presentacion>
+    <presentation></presentation>
   </div>
 </template>
 

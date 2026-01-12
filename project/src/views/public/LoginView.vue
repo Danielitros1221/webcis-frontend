@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <div>
-    <p>Hola soy el Login</p>
-  </div>
+  <main id="main" class="flex-1">
+    <RouterView />
+  </main>
 </template>
 
 <style scoped>
