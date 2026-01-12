@@ -1,6 +1,6 @@
 <script setup>
 
-import Presentacion from "@/components/bienvenida/Presentacion.vue";
+import Presentacion from "@/components/home/Presentacion.vue";
 </script>
 
 <template>

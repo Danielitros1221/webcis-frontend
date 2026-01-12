@@ -11,7 +11,7 @@ const auth = useAuthStore()
 
 function handleLogout() {
   auth.logout()
-  router.push('/') // como definiste: vuelve a la bienvenida al salir
+  router.push('/') // como definiste: vuelve a la home al salir
 }
 
 </script>
