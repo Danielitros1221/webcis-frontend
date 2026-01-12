@@ -1,18 +1,34 @@
 <script setup>
+import PublicNav from "@/components/navegacion/PublicNav.vue";
+import AppNav from "@/components/navegacion/AppNav.vue";
+import AdminNav from "@/components/navegacion/AdminNav.vue";
+import {useAuthStore} from "@/stores/auth.js";
+import {computed} from "vue";
+
+const props = defineProps({
+  variant: {
+    type: String, // aquí entran las 3 opciones public, app y admin
+    default: 'public',
+  }
+})
+
+const auth = useAuthStore()
+const isAdmin = computed(() => auth.rol === 'admin')
 
 </script>
 <template>
-  <div class=" font-poppins flex items-center justify-between h-16 w-screen bg-[#193A68] shadow-lg px-5">
-    <img src="@/assets/images/Logo.png" alt="placeholder" class="h-22 w-auto">
+  <nav class=" font-poppins flex items-center justify-between h-16 w-screen bg-[#193A68] shadow-lg px-5">
+    <img src="@/assets/images/Logo.png" alt="WebCISLogo" class="h-22 w-auto">
     <div class="flex space-x-4">
-      <button class="text-white bg-[#CFA34E] px-5 py-1 rounded-lg hover:bg-yellow-500 transition">
-        Iniciar Sesión
-      </button>
-      <button class="text-white bg-[#CFA34E] px-5 py-1 rounded-lg hover:bg-yellow-500 transition">
-        Registrarse
-      </button>
+
+      <PublicNav v-if="variant === 'public'" />
+      <!-- :is-admin="isAdmin" añade esto a la etiqueta AppNav cuando un admin pueda entrar a App -->
+      <AppNav v-else-if="variant === 'app'" />
+      <AdminNav v-else-if="variant === 'admin'" />
+      <PublicNav v-else />
+
     </div>
-  </div>
+  </nav>
 </template>
 
 <style scoped>

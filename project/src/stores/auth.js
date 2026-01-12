@@ -8,9 +8,9 @@ function decodeJwt (token) {
 }
 
 function isTokenExpired (payload) {
-  if (!payload?.expires) return true
+  if (!payload?.exp) return true
   const now = Math.floor(Date.now() / 1000)
-  return payload.expires <= now
+  return payload.exp <= now
 }
 
 export const useAuthStore = defineStore('auth',() => {

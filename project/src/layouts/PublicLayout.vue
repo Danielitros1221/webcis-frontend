@@ -1,10 +1,9 @@
 <script setup>
-
 import Menu from "@/components/Menu.vue";
 </script>
 
 <template>
-  <Menu />
+  <Menu variant="public" />
   <main>
     <RouterView />
   </main>

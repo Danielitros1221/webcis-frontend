@@ -1,36 +1,32 @@
-<script setup>
-
-</script>
-
 <template>
-  <div class="flex flex-col">
+  <section
+    class="relative min-h-[600px] bg-cover bg-center flex items-center"
+    :style="{
+      backgroundImage: `url(${bgImage})`
+    }"
+  >
+    <!-- Gradiente -->
+    <div class="absolute inset-0 bg-linear-to-r from-black/80 to-transparent"></div>
 
-    <!-- -->
-
-    <div class="bg-gradient-to-r from-black to-transparent w-130 h-125 py-25">
-      <h1 class="ty-encabezado2 px-28.5 text-acento">
-          WebCIS
+    <!-- Contenido -->
+    <div class="relative z-10 max-w-2xl px-28">
+      <h1 class="ty-encabezado2 text-acento mb-6">
+        WebCIS
       </h1>
-      <br>
-      <div class="relative flex px-28">
-        <p class="text-texto-secundario">
-          Diseñado para mejorar las bases de programación de los alumnos a través de contenidos
-          educativos proporcionando un espacio de acceso a materiales que sirvan como complemento
-          al aprendizaje en el aula.
-        </p>
-      </div>
-      <br>
 
-    <div class="relative flex px-28">
-      <button class="light text-white bg-primario text-2xl"> ¡MAS INFORMACÍON! </button>
+      <p class="text-texto-secundario mb-8">
+        Diseñado para mejorar las bases de programación de los alumnos a través de contenidos
+        educativos proporcionando un espacio de acceso a materiales que sirvan como complemento
+        al aprendizaje en el aula.
+      </p>
+
+      <button class="light text-white bg-primario text-2xl px-8 py-3 rounded-lg">
+        ¡MÁS INFORMACIÓN!
+      </button>
     </div>
-
-    </div>
-
-  </div>
-
+  </section>
 </template>
 
-<style scoped>
-
-</style>
+<script setup>
+import bgImage from '@/assets/images/back_bienvenida.jpg'
+</script>
