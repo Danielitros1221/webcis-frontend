@@ -45,6 +45,9 @@
   border-radius: 15px;
   cursor: pointer;
   transition-duration: 0.4s;
+}
 
+.center:hover {
+  transform: scale(1.05);
 }
 </style>
