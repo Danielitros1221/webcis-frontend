@@ -8,7 +8,7 @@ const router = createRouter({
       path: '/',
       component: () => import('@/layouts/PublicLayout.vue'),
       children: [
-        { path: '', component: () => import('@/views/public/BienvenidaView.vue') },
+        { path: '', component: () => import('@/views/public/HomeView.vue') },
         { path: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { guest: true } },
         { path: 'register', component: () => import('@/views/public/RegisterView.vue'), meta: { guest: true } },
       ]
@@ -18,7 +18,7 @@ const router = createRouter({
       component: () => import('@/layouts/AppLayout.vue'),
       meta: { requiresAuth: true },
       children: [
-        { path: '', component: () => import('@/views/app/MisCursosView.vue') },
+        { path: '', component: () => import('@/views/app/MyCoursesView.vue') },
         //{ path: 'explorer', component: () => import('@/views/ExplorarView.vue') },
         //{ path: 'repository', component: () => import('@/views/RepositorioView.vue') },
       ]

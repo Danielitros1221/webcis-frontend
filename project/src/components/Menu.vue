@@ -1,7 +1,7 @@
 <script setup>
-import PublicNav from "@/components/navegacion/PublicNav.vue";
-import AppNav from "@/components/navegacion/AppNav.vue";
-import AdminNav from "@/components/navegacion/AdminNav.vue";
+import PublicNav from "@/components/navigation/PublicNav.vue";
+import AppNav from "@/components/navigation/AppNav.vue";
+import AdminNav from "@/components/navigation/AdminNav.vue";
 import {useAuthStore} from "@/stores/auth.js";
 import {computed} from "vue";
 
