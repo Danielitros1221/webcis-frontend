@@ -8,7 +8,7 @@ import Secciones from "@/components/bienvenida/Secciones.vue";
   <div class="bg-amber-300 px-6 py-6">
     <presentacion></presentacion>
   </div>
-  <div class="bg-primario">
+  <div class="bg-black px-6 py-6">
     <secciones></secciones>
   </div>
 </template>
