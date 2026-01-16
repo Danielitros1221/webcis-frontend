@@ -1,11 +1,23 @@
 <script setup>
-
+  import Login from "@/components/login/Login.vue";
+  import bgLogin from "@/assets/images/login.jpg";
 </script>
 
 <template>
-  <main id="main" class="flex-1">
-    <RouterView />
-  </main>
+  <section class="min-h-screen relative overflow-hidden">
+    <img :src="bgLogin" class="absolute inset-0 w-full h-full object-cover" />
+
+    <div class="relative min-h-screen flex items-center justify-center lg:justify-end px-6 lg:px-16">
+      <div class="w-full max-w-md">
+
+        <div class ="lg:col-span-5 flex items-center justify-center">
+          <Login />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 </template>
 
 <style scoped>
