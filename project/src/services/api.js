@@ -1,4 +1,2 @@
-/*
-*
-*   En este archivo vamos a probar el control de versiones
-* */
+import axios from 'axios'
+import { useAuthStore} from "@/stores/auth.js";
