@@ -1,5 +1,5 @@
 <script setup>
-  import Login from "@/components/login/Login.vue";
+  import LoginCard from "@/components/login/LoginCard.vue";
   import bgLogin from "@/assets/images/login.jpg";
 </script>
 
@@ -11,7 +11,7 @@
       <div class="w-full max-w-md">
 
         <div class ="lg:col-span-5 flex items-center justify-center">
-          <Login />
+          <LoginCard />
         </div>
 
       </div>
