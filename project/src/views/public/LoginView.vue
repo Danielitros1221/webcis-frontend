@@ -5,7 +5,7 @@
 
 <template>
   <section class="min-h-screen relative overflow-hidden">
-    <img :src="bgLogin" class="absolute inset-0 w-full h-full object-cover" />
+    <img alt="" :src="bgLogin" class="absolute inset-0 w-full h-full object-cover" />
 
     <div class="relative min-h-screen flex items-center justify-center lg:justify-end px-6 lg:px-16">
       <div class="w-full max-w-md">
