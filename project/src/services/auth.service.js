@@ -2,11 +2,19 @@ import { apiPost, apiGet } from './api.js'
 
 const AUTH_BASE = '/auth'
 
-export async function login({ email, username, pass }) {
+export async function login({ email, username, pass, role }) {
   if (!pass) {
     throw {
       status: 0,
       message: "Falta el campo Contraseña.",
+      data: null,
+      isNetworkError: false,
+    }
+  }
+  if (!role) {
+    throw {
+      status: 0,
+      message: 'Falta el campo "rol".',
       data: null,
       isNetworkError: false,
     }
@@ -24,7 +32,8 @@ export async function login({ email, username, pass }) {
 
   const payload = {
     identifier,
-    pass
+    pass,
+    role
   }
   return apiPost(`${AUTH_BASE}/login`, payload)
 }

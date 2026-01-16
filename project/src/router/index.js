@@ -11,6 +11,7 @@ const router = createRouter({
         { path: '', component: () => import('@/views/public/HomeView.vue') },
         { path: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { guest: true } },
         { path: 'register', component: () => import('@/views/public/RegisterView.vue'), meta: { guest: true } },
+        { path: 'recover', component: () => import('@/views/public/RecoverView.vue'), meta: { guest: true } },
       ]
     },
     {

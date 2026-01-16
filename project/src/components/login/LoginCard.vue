@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { login as loginService } from '@/services/auth.service'
 
-const rol = [
+const role = [
   { key: 'alumno', label: 'Alumno' },
   { key: 'profesor', label: 'Profesor' },
   { key: 'egresado', label: 'Egresado' },
@@ -33,7 +33,7 @@ function toPayload() {
     email: isEmail ? value : undefined,
     username: !isEmail ? value : undefined,
     pass: pass.value,
-    rol: selectedRole.value
+    role: selectedRole.value
   }
 }
 
@@ -73,7 +73,7 @@ async function onSubmit() {
       <!-- Tabs -->
       <div class="grid grid-cols-3 overflow-hidden rounded-lg border border-white/15">
         <button
-          v-for="r in rol"
+          v-for="r in role"
           :key="r.key"
           type="button"
           class="py-2 text-sm font-medium"
@@ -146,7 +146,7 @@ async function onSubmit() {
       </div>
 
       <div class="text-center text-xs text-white/60 py-1">
-        <RouterLink to="/recuperar" class="hover:underline">
+        <RouterLink to="/recover" class="hover:underline">
           ¿Ha olvidado su contraseña?
         </RouterLink>
       </div>
