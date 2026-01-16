@@ -48,6 +48,7 @@ router.beforeEach((to, from, next) => {
   if (!auth.user && auth.token) auth.initFromStorage()
 
   const isGuestRoute = !!to.meta.guest
+  const isPublicRoute = !!to.meta.public
   const needsAuth = !!to.meta.requiresAuth
   const needsAdmin = !!to.meta.requiresAdmin
 
@@ -60,6 +61,7 @@ router.beforeEach((to, from, next) => {
   if (needsAuth && !auth.isAuthenticated) return { path: '/login' }
   if (isGuestRoute && auth.isAuthenticated) return { path: '/app' }
   if (needsAdmin && auth.role !== 'admin') return { path: '/app' }
+  if (isPublicRoute && auth.isAuthenticated) return { path: '/app' }
 
   next()
 })
