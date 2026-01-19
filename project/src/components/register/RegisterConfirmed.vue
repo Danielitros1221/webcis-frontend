@@ -15,8 +15,8 @@ const hasToken = computed(() => token.value.length > 0)
 //const hasToken = true
 const isChecking = ref(false)
 
-function goRegister() {
-  router.push('/register')
+function goHome() {
+  router.push('/')
 }
 
 function goLogin() {
@@ -90,9 +90,9 @@ async function onContinue() {
         <button
           type="button"
           class="rounded-xl border border-white/20 bg-black/20 px-6 py-2 text-white/80 hover:bg-white/10"
-          @click="goRegister"
+          @click="goHome"
         >
-          Volver a Registro
+          Volver a Inicio
         </button>
 
         <button
