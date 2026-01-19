@@ -91,7 +91,7 @@ async function onSubmit() {
       <div class="mt-2 h-1 w-full bg-blue-600/80"></div>
 
       <!-- Form -->
-      <form class="mt-6 space-y-4" @submit.prevent="onSubmit">
+      <form class="mt-10 space-y-4" @submit.prevent="onSubmit">
         <div>
           <input
             v-model="identifier"
