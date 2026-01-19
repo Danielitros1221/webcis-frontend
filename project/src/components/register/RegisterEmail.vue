@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import { Form, Field, ErrorMessage } from "vee-validate"
-import { schema } from '@/schemas/validationSchema.js'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import { registerEmailSchema  } from '@/schemas/validationSchema.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const emit = defineEmits(['next'])
 
 const loading = ref(false)
 const serverError = ref('')
@@ -12,21 +13,17 @@ const serverError = ref('')
 async function onSubmit(values) {
   serverError.value = ''
   loading.value = true
-
   try {
-    // Por ahora solo UI: luego aquí se llamará al backend para enviar token
-    // await registerService.sendEmailVerification(values.email)
-    // y avanzarías al step 2 en RegisterView
 
-    console.log('Enviar verificación a:', values.email)
-
+    emit('next', { email: values.email })
   } catch (err) {
-    err.value = err?.message || 'No se pudo enviar el correo.'
+    serverError.value = err?.message || 'No se pudo enviar el correo.'
   } finally {
     loading.value = false
   }
 }
 </script>
+
 
 <template>
   <div class="flex flex-col gap-3">
@@ -43,7 +40,7 @@ async function onSubmit(values) {
         para poder registrarte.
       </p>
 
-      <Form class="mt-10 space-y-4" :validation-schema="schema" @submit="onSubmit">
+      <Form class="mt-10 space-y-4" :validation-schema="registerEmailSchema " @submit="onSubmit">
         <div>
           <Field
             name="email"
