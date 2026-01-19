@@ -18,7 +18,9 @@ const isAdmin = computed(() => auth.rol === 'admin')
 </script>
 <template>
   <nav class=" font-poppins flex items-center justify-between h-16 w-screen bg-[#193A68] shadow-lg px-5">
-    <img src="@/assets/images/Logo.png" alt="WebCISLogo" class="h-22 w-auto">
+    <RouterLink to="/">
+      <img src="@/assets/images/Logo.png" alt="WebCISLogo" class="h-22 w-auto">
+    </RouterLink>
     <div class="flex space-x-4">
 
       <PublicNav v-if="variant === 'public'" />

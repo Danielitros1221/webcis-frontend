@@ -27,7 +27,8 @@ function onBack() {
 
     <p class="mt-4 text-center text-white/65 text-sm md:text-base leading-relaxed">
       Para completar tu registro, necesitamos verificar que tu correo sea real.
-      Ingresa a tu correo a continuación y te enviaremos un enlace de verificación.
+      Entra a tu correo a continuación y te enviaremos un enlace de verificación.
+      <br>
       <span v-if="email" class="text-white/80 font-semibold">
         ({{ email }})
       </span>
