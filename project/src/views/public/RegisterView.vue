@@ -2,7 +2,7 @@
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
-import bgRegister from '@/assets/images/register.png'
+import bgRegister from '@/assets/images/itver.jpg'
 import RegisterEmail from '@/components/register/RegisterEmail.vue'
 import RegisterInfo from '@/components/register/RegisterInfo.vue'
 import RegisterConfirmed from '@/components/register/RegisterConfirmed.vue'
