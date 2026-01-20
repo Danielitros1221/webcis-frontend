@@ -39,7 +39,7 @@ async function onContinue() {
 
 
 <template>
-  <div class="rounded-2xl border border-white/15 bg-black/80 backdrop-blur-md p-10">
+  <div class="rounded-2xl border border-white/15 bg-black/80 backdrop-blur-md p-10 max-w-md ">
     <h1 v-if="hasToken" class="text-center text-2xl md:text-3xl font-semibold text-acento">
       Correo Confirmado
     </h1>

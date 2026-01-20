@@ -26,7 +26,7 @@ async function onSubmit(values) {
 
 
 <template>
-  <div class="flex flex-col gap-3">
+  <div class="flex flex-col gap-3 max-w-md">
     <!-- Card principal -->
     <div class="rounded-2xl border border-white/15 bg-black/80 backdrop-blur-md p-6">
       <h1 class="mt-5 text-4xl font-semibold text-white/70 leading-tight text-center">
