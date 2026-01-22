@@ -11,8 +11,8 @@ const route = useRoute()
 const router = useRouter()
 
 const token = computed(() => String(route.query.token ?? '').trim())
-const hasToken = computed(() => token.value.length > 0)
-//const hasToken = true
+//const hasToken = computed(() => token.value.length > 0)
+const hasToken = true
 const isChecking = ref(false)
 
 function goHome() {

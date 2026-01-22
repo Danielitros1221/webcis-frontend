@@ -33,7 +33,7 @@ function handleConfirmedContinue({ token }) {
   step.value = 4
 }
 
-//step.value = 4
+step.value = 4
 
 </script>
 

@@ -35,9 +35,13 @@ async function onSubmit(values) {
 
       <div class="mt-3 h-1 w-full bg-blue-600/80"></div>
 
-      <p class="mt-5 text-center text-white/60 text-lg leading-relaxed">
-        Como primer paso, necesitamos que ingreses tu correo electrónico
-        para poder registrarte.
+      <p class="mt-5 text-center text-white/85 text-lg leading-relaxed px-2">
+        Como primer paso, necesitamos que ingreses tu correo electrónico.
+      </p>
+
+      <p class="mt-5 text-center text-white/50 text-sm leading-relaxed px-5">
+        Si eres un <strong>Docente</strong>, necesitamos que ingreses tu correo <strong>Institucional</strong> para poder registrarte.
+        De lo contrario, se asignará el tipo de cuenta de alumno.
       </p>
 
       <Form class="mt-10 space-y-4" :validation-schema="registerEmailSchema " @submit="onSubmit">
@@ -67,7 +71,7 @@ async function onSubmit(values) {
           :disabled="loading"
           class="w-full rounded-xl bg-primario px-4 py-3 text-xl font-semibold text-white hover:bg-[#12294A]"
         >
-          {{ loading ? 'Enviando...' : '¡REGISTRARTE!' }}
+          {{ loading ? 'Enviando...' : '¡REGISTRATE!' }}
         </button>
       </Form>
     </div>
