@@ -7,7 +7,7 @@
 
 <template>
   <header>
-    <div class="bg-[#610D31] w-full h-11">
+    <div class="bg-superior w-full h-11">
       <img :src="logoGobierno" alt="Logo del Gobierno de Mexico" class="w-25">
     </div>
     <div class=" bg-white w-full h-18 px-8 py-4 flex items-center space-x-11">
