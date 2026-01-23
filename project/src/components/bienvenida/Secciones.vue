@@ -5,21 +5,21 @@
 <template>
   <div class="bg-primario contain w-screen h-auto">
 
-    <div class="center bg-primario">
+    <div class="left bg-primario">
       <h1 class="text-white text-6xl font-bold">
         Categorías
       </h1>
     </div>
-    <div class="tCenter bg-primario">
+    <div class="center bg-primario">
       <h1 class="text-white text-6xl font-bold">
         WebCIS
       </h1>
     </div>
-    <div class="center bg-primario">
+    <div class="right bg-primario">
       <h1 class="text-white text-6xl font-bold">
         Recursos
       </h1>
-      <h1 class="text-white">Click para ver más</h1>
+      <h1 class="text-white"></h1>
     </div>
 
   </div>
@@ -49,12 +49,12 @@
   align-items: center;
 }
 
-.center {
+.left {
   height: 50%;
   width: 50%;
   aspect-ratio: 1/1;
-  background-image: url("@/assets/images/ph.png");
-  background-size: auto; /*placeholder*/
+  background-image: url("@/assets/images/code.jpg");
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,15 +67,33 @@
   transition-duration: 0.4s;
 }
 
-.tCenter{
+.center{
   height: 50%;
   width: 50%;
   aspect-ratio: 1/1;
-  background-image: url("@/assets/images/ph.png");
-  background-size: auto; /*placeholder*/
+  background-image: url("@/assets/images/logo-webcis-cuadro.png");
+  background-size: contain;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  border-radius: 20px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.right {
+  height: 50%;
+  width: 50%;
+  aspect-ratio: 1/1;
+  background-image: url("@/assets/images/coding-stock-image.jpg");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
   margin-top: 3%;
   margin-bottom: 3%;
   border-radius: 20px;
