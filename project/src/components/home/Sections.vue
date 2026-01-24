@@ -37,10 +37,6 @@
 
 }
 
-.trigger:hover + .text {
-  opacity: 1;
-}
-
 .left {
   height: 50%;
   width: 50%;
