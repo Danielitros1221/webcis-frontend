@@ -10,8 +10,7 @@ const errorMsg = ref('')
 const isValid = computed(() => code.value.trim().length === 8)
 
 function handleInput(e) {
-  const value = e.target.value.replace(/\D/g, '').slice(0, 8)
-  code.value = value
+  code.value = e.target.value.replace(/\D/g, '').slice(0, 8)
 }
 
 function onVerify() {

@@ -28,9 +28,7 @@
 <style scoped>
 
 .contain{
-  margin: auto;
-  margin-top: 3%;
-  margin-bottom: 3%;
+  margin: 3% auto;
   display: flex;
   max-width: 100%;
   border-radius: 20px;
