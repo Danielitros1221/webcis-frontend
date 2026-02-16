@@ -1,8 +1,11 @@
 <script setup>
-const props = defineProps({
+/*
+  const props = defineProps({
   email: { type: String, default: '' },
   loading: { type: Boolean, default: false },
 })
+
+ */
 
 const emit = defineEmits(['resend', 'back'])
 

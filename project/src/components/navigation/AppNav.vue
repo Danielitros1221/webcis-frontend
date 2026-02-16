@@ -2,9 +2,11 @@
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
+/*
 const props = defineProps({
   isAdmin: { type: Boolean, default: false },
 })
+ */
 
 const router = useRouter()
 const auth = useAuthStore()

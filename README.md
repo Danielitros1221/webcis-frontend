@@ -28,7 +28,7 @@ El proyecto quedará en la ruta del puerto: http://localhost:5173
 El proyecto sigue una estrategia Git Flow Adaptado, pensada para trabajo en equipo:  
 #### Rama main: Contiene el código estable, probado y listo para producción. Solo se hace merge desde dev.
 #### Rama dev (rama de integración): Aquí se integran todas las funcionalidades antes de pasar a main. Es la rama donde normalmente debe estar trabajando el equipo.
-#### Ramas feature: feature/<tarea-especifica>: Se crean para desarrollar funcionalidades nuevas.
+#### Ramas feature: feature/<tarea-específica>: Se crean para desarrollar funcionalidades nuevas.
   Ejemplos:  
   feature/login-usuario  
   feature/crear-componente-header  

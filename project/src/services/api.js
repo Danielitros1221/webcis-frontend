@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useAuthStore} from "@/stores/auth.js";
 
-const baseURL = import.meta.env.VITE_API_URL || '';
+const baseURL = /*import.meta.env.VITE_API_URL*/ '';
 
 export const api = axios.create({
   baseURL,
@@ -65,6 +65,7 @@ export async function apiPost(url, body, config) {
   return res.data
 }
 
+/*
 export async function apiPut(url, body, config) {
   const res = await api.put(url, body, config)
   return res.data
@@ -79,3 +80,4 @@ export async function apiDelete(url, config) {
   const res = await api.delete(url, config)
   return res.data
 }
+*/
