@@ -19,8 +19,10 @@ const isVerifyRoute = computed(() => route.path.includes('/register/verify'))
 watchEffect(() => {
   if (isVerifyRoute.value) {
     step.value = 3
-    // token.value = route.query.token ?? ''
+    return
   }
+
+  step.value = 1
 })
 
 function handleEmailNext(payload) {
@@ -32,8 +34,6 @@ function handleConfirmedContinue({ token }) {
   verifyToken.value = token
   step.value = 4
 }
-
-step.value = 4
 
 </script>
 

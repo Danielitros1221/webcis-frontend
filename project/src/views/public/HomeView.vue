@@ -1,15 +1,15 @@
 <script setup>
 
-import Presentation from "@/components/home/Presentation.vue";
-import Sections from "@/components/home/Sections.vue";
+import HomePresentation from "@/components/home/HomePresentation.vue";
+import HomeSections from "@/components/home/HomeSections.vue";
 </script>
 
 <template>
   <div>
-    <presentation></presentation>
+    <HomePresentation />
   </div>
   <div>
-    <sections></sections>
+    <HomeSections />
   </div>
 </template>
 

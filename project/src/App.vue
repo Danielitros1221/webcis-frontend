@@ -2,8 +2,8 @@
 import { onMounted, onBeforeUnmount } from "vue";
 import { useAuthStore} from "@/stores/auth.js";
 
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
+import AppHeader from "@/components/AppHeader.vue";
+import AppFooter from "@/components/AppFooter.vue";
 
 const auth = useAuthStore();
 let timerOut = null
@@ -22,9 +22,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Header />
+  <AppHeader />
   <RouterView />
-  <Footer />
+  <AppFooter />
 </template>
 
 <style scoped>

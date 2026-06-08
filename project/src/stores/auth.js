@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth',() => {
         nombre: payload.nombre,
         exp: payload.exp,
       }
-    } catch (e) {
+    } catch {
       logout()
     }
   }
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore('auth',() => {
         return false
       }
       return true
-    } catch (e) {
+    } catch {
       logout()
       return false
     }
