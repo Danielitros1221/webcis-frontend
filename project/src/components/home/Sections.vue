@@ -39,7 +39,7 @@
   height: 50%;
   width: 50%;
   aspect-ratio: 1/1;
-  background-image: url("@/assets/images/home/code.jpg");
+  background-image: url("../../assets/images/home/code.jpg");
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -57,7 +57,7 @@
   height: 50%;
   width: 50%;
   aspect-ratio: 1/1;
-  //background-image: url("@/assets/images/home/");
+  /*background-image: url("@/assets/images/home/");*/
   background-size: contain;
   display: flex;
   justify-content: center;
@@ -73,7 +73,7 @@
   height: 50%;
   width: 50%;
   aspect-ratio: 1/1;
-  background-image: url("@/assets/images/home/coding-stock-image.jpg");
+  background-image: url("../../assets/images/home/coding-stock-image.jpg");
   background-size: cover;
   display: flex;
   justify-content: center;

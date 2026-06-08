@@ -2,9 +2,9 @@
 import PublicNav from "@/components/navigation/PublicNav.vue";
 import AppNav from "@/components/navigation/AppNav.vue";
 import AdminNav from "@/components/navigation/AdminNav.vue";
-import {useAuthStore} from "@/stores/auth.js";
-import {computed} from "vue";
+/*import {useAuthStore} from "@/stores/auth.js";*/
 
+/*
 const props = defineProps({
   variant: {
     type: String, // aquí entran las 3 opciones public, app y admin
@@ -12,8 +12,10 @@ const props = defineProps({
   }
 })
 
-const auth = useAuthStore()
-const isAdmin = computed(() => auth.rol === 'admin')
+ */
+
+//const auth = useAuthStore()
+//const isAdmin = computed(() => auth.rol === 'admin')
 
 </script>
 <template>

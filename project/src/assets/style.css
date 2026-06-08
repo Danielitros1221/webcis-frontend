@@ -1,6 +1,4 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Alata&family=Poppins:wght@600;700&display=swap");
-
 /* Habilitar dark mode por clase */
 @custom-variant light (&:where(.light, .light *));
 
@@ -35,8 +33,9 @@
 
 }
 
-/*
+
 @layer components {
+  /*
   .ty-titulo {
     font-family: var(--font-display), sans-serif;
     font-weight: 700; /* bold
@@ -50,14 +49,14 @@
     font-size: 96px;
     line-height: 1.1;
   }
-
+  */
   .ty-encabezado2 {
     font-family: var(--font-display), sans-serif;
-    font-weight: 700; /* bold
+    font-weight: 700;
     font-size: 64px;
     line-height: 1.15;
   }
-
+/*
   .ty-encabezado3 {
     font-family: var(--font-display), sans-serif;
     font-weight: 600; /* semibold
@@ -78,8 +77,8 @@
     font-size: 24px;
     line-height: 1.5;
   }
+  */
 }
-*/
 
 @layer base {
   body {
