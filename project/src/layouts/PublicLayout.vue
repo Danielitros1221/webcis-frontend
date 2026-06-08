@@ -1,9 +1,9 @@
 <script setup>
-import Menu from "@/components/Menu.vue";
+import AppMenu from "@/components/AppMenu.vue";
 </script>
 
 <template>
-  <Menu variant="public" />
+  <AppMenu variant="public" />
   <main>
     <RouterView />
   </main>

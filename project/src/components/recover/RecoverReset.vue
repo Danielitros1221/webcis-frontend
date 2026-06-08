@@ -12,7 +12,7 @@ const errorMsg = ref('')
 
 const hasMinLength = computed(() => password.value.length >= 8)
 const hasUpperCase = computed(() => /[A-Z]/.test(password.value))
-const hasNumberOrSymbol = computed(() => /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password.value))
+const hasNumberOrSymbol = computed(() => /[0-9!@#$%^&*()_+=[\]{};':"\\|,.<>/?-]/.test(password.value))
 
 const passwordsMatch = computed(() => {
   if (!confirmPassword.value) return true

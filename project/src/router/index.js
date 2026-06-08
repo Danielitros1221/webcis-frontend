@@ -21,8 +21,8 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         { path: '', component: () => import('@/views/app/MyCoursesView.vue') },
-        //{ path: 'explorer', component: () => import('@/views/ExplorarView.vue') },
-        //{ path: 'repository', component: () => import('@/views/RepositorioView.vue') },
+        { path: 'explorer', component: () => import('@/views/app/ExplorerView.vue') },
+        { path: 'repository', component: () => import('@/views/app/RepositoryView.vue') },
       ]
     },
     {
