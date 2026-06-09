@@ -1,7 +1,7 @@
 <script setup>
 
 import HomePresentation from "@/components/home/HomePresentation.vue";
-import HomeSections from "@/components/home/HomeSections.vue";
+import HomeBackground from "@/components/home/HomeBackground.vue";
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import HomeSections from "@/components/home/HomeSections.vue";
     <HomePresentation />
   </div>
   <div>
-    <HomeSections />
+    <HomeBackground />
   </div>
 </template>
 
