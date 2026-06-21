@@ -37,7 +37,7 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to) => {
+export function authNavigationGuard(to) {
   const auth = useAuthStore()
 
   if (auth.token && !auth.ensureValidSession()) return { path: '/login' }
@@ -46,6 +46,8 @@ router.beforeEach((to) => {
   if (to.meta.requiresAdmin && auth.role !== 'admin') return { path: '/app' }
 
   return true
-})
+}
+
+router.beforeEach(authNavigationGuard)
 
 export default router
