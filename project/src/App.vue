@@ -9,7 +9,6 @@ const auth = useAuthStore();
 let timerOut = null
 
 onMounted(() => {
-  auth.initFromStorage()
   timerOut = setInterval(() => {
     auth.ensureValidSession()
   }, 30_000)

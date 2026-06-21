@@ -1,7 +1,9 @@
 import axios from 'axios'
-import { useAuthStore} from "@/stores/auth.js";
 
-const baseURL = /*import.meta.env.VITE_API_URL*/ '';
+import router from '@/router'
+import { useAuthStore } from '@/stores/auth'
+
+const baseURL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')
 
 export const api = axios.create({
   baseURL,
@@ -9,75 +11,74 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-  }
+  },
 })
 
-function normalizeError(error) {
+export function normalizeApiError(error) {
   const status = error?.response?.status ?? 0
   const data = error?.response?.data
-  const message =
-    data?.message ||
-    data?.error ||
-    data?.message ||
-    "Error de red o del servidor";
 
   return {
     status,
-    message,
+    message: data?.message || data?.error || error?.message || 'Error de red o del servidor',
     data,
     isNetworkError: !error?.response,
   }
 }
 
+api.interceptors.request.use(
+  (config) => {
+    const auth = useAuthStore()
 
-api.interceptors.request.use((config) => {
-  const auth = useAuthStore()
+    if (auth.token) {
+      config.headers = config.headers || {}
+      config.headers.Authorization = `Bearer ${auth.token}`
+    }
 
-  if (auth.token) {
-    config.headers = config.headers || {}
-    config.headers.Authorization = `Bearer ${auth.token}`
-  }
-  return config
-},
-  (error) => Promise.reject(normalizeError(error))
+    return config
+  },
+  (error) => Promise.reject(normalizeApiError(error)),
 )
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    const normalized = normalizeError(error)
+  async (error) => {
+    const normalized = normalizeApiError(error)
 
     if (normalized.status === 401) {
       const auth = useAuthStore()
       auth.logout()
+
+      if (router.currentRoute.value.meta.requiresAuth) {
+        await router.replace({ path: '/login' })
+      }
     }
+
     return Promise.reject(normalized)
-  }
+  },
 )
 
 export async function apiGet(url, config) {
-  const res = await api.get(url, config)
-  return res.data
+  const response = await api.get(url, config)
+  return response.data
 }
 
 export async function apiPost(url, body, config) {
-  const res = await api.post(url, body, config)
-  return res.data
+  const response = await api.post(url, body, config)
+  return response.data
 }
 
-/*
 export async function apiPut(url, body, config) {
-  const res = await api.put(url, body, config)
-  return res.data
+  const response = await api.put(url, body, config)
+  return response.data
 }
 
 export async function apiPatch(url, body, config) {
-  const res = await api.patch(url, body, config)
-  return res.data
+  const response = await api.patch(url, body, config)
+  return response.data
 }
 
 export async function apiDelete(url, config) {
-  const res = await api.delete(url, config)
-  return res.data
+  const response = await api.delete(url, config)
+  return response.data
 }
-*/

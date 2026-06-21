@@ -55,7 +55,11 @@ async function onSubmit() {
       return
     }
 
-    auth.loginWithToken(token)
+    if (!auth.loginWithToken(token)) {
+      errorMsg.value = 'El servidor devolvio un token invalido o expirado.'
+      return
+    }
+
     await router.push('/app')
   }catch(err) {
     errorMsg.value = err?.message || 'No se pudo iniciar sesion.'
