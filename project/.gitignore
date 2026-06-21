@@ -23,6 +23,7 @@ trace/
 
 # Vitest cache
 .vitest/
+.eslintcache
 
 # Vite cache
 .vite/
@@ -38,6 +39,7 @@ vite.config.ts.timestamp-*
 .env.development.local
 .env.production.local
 .env.test.local
+!.env.example
 
 # =====================================================
 # Editor settings
@@ -67,4 +69,3 @@ desktop.ini
 # =====================================================
 logs/
 *.log
-
