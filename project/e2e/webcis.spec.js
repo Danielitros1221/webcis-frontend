@@ -6,7 +6,7 @@ test.describe('WebCIS public flows', () => {
 
     await expect(page).toHaveTitle(/WebCIS/i)
     await expect(page.getByRole('heading', { name: 'WebCIS', exact: true }).first()).toBeVisible()
-    await expect(page.getByRole('link', { name: /Iniciar Sesi.n/ })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Iniciar sesi.n/i })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Registrarse' })).toBeVisible()
   })
 
@@ -37,5 +37,36 @@ test.describe('WebCIS public flows', () => {
 
     await expect(page).toHaveURL(/\/login$/)
     await expect(page.getByRole('heading', { name: /Inicio de sesi.n/ })).toBeVisible()
+  })
+})
+
+test.describe('WebCIS responsive layout', () => {
+  test('has no horizontal overflow on desktop', async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/')
+
+    const overflow = await page.evaluate(() => (
+      document.documentElement.scrollWidth - document.documentElement.clientWidth
+    ))
+
+    expect(overflow).toBeLessThanOrEqual(1)
+    await page.screenshot({ path: testInfo.outputPath('home-desktop.png'), fullPage: true })
+  })
+
+  test('opens the menu without horizontal overflow on mobile', async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+
+    const toggle = page.getByRole('button', { name: /Abrir men./ })
+    await expect(toggle).toBeVisible()
+    await toggle.click()
+    await expect(page.getByRole('link', { name: /Iniciar sesi.n/ })).toBeVisible()
+
+    const overflow = await page.evaluate(() => (
+      document.documentElement.scrollWidth - document.documentElement.clientWidth
+    ))
+
+    expect(overflow).toBeLessThanOrEqual(1)
+    await page.screenshot({ path: testInfo.outputPath('home-mobile-menu.png'), fullPage: true })
   })
 })
