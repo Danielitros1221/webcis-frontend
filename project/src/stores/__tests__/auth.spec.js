@@ -1,104 +1,86 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 
-import { decodeJwt, normalizeJwtUser, useAuthStore } from '@/stores/auth'
+import { getCurrentUser, login, logout } from '@/services/auth.service'
+import { normalizeServerUser, useAuthStore } from '@/stores/auth'
 
-function createStorageMock() {
-  const values = new Map()
-
-  return {
-    clear: () => values.clear(),
-    getItem: (key) => values.get(key) ?? null,
-    removeItem: (key) => values.delete(key),
-    setItem: (key, value) => values.set(key, String(value)),
-  }
-}
-
-function createToken(payload) {
-  const encode = (value) => btoa(JSON.stringify(value))
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-
-  return `${encode({ alg: 'none', typ: 'JWT' })}.${encode(payload)}.signature`
-}
+vi.mock('@/services/auth.service', () => ({
+  getCurrentUser: vi.fn(),
+  login: vi.fn(),
+  logout: vi.fn(),
+}))
 
 describe('auth store', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
-    Object.defineProperty(window, 'localStorage', {
-      configurable: true,
-      value: createStorageMock(),
-    })
-    window.localStorage.clear()
+    vi.clearAllMocks()
   })
 
-  it('decodes a JWT payload', () => {
-    const token = createToken({ sub: '42', role: 'admin', exp: 2_000_000_000 })
-
-    expect(decodeJwt(token)).toMatchObject({ sub: '42', role: 'admin' })
-  })
-
-  it('normalizes current and legacy JWT claim names', () => {
-    expect(normalizeJwtUser({ sub: '42', role: 'admin', name: 'Daniel', exp: 123 })).toEqual({
-      id: '42',
+  it('normalizes the user fields returned by the server', () => {
+    expect(normalizeServerUser({ id: 42, role: 'admin', name: 'Daniel' })).toEqual({
+      id: 42,
       role: 'admin',
       name: 'Daniel',
-      exp: 123,
     })
 
-    expect(normalizeJwtUser({ id: 7, rol: 'alumno', nombre: 'Ana', exp: 456 })).toEqual({
+    expect(normalizeServerUser({ id: 7, rol: 'alumno', nombre: 'Ana' })).toEqual({
       id: 7,
       role: 'alumno',
       name: 'Ana',
-      exp: 456,
     })
   })
 
-  it('persists and restores a valid session', () => {
-    const token = createToken({ sub: '42', role: 'admin', name: 'Daniel', exp: 2_000_000_000 })
+  it('restores a cookie session using the protected user endpoint', async () => {
+    vi.mocked(getCurrentUser).mockResolvedValue({ id: 42, role: 'admin', name: 'Daniel' })
     const auth = useAuthStore()
 
-    expect(auth.loginWithToken(token)).toBe(true)
-    expect(window.localStorage.getItem('token')).toBe(token)
+    await expect(auth.refreshSession()).resolves.toBe(true)
+    expect(auth.user).toEqual({ id: 42, role: 'admin', name: 'Daniel' })
     expect(auth.isAuthenticated).toBe(true)
     expect(auth.role).toBe('admin')
-
-    const restoredAuth = useAuthStore(createPinia())
-    expect(restoredAuth.initFromStorage()).toBe(true)
-    expect(restoredAuth.user).toMatchObject({ id: '42', role: 'admin' })
   })
 
-  it('rejects expired or malformed tokens and clears storage', () => {
+  it('keeps the user anonymous when session verification returns 401', async () => {
+    vi.mocked(getCurrentUser).mockRejectedValue({ status: 401 })
     const auth = useAuthStore()
-    const expiredToken = createToken({ sub: '42', role: 'admin', exp: 1 })
+    auth.setUser({ id: 42, role: 'admin', name: 'Daniel' })
 
-    expect(auth.loginWithToken(expiredToken)).toBe(false)
+    await expect(auth.refreshSession()).resolves.toBe(false)
+    expect(auth.user).toBeNull()
     expect(auth.isAuthenticated).toBe(false)
-    expect(window.localStorage.getItem('token')).toBeNull()
-
-    window.localStorage.setItem('token', 'invalid-token')
-    expect(auth.initFromStorage()).toBe(false)
-    expect(window.localStorage.getItem('token')).toBeNull()
   })
 
-  it('does not keep an in-memory session when persistence fails', () => {
-    const auth = useAuthStore()
-    const token = createToken({ sub: '42', role: 'admin', exp: 2_000_000_000 })
-
-    Object.defineProperty(window, 'localStorage', {
-      configurable: true,
-      value: {
-        getItem: () => null,
-        removeItem: () => undefined,
-        setItem: () => {
-          throw new Error('Storage unavailable')
-        },
-      },
+  it('logs in with the server user and never writes an auth token', async () => {
+    const setItem = vi.spyOn(Storage.prototype, 'setItem')
+    vi.mocked(login).mockResolvedValue({
+      user: { id: 7, rol: 'alumno', nombre: 'Ana' },
     })
+    const auth = useAuthStore()
 
-    expect(auth.loginWithToken(token)).toBe(false)
-    expect(auth.isAuthenticated).toBe(false)
-    expect(auth.token).toBeNull()
+    await auth.login({ email: 'ana@example.com', pass: 'secret', role: 'alumno' })
+
+    expect(auth.user).toEqual({ id: 7, role: 'alumno', name: 'Ana' })
+    expect(setItem).not.toHaveBeenCalled()
+  })
+
+  it('fetches the user when the login response does not include it', async () => {
+    vi.mocked(login).mockResolvedValue({ message: 'Authenticated' })
+    vi.mocked(getCurrentUser).mockResolvedValue({ data: { id: 8, role: 'profesor', name: 'Luis' } })
+    const auth = useAuthStore()
+
+    await auth.login({ username: 'luis', pass: 'secret', role: 'profesor' })
+
+    expect(getCurrentUser).toHaveBeenCalledOnce()
+    expect(auth.user).toEqual({ id: 8, role: 'profesor', name: 'Luis' })
+  })
+
+  it('calls the backend logout and always clears local state', async () => {
+    vi.mocked(logout).mockRejectedValue({ status: 500 })
+    const auth = useAuthStore()
+    auth.setUser({ id: 42, role: 'admin', name: 'Daniel' })
+
+    await expect(auth.logout()).resolves.toBe(false)
+    expect(logout).toHaveBeenCalledOnce()
+    expect(auth.user).toBeNull()
   })
 })
