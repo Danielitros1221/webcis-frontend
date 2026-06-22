@@ -13,6 +13,7 @@ const props = defineProps({
 
 const recaptchaToken = ref('')
 const captchaError = ref('')
+const serverError = ref('')
 
 function onCaptchaVerified(token) {
   recaptchaToken.value = token
@@ -23,6 +24,9 @@ function onCaptchaExpired() {
 }
 
 async function onSubmit(values) {
+  captchaError.value = ''
+  serverError.value = ''
+
   if (!recaptchaToken.value) {
     captchaError.value = 'Confirma que no eres un robot.'
     return
@@ -34,7 +38,8 @@ async function onSubmit(values) {
       token: props.token,
       recaptcha_token: recaptchaToken.value,
     })
-  } finally {
+  } catch (err) {
+    serverError.value = err?.message || 'No se pudo completar el registro.'
   }
 }
 
@@ -166,6 +171,9 @@ async function onSubmit(values) {
 
         <!-- Botón -->
         <div class="pt-2 flex justify-end gap-4">
+          <p v-if="serverError" class="self-center text-sm text-red-300">
+            {{ serverError }}
+          </p>
           <button type="submit" :disabled="!recaptchaToken || loading" class="px-7 py-3 rounded-lg bg-primario text-sm font-semibold text-white hover:bg-[#12294A]">
             Registrar
           </button>

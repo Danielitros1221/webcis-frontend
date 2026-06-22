@@ -1,13 +1,9 @@
 <script setup>
-
-import Presentation from "@/components/home/Presentation.vue";
+import HomeBackground from '@/components/home/HomeBackground.vue'
+import HomePresentation from '@/components/home/HomePresentation.vue'
 </script>
 
 <template>
-  <div>
-    <presentation></presentation>
-  </div>
+  <HomePresentation />
+  <HomeBackground />
 </template>
-
-<style scoped>
-</style>

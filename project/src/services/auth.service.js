@@ -1,4 +1,4 @@
-import { apiPost, apiGet } from './api.js'
+import { apiPost } from './api.js'
 
 const AUTH_BASE = '/auth'
 
@@ -38,6 +38,3 @@ export async function login({ email, username, pass, role }) {
   return apiPost(`${AUTH_BASE}/login`, payload)
 }
 
-export async function me() {
-  return apiGet(`${AUTH_BASE}/me`)
-}
