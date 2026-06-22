@@ -47,4 +47,18 @@ describe('AppMenu', () => {
 
     expect(wrapper.find('[data-test="admin-nav"]').exists()).toBe(true)
   })
+
+  it('toggles the mobile navigation', async () => {
+    const wrapper = mount(AppMenu, { global })
+    const toggle = wrapper.get('button[aria-controls="primary-navigation"]')
+    const navigation = wrapper.get('[data-test="primary-navigation"]')
+
+    expect(toggle.attributes('aria-expanded')).toBe('false')
+    expect(navigation.classes()).toContain('hidden')
+
+    await toggle.trigger('click')
+
+    expect(toggle.attributes('aria-expanded')).toBe('true')
+    expect(navigation.classes()).toContain('block')
+  })
 })

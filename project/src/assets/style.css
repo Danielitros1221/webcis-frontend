@@ -81,8 +81,14 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-fondo text-texto;
     font-family: var(--font-body), sans-serif;
+    min-width: 320px;
+    margin: 0;
   }
 }

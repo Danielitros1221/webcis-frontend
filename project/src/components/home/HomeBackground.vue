@@ -1,16 +1,22 @@
 <script setup>
-import backgroundImage from "@/assets/images/home/home-background.png";
-import HomeSections from "@/components/home/HomeSections.vue";
+import backgroundImage from '@/assets/images/home/home-background.png'
+import HomeSections from '@/components/home/HomeSections.vue'
 </script>
 
 <template>
-    <section
-        class="relative min-h-screen w-full overflow-hidden bg-cover bg-center bg-no-repeat"
-        :style="{ backgroundImage: `url(${backgroundImage})` }"
+  <section id="recursos-webcis" class="relative isolate overflow-hidden bg-[#06152B]">
+    <img
+      :src="backgroundImage"
+      alt=""
+      width="1727"
+      height="3884"
+      loading="lazy"
+      class="absolute inset-0 -z-20 size-full object-cover object-center"
     >
-    
-        <div class="relative z-10 mx-auto min-h-screen w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <HomeSections />
-        </div>
-    </section>
+    <div class="absolute inset-0 -z-10 bg-[#06152B]/45"></div>
+
+    <div class="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      <HomeSections />
+    </div>
+  </section>
 </template>

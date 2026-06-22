@@ -1,22 +1,46 @@
 <script setup>
-  import logoGobierno from "@/assets/images/logo-gobierno.png";
-  import logoITVER from "@/assets/images/logo-ITVER.png";
-  import logoSEP from "@/assets/images/logo-SEP.png";
-  import logoTECNM from "@/assets/images/logo-TECNM.png";
+import logoGobierno from '@/assets/images/logo-gobierno.png'
+import logoITVER from '@/assets/images/logo-ITVER.png'
+import logoSEP from '@/assets/images/logo-SEP.png'
+import logoTECNM from '@/assets/images/logo-TECNM.png'
 </script>
 
 <template>
-  <header>
-    <div class="bg-superior w-full h-11">
-      <img :src="logoGobierno" alt="Logo del Gobierno de Mexico" class="w-25">
+  <header class="w-full bg-white">
+    <div class="bg-superior">
+      <div class="mx-auto flex h-11 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <img
+          :src="logoGobierno"
+          alt="Gobierno de México"
+          width="536"
+          height="236"
+          class="h-8 w-auto"
+        >
+      </div>
     </div>
-    <div class=" bg-white w-full h-18 px-8 py-4 flex items-center space-x-11">
-      <img :src="logoSEP" alt="Logo de la SEP" class="w-45">
-      <img :src="logoTECNM" alt="Logo del TECNM" class="w-35">
-      <img :src="logoITVER" alt="Logo de la ITVER" class="w-15">
+
+    <div class="mx-auto flex min-h-20 max-w-7xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3 sm:px-6 lg:gap-x-10 lg:px-8">
+      <img
+        :src="logoSEP"
+        alt="Secretaría de Educación Pública"
+        width="1199"
+        height="249"
+        class="h-auto w-36 sm:w-44"
+      >
+      <img
+        :src="logoTECNM"
+        alt="Tecnológico Nacional de México"
+        width="1200"
+        height="513"
+        class="h-auto w-28 sm:w-36"
+      >
+      <img
+        :src="logoITVER"
+        alt="Instituto Tecnológico de Veracruz"
+        width="2439"
+        height="1856"
+        class="h-12 w-auto sm:h-14"
+      >
     </div>
   </header>
 </template>
-
-<style scoped>
-</style>
