@@ -5,8 +5,12 @@ import { useAuthStore } from '@/stores/auth'
 
 const baseURL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')
 
+export const backendBaseURL = baseURL.replace(/\/api(?:\/v\d+)?$/, '')
+
 export const api = axios.create({
   baseURL,
+  withCredentials: true,
+  withXSRFToken: true,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
@@ -26,20 +30,6 @@ export function normalizeApiError(error) {
   }
 }
 
-api.interceptors.request.use(
-  (config) => {
-    const auth = useAuthStore()
-
-    if (auth.token) {
-      config.headers = config.headers || {}
-      config.headers.Authorization = `Bearer ${auth.token}`
-    }
-
-    return config
-  },
-  (error) => Promise.reject(normalizeApiError(error)),
-)
-
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -47,7 +37,7 @@ api.interceptors.response.use(
 
     if (normalized.status === 401) {
       const auth = useAuthStore()
-      auth.logout()
+      auth.clearSession()
 
       if (router.currentRoute.value.meta.requiresAuth) {
         await router.replace({ path: '/login' })

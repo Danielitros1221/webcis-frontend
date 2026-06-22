@@ -2,21 +2,14 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import LoginCard from '@/components/login/LoginCard.vue'
-import { login } from '@/services/auth.service'
 
 const mocks = vi.hoisted(() => ({
-  loginWithToken: vi.fn(),
+  authLogin: vi.fn(),
   routerPush: vi.fn(),
 }))
 
-vi.mock('@/services/auth.service', () => ({
-  login: vi.fn(),
-}))
-
 vi.mock('@/stores/auth', () => ({
-  useAuthStore: () => ({
-    loginWithToken: mocks.loginWithToken,
-  }),
+  useAuthStore: () => ({ login: mocks.authLogin }),
 }))
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -52,8 +45,7 @@ async function submitCredentials(wrapper, identifier, password) {
 describe('LoginCard', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mocks.loginWithToken.mockReturnValue(true)
-    vi.mocked(login).mockResolvedValue({ token: 'valid-token' })
+    mocks.authLogin.mockResolvedValue({ user: { id: 1 } })
   })
 
   it('submits an email with the default alumno role', async () => {
@@ -61,13 +53,12 @@ describe('LoginCard', () => {
 
     await submitCredentials(wrapper, 'alumno@example.com', 'secret')
 
-    expect(login).toHaveBeenCalledWith({
+    expect(mocks.authLogin).toHaveBeenCalledWith({
       email: 'alumno@example.com',
       username: undefined,
       pass: 'secret',
       role: 'alumno',
     })
-    expect(mocks.loginWithToken).toHaveBeenCalledWith('valid-token')
     expect(mocks.routerPush).toHaveBeenCalledWith('/app')
   })
 
@@ -77,7 +68,7 @@ describe('LoginCard', () => {
 
     await submitCredentials(wrapper, 'profesor01', 'secret')
 
-    expect(login).toHaveBeenCalledWith({
+    expect(mocks.authLogin).toHaveBeenCalledWith({
       email: undefined,
       username: 'profesor01',
       pass: 'secret',
@@ -85,24 +76,13 @@ describe('LoginCard', () => {
     })
   })
 
-  it('does not navigate when the server omits the token', async () => {
-    vi.mocked(login).mockResolvedValue({})
+  it('shows the login error and does not navigate', async () => {
+    mocks.authLogin.mockRejectedValue({ message: 'Credenciales inválidas.' })
     const wrapper = mountLoginCard()
 
-    await submitCredentials(wrapper, 'alumno01', 'secret')
+    await submitCredentials(wrapper, 'alumno01', 'wrong-password')
 
-    expect(wrapper.text()).toMatch(/El servidor no devolvi. un token\./)
-    expect(mocks.loginWithToken).not.toHaveBeenCalled()
-    expect(mocks.routerPush).not.toHaveBeenCalled()
-  })
-
-  it('shows an error and does not navigate when the token is invalid', async () => {
-    mocks.loginWithToken.mockReturnValue(false)
-    const wrapper = mountLoginCard()
-
-    await submitCredentials(wrapper, 'alumno01', 'secret')
-
-    expect(wrapper.text()).toContain('token invalido o expirado')
+    expect(wrapper.text()).toContain('Credenciales inválidas.')
     expect(mocks.routerPush).not.toHaveBeenCalled()
   })
 })

@@ -11,7 +11,7 @@ const app = createApp(App)
 const pinia = createPinia()
 
 app.use(pinia)
-useAuthStore(pinia).initFromStorage()
+await useAuthStore(pinia).refreshSession()
 app.use(router)
 
 app.mount('#app')

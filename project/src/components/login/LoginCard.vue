@@ -3,7 +3,6 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { login as loginService } from '@/services/auth.service'
 
 const role = [
   { key: 'alumno', label: 'Alumno' },
@@ -47,19 +46,7 @@ async function onSubmit() {
 
   loading.value = true
   try {
-    const data = await loginService(toPayload())
-    const token = data.token
-
-    if (!token) {
-      errorMsg.value = 'El servidor no devolvió un token.'
-      return
-    }
-
-    if (!auth.loginWithToken(token)) {
-      errorMsg.value = 'El servidor devolvio un token invalido o expirado.'
-      return
-    }
-
+    await auth.login(toPayload())
     await router.push('/app')
   }catch(err) {
     errorMsg.value = err?.message || 'No se pudo iniciar sesion.'

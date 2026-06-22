@@ -1,4 +1,4 @@
-import { apiPost } from './api.js'
+import { apiGet, apiPost, backendBaseURL } from './api.js'
 
 const AUTH_BASE = '/auth'
 
@@ -33,8 +33,17 @@ export async function login({ email, username, pass, role }) {
   const payload = {
     identifier,
     pass,
-    role
+    role,
   }
+
+  await apiGet('/sanctum/csrf-cookie', { baseURL: backendBaseURL })
   return apiPost(`${AUTH_BASE}/login`, payload)
 }
 
+export async function getCurrentUser() {
+  return apiGet('/user')
+}
+
+export async function logout() {
+  return apiPost(`${AUTH_BASE}/logout`)
+}
