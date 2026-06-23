@@ -1,8 +1,34 @@
 <script setup>
+import { computed, ref } from 'vue'
+
+import { forgotPassword } from '@/services/auth.service'
+
 const emit = defineEmits(['continue'])
 
-function onContinue() {
-  emit('continue')
+const email = ref('')
+const loading = ref(false)
+const errorMsg = ref('')
+
+const isValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+
+async function onSubmit() {
+  errorMsg.value = ''
+
+  if (!isValid.value) {
+    errorMsg.value = 'Ingresa un correo electrónico válido.'
+    return
+  }
+
+  loading.value = true
+  try {
+    const normalizedEmail = email.value.trim()
+    await forgotPassword({ email: normalizedEmail })
+    emit('continue', { email: normalizedEmail })
+  } catch (err) {
+    errorMsg.value = err?.message || 'No se pudo enviar el código de recuperación.'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -15,18 +41,31 @@ function onContinue() {
       </h1>
 
       <p class="text-center text-base text-white/80 leading-relaxed px-4 mb-8">
-        Se enviará un código de 8 dígitos a su correo electrónico para restablecer su contraseña.
-        <br><br>
-        Si está de acuerdo, haga clic en <span class="font-semibold text-white">"Continuar"</span>.
+        Ingresa tu correo electrónico y te enviaremos un código de 8 dígitos para restablecer tu contraseña.
       </p>
 
-      <button
-        type="button"
-        @click="onContinue"
-        class="w-full rounded-xl bg-primario px-4 py-3 text-xl font-semibold text-white hover:bg-[#12294A] transition-colors"
-      >
-        Continuar
-      </button>
+      <form class="space-y-5" @submit.prevent="onSubmit">
+        <input
+          v-model="email"
+          type="email"
+          autocomplete="email"
+          :disabled="loading"
+          placeholder="Correo electrónico"
+          class="w-full rounded-lg border border-white/20 bg-black/20 px-4 py-3 text-white placeholder:text-white/60 placeholder:italic outline-none focus:border-white/70"
+        />
+
+        <p v-if="errorMsg" class="text-sm text-red-300 text-center">
+          {{ errorMsg }}
+        </p>
+
+        <button
+          type="submit"
+          :disabled="loading || !isValid"
+          class="w-full rounded-xl bg-primario px-4 py-3 text-xl font-semibold text-white hover:bg-[#12294A] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {{ loading ? 'Enviando...' : 'Enviar código' }}
+        </button>
+      </form>
 
       <div class="mt-6 text-center">
         <RouterLink to="/login" class="text-sm text-white/60 hover:text-white/90 hover:underline">

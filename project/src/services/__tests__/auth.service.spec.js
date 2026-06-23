@@ -78,16 +78,33 @@ describe('auth service', () => {
       pass_confirm: 'Secret1!',
     })
 
-    expect(apiPost).toHaveBeenCalledWith('/auth/forgot-password', {
+    expect(apiPost).toHaveBeenCalledWith('/forgot-password', {
       email: 'ana@example.com',
     })
-    expect(apiPost).toHaveBeenCalledWith('/auth/validate-reset-token', {
-      token: '12345678',
-    })
-    expect(apiPost).toHaveBeenCalledWith('/auth/reset-password', {
+    expect(apiPost).toHaveBeenCalledWith('/validate-reset-token', '12345678')
+    expect(apiPost).toHaveBeenCalledWith('/reset-password', {
       token: '12345678',
       pass: 'Secret1!',
       pass_confirm: 'Secret1!',
+    })
+  })
+
+  it('sends the recovery payloads required by the recover flow', async () => {
+    await validateResetToken({ email: 'ana@example.com', code: '12345678' })
+    await resetPassword({
+      email: 'ana@example.com',
+      password: 'Secret1!',
+      token: '12345678',
+    })
+
+    expect(apiPost).toHaveBeenCalledWith('/validate-reset-token', {
+      email: 'ana@example.com',
+      code: '12345678',
+    })
+    expect(apiPost).toHaveBeenCalledWith('/reset-password', {
+      email: 'ana@example.com',
+      password: 'Secret1!',
+      token: '12345678',
     })
   })
 })

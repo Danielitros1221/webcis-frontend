@@ -1,6 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue'
 
+import { resetPassword } from '@/services/auth.service'
+
+const props = defineProps({
+  email: { type: String, required: true },
+  token: { type: String, required: true },
+})
+
 const emit = defineEmits(['continue'])
 
 const password = ref('')
@@ -65,8 +72,13 @@ const strengthTextColor = computed(() => {
   return 'text-white/70'
 })
 
-function onSubmit() {
+async function onSubmit() {
   errorMsg.value = ''
+
+  if (!props.email || !props.token) {
+    errorMsg.value = 'Faltan datos para restablecer la contraseña.'
+    return
+  }
 
   if (!allValid.value) {
     errorMsg.value = 'Completa todos los requisitos.'
@@ -75,11 +87,18 @@ function onSubmit() {
 
   loading.value = true
 
-  // Simular actualización de contraseña (aquí irá la petición al backend)
-  setTimeout(() => {
-    loading.value = false
+  try {
+    await resetPassword({
+      email: props.email,
+      password: password.value,
+      token: props.token,
+    })
     emit('continue')
-  }, 1000)
+  } catch (err) {
+    errorMsg.value = err?.message || 'No se pudo actualizar la contraseña.'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
