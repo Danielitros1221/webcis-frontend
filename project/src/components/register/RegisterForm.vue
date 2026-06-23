@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { registerFormSchema } from '@/schemas/validationSchema.js'
 import { RecaptchaV2 } from 'vue3-recaptcha-v2'
@@ -11,9 +11,13 @@ const props = defineProps({
   loading: { type: Boolean, default: false },
 })
 
+const emit = defineEmits(['registered'])
+
 const recaptchaToken = ref('')
 const captchaError = ref('')
 const serverError = ref('')
+const isSubmitting = ref(false)
+const isFormDisabled = computed(() => props.loading || isSubmitting.value)
 
 function onCaptchaVerified(token) {
   recaptchaToken.value = token
@@ -32,14 +36,18 @@ async function onSubmit(values) {
     return
   }
 
+  isSubmitting.value = true
   try {
-    await register({
+    const response = await register({
       ...values,
       token: props.token,
       recaptcha_token: recaptchaToken.value,
     })
+    emit('registered', response)
   } catch (err) {
     serverError.value = err?.message || 'No se pudo completar el registro.'
+  } finally {
+    isSubmitting.value = false
   }
 }
 
@@ -68,7 +76,7 @@ async function onSubmit(values) {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="flex flex-col md:col-span-2">
                 <label class="text-white/60 italic p-1">Nombre(s)</label>
-                <Field name="name" type="text" autocomplete="given-name" :disabled="loading"
+                <Field name="name" type="text" autocomplete="given-name" :disabled="isFormDisabled"
                        class="w-full mt-1 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-white outline-none focus:border-white/70" />
                 <ErrorMessage name="name" v-slot="{ message }">
                   <p class="mt-1 text-sm text-red-300">{{ message }}</p>
@@ -78,7 +86,7 @@ async function onSubmit(values) {
 
               <div class="flex flex-col">
                 <label class="text-white/60 italic p-1">Primer Apellido</label>
-                <Field name="surname" type="text" autocomplete="family-name" :disabled="loading"
+                <Field name="surname" type="text" autocomplete="family-name" :disabled="isFormDisabled"
                        class="w-full mt-1 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-white outline-none focus:border-white/70" />
                 <ErrorMessage name="surname" v-slot="{ message }">
                   <p class="mt-1 text-sm text-red-300">{{ message }}</p>
@@ -87,7 +95,7 @@ async function onSubmit(values) {
 
               <div class="flex flex-col">
                 <label class="text-white/60 italic p-1">Segundo Apellido</label>
-                <Field name="second_surname" type="text" autocomplete="additional-name" :disabled="loading"
+                <Field name="second_surname" type="text" autocomplete="additional-name" :disabled="isFormDisabled"
                        class="w-full mt-1 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-white outline-none focus:border-white/70" />
                 <ErrorMessage name="second_surname" v-slot="{ message }">
                   <p class="mt-1 text-sm text-red-300">{{ message }}</p>
@@ -132,7 +140,7 @@ async function onSubmit(values) {
 
               <div class="flex flex-col">
                 <label class="text-white/60 italic p-1">Nombre de Usuario</label>
-                <Field name="username" type="text" autocomplete="username" :disabled="loading"
+                <Field name="username" type="text" autocomplete="username" :disabled="isFormDisabled"
                        class="w-full mt-1 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-white outline-none focus:border-white/70" />
                 <ErrorMessage name="username" v-slot="{ message }">
                   <p class="mt-1 text-sm text-red-300">{{ message }}</p>
@@ -141,7 +149,7 @@ async function onSubmit(values) {
 
               <div class="flex flex-col">
                 <label class="text-white/60 italic p-1">Número de Control</label>
-                <Field name="control_number" type="text" autocomplete="off" :disabled="loading"
+                <Field name="control_number" type="text" autocomplete="off" :disabled="isFormDisabled"
                        class="w-full mt-1 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-white outline-none focus:border-white/70" />
                 <ErrorMessage name="control_number" v-slot="{ message }">
                   <p class="mt-1 text-sm text-red-300">{{ message }}</p>
@@ -150,7 +158,7 @@ async function onSubmit(values) {
 
               <div class="flex flex-col md:col-span-2">
                 <label class="text-white/60 italic p-1">Contraseña</label>
-                <Field name="pass" type="password" autocomplete="new-password" :disabled="loading"
+                <Field name="pass" type="password" autocomplete="new-password" :disabled="isFormDisabled"
                        class="w-full mt-1 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-white outline-none focus:border-white/70" />
                 <ErrorMessage name="pass" v-slot="{ message }">
                   <p class="mt-1 text-sm text-red-300">{{ message }}</p>
@@ -159,7 +167,7 @@ async function onSubmit(values) {
 
               <div class="flex flex-col md:col-span-2">
                 <label class="text-white/60 italic p-1">Confirmar Contraseña</label>
-                <Field name="pass_confirm" type="password" autocomplete="new-password" :disabled="loading"
+                <Field name="pass_confirm" type="password" autocomplete="new-password" :disabled="isFormDisabled"
                        class="w-full mt-1 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-white outline-none focus:border-white/70" />
                 <ErrorMessage name="pass_confirm" v-slot="{ message }">
                   <p class="mt-1 text-sm text-red-300">{{ message }}</p>
@@ -174,8 +182,8 @@ async function onSubmit(values) {
           <p v-if="serverError" class="self-center text-sm text-red-300">
             {{ serverError }}
           </p>
-          <button type="submit" :disabled="!recaptchaToken || loading" class="px-7 py-3 rounded-lg bg-primario text-sm font-semibold text-white hover:bg-[#12294A]">
-            Registrar
+          <button type="submit" :disabled="!recaptchaToken || isFormDisabled" class="px-7 py-3 rounded-lg bg-primario text-sm font-semibold text-white hover:bg-[#12294A] disabled:opacity-50 disabled:cursor-not-allowed">
+            {{ isSubmitting ? 'Registrando...' : 'Registrar' }}
           </button>
         </div>
       </Form>
