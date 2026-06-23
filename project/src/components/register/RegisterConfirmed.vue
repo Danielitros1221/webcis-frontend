@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import checkIcon from '@/assets/icons/checkIcon.png'
 import wrongIcon from '@/assets/icons/wrongIcon.png'
+import { confirmVerificationEmail } from '@/services/auth.service'
 
 const emit = defineEmits(['continue'])
 
@@ -13,6 +14,11 @@ const router = useRouter()
 const token = computed(() => String(route.query.token ?? '').trim())
 const hasToken = computed(() => token.value.length > 0)
 const isChecking = ref(false)
+const serverError = ref('')
+
+function emailFromResponse(response) {
+  return response?.email ?? response?.data?.email ?? response?.user?.email ?? ''
+}
 
 function goHome() {
   router.push('/')
@@ -26,10 +32,13 @@ function goLogin() {
 async function onContinue() {
   if (!hasToken.value) return
 
+  serverError.value = ''
   isChecking.value = true
   try {
-    await new Promise((r) => setTimeout(r, 450))
-    emit('continue', { token: token.value })
+    const response = await confirmVerificationEmail({ token: token.value })
+    emit('continue', { token: token.value, email: emailFromResponse(response) })
+  } catch (err) {
+    serverError.value = err?.message || 'No se pudo confirmar el correo.'
   } finally {
     isChecking.value = false
   }
@@ -54,6 +63,10 @@ async function onContinue() {
 
     <p v-if="hasToken" class="mt-6 text-center text-white/70 text-sm md:text-base">
       Tu correo ha sido verificado correctamente. Ya puedes continuar con tu registro.
+    </p>
+
+    <p v-if="serverError" class="mt-4 text-center text-sm text-red-300">
+      {{ serverError }}
     </p>
 
     <div v-if="hasToken" class="mt-6 flex justify-center">

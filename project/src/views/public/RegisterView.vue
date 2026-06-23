@@ -30,8 +30,9 @@ function handleEmailNext(payload) {
   step.value = 2
 }
 
-function handleConfirmedContinue({ token }) {
+function handleConfirmedContinue({ token, email: confirmedEmail }) {
   verifyToken.value = token
+  email.value = confirmedEmail || email.value
   step.value = 4
 }
 

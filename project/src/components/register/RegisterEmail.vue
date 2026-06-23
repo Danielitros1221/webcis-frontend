@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { registerEmailSchema  } from '@/schemas/validationSchema.js'
 import { useRouter } from 'vue-router'
+import { sendVerificationEmail } from '@/services/auth.service'
 
 const router = useRouter()
 const emit = defineEmits(['next'])
@@ -14,7 +15,7 @@ async function onSubmit(values) {
   serverError.value = ''
   loading.value = true
   try {
-
+    await sendVerificationEmail({ email: values.email })
     emit('next', { email: values.email })
   } catch (err) {
     serverError.value = err?.message || 'No se pudo enviar el correo.'
