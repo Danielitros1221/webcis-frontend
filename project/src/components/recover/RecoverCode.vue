@@ -1,6 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue'
 
+import { validateResetToken } from '@/services/auth.service'
+
+const props = defineProps({
+  email: { type: String, required: true },
+})
+
 const emit = defineEmits(['continue'])
 
 const code = ref('')
@@ -13,8 +19,18 @@ function handleInput(e) {
   code.value = e.target.value.replace(/\D/g, '').slice(0, 8)
 }
 
-function onVerify() {
+function resetTokenFromResponse(response) {
+  if (typeof response === 'string') return response
+  return response?.token ?? response?.reset_token ?? response?.data?.token ?? response?.data?.reset_token ?? ''
+}
+
+async function onVerify() {
   errorMsg.value = ''
+
+  if (!props.email) {
+    errorMsg.value = 'No se encontró el correo de recuperación.'
+    return
+  }
 
   if (!isValid.value) {
     errorMsg.value = 'El código debe tener 8 dígitos.'
@@ -23,11 +39,19 @@ function onVerify() {
 
   loading.value = true
 
-  // Simular verificación (aquí irá la lógica del backend después)
-  setTimeout(() => {
+  try {
+    const response = await validateResetToken({
+      email: props.email,
+      code: code.value.trim(),
+    })
+    const token = resetTokenFromResponse(response)
+    if (!token) throw new Error('El backend no devolvió el token de restablecimiento.')
+    emit('continue', { token })
+  } catch (err) {
+    errorMsg.value = err?.message || 'No se pudo validar el código.'
+  } finally {
     loading.value = false
-    emit('continue')
-  }, 1000)
+  }
 }
 </script>
 

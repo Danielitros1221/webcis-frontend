@@ -7,11 +7,24 @@ import RecoverDone from '@/components/recover/RecoverDone.vue'
 import bgRecover from '@/assets/images/itver.jpg'
 
 const currentStep = ref(0)
+const email = ref('')
+const resetToken = ref('')
 
 const nextStep = () => {
   if (currentStep.value < 3) {
     currentStep.value++
   }
+}
+
+function handleEmailSent(payload) {
+  email.value = payload.email
+  resetToken.value = ''
+  nextStep()
+}
+
+function handleCodeValidated(payload) {
+  resetToken.value = payload.token
+  nextStep()
 }
 </script>
 
@@ -25,9 +38,9 @@ const nextStep = () => {
 
     <div class="relative min-h-screen flex items-center justify-center px-6">
 
-      <RecoverInfo v-if="currentStep === 0" @continue="nextStep" />
-      <RecoverCode v-if="currentStep === 1" @continue="nextStep" />
-      <RecoverReset v-if="currentStep === 2" @continue="nextStep" />
+      <RecoverInfo v-if="currentStep === 0" @continue="handleEmailSent" />
+      <RecoverCode v-if="currentStep === 1" :email="email" @continue="handleCodeValidated" />
+      <RecoverReset v-if="currentStep === 2" :email="email" :token="resetToken" @continue="nextStep" />
       <RecoverDone v-if="currentStep === 3" />
 
     </div>

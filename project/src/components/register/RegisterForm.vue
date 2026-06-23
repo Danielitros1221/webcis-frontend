@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { registerFormSchema } from '@/schemas/validationSchema.js'
 import { RecaptchaV2 } from 'vue3-recaptcha-v2'
-import { api } from '@/services/api'
+import { register } from '@/services/auth.service'
 
 const props = defineProps({
   email: { type: String, default: '' },
@@ -33,7 +33,7 @@ async function onSubmit(values) {
   }
 
   try {
-    await api.post('/auth/register', {
+    await register({
       ...values,
       token: props.token,
       recaptcha_token: recaptchaToken.value,
