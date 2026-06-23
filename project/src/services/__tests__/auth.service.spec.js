@@ -1,7 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { apiGet, apiPost, backendBaseURL } from '@/services/api.js'
-import { getCurrentUser, login, logout } from '@/services/auth.service.js'
+import {
+  confirmVerificationEmail,
+  forgotPassword,
+  getCurrentUser,
+  login,
+  logout,
+  register,
+  resetPassword,
+  sendVerificationEmail,
+  validateResetToken,
+} from '@/services/auth.service.js'
 
 vi.mock('@/services/api.js', () => ({
   apiGet: vi.fn(),
@@ -36,6 +46,48 @@ describe('auth service', () => {
     await logout()
 
     expect(apiGet).toHaveBeenCalledWith('/user')
+    expect(apiGet).toHaveBeenCalledWith('/sanctum/csrf-cookie', {
+      baseURL: backendBaseURL,
+    })
     expect(apiPost).toHaveBeenCalledWith('/auth/logout')
+  })
+
+  it('centralizes the register and verification auth endpoints', async () => {
+    await sendVerificationEmail('ana@example.com')
+    await confirmVerificationEmail({ token: 'verify-token' })
+    await register({ email: 'ana@example.com', pass: 'Secret1!' })
+
+    expect(apiPost).toHaveBeenCalledWith('/auth/send-verification-email', {
+      email: 'ana@example.com',
+    })
+    expect(apiPost).toHaveBeenCalledWith('/auth/confirm-verification-email', {
+      token: 'verify-token',
+    })
+    expect(apiPost).toHaveBeenCalledWith('/auth/register', {
+      email: 'ana@example.com',
+      pass: 'Secret1!',
+    })
+  })
+
+  it('centralizes the password recovery auth endpoints', async () => {
+    await forgotPassword({ email: 'ana@example.com' })
+    await validateResetToken('12345678')
+    await resetPassword({
+      token: '12345678',
+      pass: 'Secret1!',
+      pass_confirm: 'Secret1!',
+    })
+
+    expect(apiPost).toHaveBeenCalledWith('/auth/forgot-password', {
+      email: 'ana@example.com',
+    })
+    expect(apiPost).toHaveBeenCalledWith('/auth/validate-reset-token', {
+      token: '12345678',
+    })
+    expect(apiPost).toHaveBeenCalledWith('/auth/reset-password', {
+      token: '12345678',
+      pass: 'Secret1!',
+      pass_confirm: 'Secret1!',
+    })
   })
 })
