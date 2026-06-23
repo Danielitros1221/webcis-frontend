@@ -14,6 +14,11 @@ async function authPost(endpoint, payload) {
   return apiPost(url, payload)
 }
 
+async function publicPost(endpoint, payload) {
+  await ensureCsrfCookie()
+  return apiPost(endpoint, payload)
+}
+
 function toPayload(value, key) {
   if (value && typeof value === 'object') return value
   return { [key]: value }
@@ -77,13 +82,13 @@ export async function register(payload) {
 }
 
 export async function forgotPassword(payload) {
-  return authPost('/forgot-password', toPayload(payload, 'email'))
+  return publicPost('/forgot-password', toPayload(payload, 'email'))
 }
 
 export async function validateResetToken(payload) {
-  return authPost('/validate-reset-token', toPayload(payload, 'token'))
+  return publicPost('/validate-reset-token', payload)
 }
 
 export async function resetPassword(payload) {
-  return authPost('/reset-password', payload)
+  return publicPost('/reset-password', payload)
 }
