@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import HomeSectionCard from './HomeSectionCard.vue'
-import categoriasImg from '@/assets/images/home/code.jpg'
-import recursosImg from '@/assets/images/home/coding-stock-image.jpg'
+import categoriasImg from '@/assets/images/home/section-categorias.png'
+import recursosImg from '@/assets/images/home/section-recursos.png'
 
 const emit = defineEmits(['open-modal'])
 
@@ -61,7 +61,7 @@ onUnmounted(() => revealObserver?.disconnect())
           :type="card.type"
           :title="card.title"
           :bg-image="card.bgImage"
-          :reveal-delay="i * 0.12"
+          :reveal-delay="i * 0.2"
           :revealed="revealed[i]"
           @open="emit('open-modal', card.type)"
         />

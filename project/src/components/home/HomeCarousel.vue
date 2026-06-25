@@ -76,10 +76,7 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
     >
       <!-- Pista de slides -->
       <div class="overflow-hidden">
-        <div
-          class="flex w-full transition-transform duration-550 ease-in-out"
-          :style="trackStyle"
-        >
+        <div class="flex w-full transition-transform duration-550 ease-in-out" :style="trackStyle">
           <div
             v-for="(slide, i) in slides"
             :key="i"
@@ -139,19 +136,19 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
         </button>
 
         <!-- Dots + contador -->
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2">
+        <div class="flex items-center gap-5">
+          <div class="flex items-center gap-3">
             <button
               v-for="(_, i) in slides"
               :key="i"
               @click="goTo(i)"
               :aria-label="`Ir al objetivo ${i + 1}`"
               :aria-current="i === current ? 'true' : undefined"
-              class="h-2.5] cursor-pointer rounded-full border-none p-0 transition-[width,background] duration-250 ease-out"
-              :class="i === current ? 'w-[30px] bg-acento' : 'w-2.5 bg-white/35'"
+              class="h-3 cursor-pointer rounded-full border-none p-0 transition-[width,background-color,opacity] duration-300 ease-out hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-acento/70"
+              :class="i === current ? 'w-[34px] bg-acento' : 'w-3 bg-[#8b949e]'"
             ></button>
           </div>
-          <span class="min-w-16 text-right text-sm font-semibold tracking-[.08em] text-white/60">
+          <span class="min-w-[78px] text-right text-lg font-bold tracking-[.18em] text-white/70">
             {{ counterText }}
           </span>
         </div>

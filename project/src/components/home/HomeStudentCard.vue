@@ -23,7 +23,7 @@ const initials = computed(() =>
     :href="linkedin"
     target="_blank"
     rel="noopener noreferrer"
-    class="flex flex-col items-center rounded-[24px] border border-white/10 bg-white/[.05] p-7 text-center no-underline transition-[transform,border-color,box-shadow] duration-[250ms] ease-out hover:-translate-y-[6px] hover:border-acento/30 hover:shadow-[0_16px_34px_rgba(0,0,0,.4)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento/55"
+    class="flex flex-col items-center rounded-3xl border border-white/10 bg-white/5 p-7 text-center no-underline transition-[transform,border-color,box-shadow] duration-250 ease-out hover:-translate-y-1.5 hover:border-acento/30 hover:shadow-[0_16px_34px_rgba(0,0,0,.4)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento/55"
   >
     <!-- Avatar -->
     <div class="size-[104px] rounded-full bg-[linear-gradient(135deg,#CFA34E,#A86E2E)] p-[3px]">

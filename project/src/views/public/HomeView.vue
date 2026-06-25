@@ -9,11 +9,11 @@ import HomeCommunity from '@/components/home/HomeCommunity.vue'
 import HomeModal from '@/components/home/HomeModal.vue'
 import HomeToast from '@/components/home/HomeToast.vue'
 
-import obj1 from '@/assets/images/home/code.jpg'
-import obj2 from '@/assets/images/itver.jpg'
-import obj3 from '@/assets/images/home/coding-stock-image.jpg'
-import obj4 from '@/assets/images/back_bienvenida.jpg'
-import obj5 from '@/assets/images/home/home-background.png'
+import obj1 from '@/assets/images/home/carrucel/obj-1.jpeg'
+import obj2 from '@/assets/images/home/carrucel/obj-2.jpeg'
+import obj3 from '@/assets/images/home/carrucel/obj-3.jpeg'
+import obj4 from '@/assets/images/home/carrucel/obj-4.jpeg'
+import obj5 from '@/assets/images/home/carrucel/obj-5.jpeg'
 
 const activeModal = ref(null)
 const toastMsg = ref(null)

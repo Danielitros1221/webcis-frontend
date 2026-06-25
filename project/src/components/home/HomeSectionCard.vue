@@ -1,5 +1,5 @@
 <script setup>
-import webcisLogo from '@/assets/images/Logo.png'
+import webcisLogo from '@/assets/images/webcis_shield.png'
 
 defineProps({
   type: { type: String, required: true },
@@ -21,7 +21,7 @@ function handleKey(e) {
 
 <template>
   <div
-    class="transition-[opacity,transform] duration-750 ease-out will-change-[opacity,transform]"
+    class="will-change-[opacity,transform] transition-[opacity,transform] duration-700 ease-[cubic-bezier(.16,1,.3,1)]"
     :class="revealed ? 'translate-y-0 opacity-100' : 'translate-y-9 opacity-0'"
     :style="{ transitionDelay: `${revealDelay}s` }"
   >
@@ -31,7 +31,7 @@ function handleKey(e) {
       tabindex="0"
       role="button"
       :aria-label="`Ver más sobre ${title}`"
-      class="group relative flex h-[360px] cursor-pointer overflow-hidden rounded-[28px] border border-white/15 shadow-[0_12px_30px_rgba(0,0,0,.4)] transition-[transform,box-shadow] duration-250 ease-out hover:-translate-y-1.5 hover:shadow-[0_20px_44px_rgba(0,0,0,.5)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento"
+      class="group relative flex h-[360px] cursor-pointer overflow-hidden rounded-[28px] border border-white/15 shadow-[0_12px_30px_rgba(0,0,0,.4)] transition-[transform,box-shadow,border-color] duration-250 ease-out hover:-translate-y-1.5 hover:border-acento/35 hover:shadow-[0_20px_44px_rgba(0,0,0,.5)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento"
       :class="type === 'webcis' ? 'bg-[#050608]' : 'bg-black/40'"
     >
       <!-- Fondo para categorías/recursos -->
@@ -39,7 +39,7 @@ function handleKey(e) {
         <img
           :src="bgImage"
           :alt="title"
-          class="absolute inset-0 size-full object-cover"
+          class="absolute inset-0 size-full object-cover transition-transform duration-900 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.045]"
           loading="lazy"
         />
         <div

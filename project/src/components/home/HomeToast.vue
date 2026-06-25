@@ -34,7 +34,7 @@ watch(
     >
       <div
         v-if="visible && message"
-        class="fixed bottom-7 left-1/2 z-[200] flex w-[min(calc(100%-2rem),520px)] -translate-x-1/2 items-center gap-3 rounded-[14px] border border-acento/45 bg-[#15294a] px-[22px] py-3.5 shadow-[0_14px_36px_rgba(0,0,0,.5)]"
+        class="fixed bottom-7 left-1/2 z-200 flex w-[min(calc(100%-2rem),520px)] -translate-x-1/2 items-center gap-3 rounded-[14px] border border-acento/45 bg-[#15294a] px-[22px] py-3.5 shadow-[0_14px_36px_rgba(0,0,0,.5)]"
         role="status"
         aria-live="polite"
       >
