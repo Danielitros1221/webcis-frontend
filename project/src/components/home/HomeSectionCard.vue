@@ -21,7 +21,7 @@ function handleKey(e) {
 
 <template>
   <div
-    class="will-change-[opacity,transform] transition-[opacity,transform] duration-700 ease-[cubic-bezier(.16,1,.3,1)]"
+    class="will-change-[opacity,transform] transition-[opacity,transform] duration-1600 ease-[cubic-bezier(.16,1,.3,1)]"
     :class="revealed ? 'translate-y-0 opacity-100' : 'translate-y-9 opacity-0'"
     :style="{ transitionDelay: `${revealDelay}s` }"
   >
@@ -31,42 +31,29 @@ function handleKey(e) {
       tabindex="0"
       role="button"
       :aria-label="`Ver más sobre ${title}`"
-      class="group relative flex h-[360px] cursor-pointer overflow-hidden rounded-[28px] border border-white/15 shadow-[0_12px_30px_rgba(0,0,0,.4)] transition-[transform,box-shadow,border-color] duration-250 ease-out hover:-translate-y-1.5 hover:border-acento/35 hover:shadow-[0_20px_44px_rgba(0,0,0,.5)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento"
+      class="group relative flex h-[360px] cursor-pointer overflow-hidden rounded-[28px] shadow-[0_12px_30px_rgba(0,0,0,.4)] transition-[transform,box-shadow] duration-250 ease-out hover:-translate-y-1.5 hover:shadow-[0_20px_44px_rgba(0,0,0,.5)] focus-visible:outline-2 focus-visible:outline-offset-[3px]"
       :class="type === 'webcis' ? 'bg-[#050608]' : 'bg-black/40'"
     >
-      <!-- Fondo para categorías/recursos -->
-      <template v-if="type !== 'webcis' && bgImage">
-        <img
-          :src="bgImage"
-          :alt="title"
-          class="absolute inset-0 size-full object-cover transition-transform duration-900 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.045]"
-          loading="lazy"
-        />
-        <div
-          class="absolute inset-0"
-          :class="
-            type === 'categorias'
+      <!-- Imagen de fondo (unificada para las 3 cards) -->
+      <img
+        :src="type === 'webcis' ? webcisLogo : bgImage"
+        :alt="type === 'webcis' ? '' : title"
+        :aria-hidden="type === 'webcis' ? 'true' : undefined"
+        class="absolute inset-0 size-full transition-transform duration-900 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.045]"
+        :class="type === 'webcis' ? 'object-contain p-10' : 'object-cover'"
+        loading="lazy"
+      />
+      <!-- Overlay de gradiente (por tipo) -->
+      <div
+        class="absolute inset-0"
+        :class="
+          type === 'webcis'
+            ? 'bg-[radial-gradient(circle_at_center,rgba(5,6,8,.05)_25%,rgba(5,6,8,.75)_100%)]'
+            : type === 'categorias'
               ? 'bg-[linear-gradient(180deg,rgba(40,10,55,.45)_0%,rgba(20,8,40,.7)_100%)]'
               : 'bg-[linear-gradient(180deg,rgba(15,40,80,.4)_0%,rgba(8,20,45,.72)_100%)]'
-          "
-        ></div>
-      </template>
-
-      <!-- Fondo para WebCIS: logo centrado + viñeta radial -->
-      <template v-if="type === 'webcis'">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <img
-            :src="webcisLogo"
-            alt=""
-            aria-hidden="true"
-            class="h-[230px] opacity-[.85] drop-shadow-[0_6px_22px_rgba(207,163,78,.25)]"
-            loading="lazy"
-          />
-        </div>
-        <div
-          class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(5,6,8,.15)_30%,rgba(5,6,8,.78)_100%)]"
-        ></div>
-      </template>
+        "
+      ></div>
 
       <!-- Contenido centrado -->
       <div

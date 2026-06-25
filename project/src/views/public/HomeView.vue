@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import bgHome from '@/assets/images/home/background-home.png'
 import HomeHero from '@/components/home/HomeHero.vue'
 import HomeSectionGrid from '@/components/home/HomeSectionGrid.vue'
 import HomeMission from '@/components/home/HomeMission.vue'
@@ -70,7 +71,10 @@ function closeModal() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-home-bg font-display">
+  <div
+    class="min-h-screen bg-home-bg bg-cover bg-top bg-fixed font-display"
+    :style="{ backgroundImage: `url(${bgHome})` }"
+  >
     <HomeHero />
 
     <HomeSectionGrid @open-modal="openModal" />
