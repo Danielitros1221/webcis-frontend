@@ -50,7 +50,7 @@ const metas = [
             <path d="M20 6 9 17l-5-5"></path>
           </svg>
         </span>
-        <span class="text-[clamp(15px,1.6vw,18px)] leading-[1.5] text-white/90">
+        <span class="text-[clamp(15px,1.6vw,18px)] leading-normal text-white/90">
           {{ meta }}
         </span>
       </li>

@@ -77,7 +77,7 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
       <!-- Pista de slides -->
       <div class="overflow-hidden">
         <div
-          class="flex w-full transition-transform duration-[550ms] ease-[cubic-bezier(.4,0,.2,1)]"
+          class="flex w-full transition-transform duration-550 ease-in-out"
           :style="trackStyle"
         >
           <div
@@ -86,7 +86,7 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
             class="flex min-w-full flex-[0_0_100%] flex-wrap"
           >
             <!-- Panel de imagen -->
-            <div class="relative min-h-[320px] flex-[1_1_360px] bg-[#0c1830]">
+            <div class="relative min-h-80 flex-[1_1_360px] bg-[#0c1830]">
               <img
                 :src="slide.img"
                 :alt="slide.title"
@@ -106,7 +106,7 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
               <h3 class="m-0 mb-4 text-[clamp(22px,2.8vw,32px)] font-bold leading-[1.2] text-white">
                 {{ slide.title }}
               </h3>
-              <p class="m-0 text-[clamp(15px,1.7vw,19px)] leading-[1.6] text-white/[.86]">
+              <p class="m-0 text-[clamp(15px,1.7vw,19px)] leading-[1.6] text-white/86">
                 {{ slide.text }}
               </p>
             </div>
@@ -122,7 +122,7 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
         <button
           @click="prev"
           aria-label="Objetivo anterior"
-          class="flex size-[50px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/[.08] text-white transition-[background,border-color] hover:border-acento hover:bg-acento/25 focus-visible:outline-2 focus-visible:outline-acento/55"
+          class="flex size-[50px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/08 text-white transition-[background,border-color] hover:border-acento hover:bg-acento/25 focus-visible:outline-2 focus-visible:outline-acento/55"
         >
           <svg
             width="22"
@@ -147,8 +147,8 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
               @click="goTo(i)"
               :aria-label="`Ir al objetivo ${i + 1}`"
               :aria-current="i === current ? 'true' : undefined"
-              class="h-[10px] cursor-pointer rounded-full border-none p-0 transition-[width,background] duration-[250ms] ease-out"
-              :class="i === current ? 'w-[30px] bg-acento' : 'w-[10px] bg-white/35'"
+              class="h-2.5] cursor-pointer rounded-full border-none p-0 transition-[width,background] duration-250 ease-out"
+              :class="i === current ? 'w-[30px] bg-acento' : 'w-2.5 bg-white/35'"
             ></button>
           </div>
           <span class="min-w-16 text-right text-sm font-semibold tracking-[.08em] text-white/60">
@@ -160,7 +160,7 @@ watch(() => [props.autoplay, props.autoplaySeconds], startAuto)
         <button
           @click="next"
           aria-label="Objetivo siguiente"
-          class="flex size-[50px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/[.08] text-white transition-[background,border-color] hover:border-acento hover:bg-acento/25 focus-visible:outline-2 focus-visible:outline-acento/55"
+          class="flex size-[50px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/8 text-white transition-[background,border-color] hover:border-acento hover:bg-acento/25 focus-visible:outline-2 focus-visible:outline-acento/55"
         >
           <svg
             width="22"

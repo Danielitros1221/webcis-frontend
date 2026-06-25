@@ -21,7 +21,7 @@ function handleKey(e) {
 
 <template>
   <div
-    class="transition-[opacity,transform] duration-[750ms] ease-out [will-change:opacity,transform]"
+    class="transition-[opacity,transform] duration-750 ease-out will-change-[opacity,transform]"
     :class="revealed ? 'translate-y-0 opacity-100' : 'translate-y-9 opacity-0'"
     :style="{ transitionDelay: `${revealDelay}s` }"
   >
@@ -31,7 +31,7 @@ function handleKey(e) {
       tabindex="0"
       role="button"
       :aria-label="`Ver más sobre ${title}`"
-      class="group relative flex h-[360px] cursor-pointer overflow-hidden rounded-[28px] border border-white/15 shadow-[0_12px_30px_rgba(0,0,0,.4)] transition-[transform,box-shadow] duration-[250ms] ease-out hover:-translate-y-[6px] hover:shadow-[0_20px_44px_rgba(0,0,0,.5)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento"
+      class="group relative flex h-[360px] cursor-pointer overflow-hidden rounded-[28px] border border-white/15 shadow-[0_12px_30px_rgba(0,0,0,.4)] transition-[transform,box-shadow] duration-250 ease-out hover:-translate-y-1.5 hover:shadow-[0_20px_44px_rgba(0,0,0,.5)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento"
       :class="type === 'webcis' ? 'bg-[#050608]' : 'bg-black/40'"
     >
       <!-- Fondo para categorías/recursos -->
@@ -78,7 +78,7 @@ function handleKey(e) {
           {{ title }}
         </h3>
         <span
-          class="rounded-[12px] bg-[#ededed] px-7 py-2.5 text-base font-bold text-[#1c1c1c] shadow-[0_4px_10px_rgba(0,0,0,.3)] transition-[filter] group-hover:brightness-95"
+          class="rounded-xl bg-[#ededed] px-7 py-2.5 text-base font-bold text-[#1c1c1c] shadow-[0_4px_10px_rgba(0,0,0,.3)] transition-[filter] group-hover:brightness-95"
         >
           Ver más
         </span>
