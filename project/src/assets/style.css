@@ -14,9 +14,16 @@
   --color-borde: #8C8C8C;
   --color-link: #A86E2E;
 
+  /* Tokens de home dark */
+  --color-home-bg: #0c1a33;
+  --color-home-banda: #101d33;
+  --color-home-card: #28384e;
+  --color-home-card-dark: #161e29;
+
   /* Tokens de tipografía */
   --font-display: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-body: "Alata", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-inter: "Inter", system-ui, sans-serif;
 }
 
 .light {
