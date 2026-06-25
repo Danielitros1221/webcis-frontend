@@ -4,8 +4,7 @@ import heroImage from '@/assets/images/itver.jpg'
 
 <template>
   <section
-    class="relative flex items-center overflow-hidden"
-    style="min-height: clamp(360px, 52vw, 520px)"
+    class="relative isolate flex min-h-[clamp(360px,52vw,520px)] items-center overflow-hidden bg-home-bg"
   >
     <img
       :src="heroImage"
@@ -13,40 +12,31 @@ import heroImage from '@/assets/images/itver.jpg'
       width="2048"
       height="1152"
       fetchpriority="high"
-      class="absolute inset-0 size-full object-cover"
-      style="object-position: 72% center"
+      class="absolute inset-0 -z-20 size-full object-cover object-[72%_center]"
     />
     <div
-      class="absolute inset-0"
-      style="background: linear-gradient(90deg, rgba(8,16,30,.97) 0%, rgba(8,16,30,.92) 30%, rgba(8,16,30,.6) 58%, rgba(8,16,30,.28) 80%, rgba(8,16,30,.12) 100%)"
+      class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(8,16,30,.97)_0%,rgba(8,16,30,.92)_30%,rgba(8,16,30,.6)_58%,rgba(8,16,30,.28)_80%,rgba(8,16,30,.12)_100%)]"
     ></div>
 
-    <div
-      class="relative z-10 w-full max-w-[1460px] mx-auto"
-      style="padding: 48px clamp(16px, 5vw, 64px)"
-    >
+    <div class="relative z-10 mx-auto w-full max-w-[1460px] px-[clamp(16px,5vw,64px)] py-12">
       <div class="max-w-[680px]">
         <p
-          class="font-semibold tracking-[.18em] uppercase text-acento mb-3.5"
-          style="font-size: clamp(12px, 1.4vw, 15px)"
+          class="mb-3.5 text-[clamp(12px,1.4vw,15px)] font-semibold uppercase tracking-[.18em] text-acento"
         >
           Plataforma Educativa Digital · ISC
         </p>
         <h1
-          class="font-extrabold text-white m-0 leading-[.98]"
-          style="font-size: clamp(56px, 10vw, 112px); text-shadow: 0 6px 30px rgba(0,0,0,.65), 0 2px 8px rgba(0,0,0,.55)"
+          class="m-0 text-[clamp(56px,10vw,112px)] font-extrabold leading-[.98] text-white [text-shadow:0_6px_30px_rgba(0,0,0,.65),0_2px_8px_rgba(0,0,0,.55)]"
         >
           Web<span class="text-acento">CIS</span>
         </h1>
         <p
-          class="font-semibold text-white mt-4"
-          style="font-size: clamp(18px, 2.6vw, 28px); text-shadow: 0 3px 16px rgba(0,0,0,.7)"
+          class="mt-4 text-[clamp(18px,2.6vw,28px)] font-semibold text-white [text-shadow:0_3px_16px_rgba(0,0,0,.7)]"
         >
           Piensa, aprende, desarrolla y crea.
         </p>
         <p
-          class="text-white/90 leading-[1.55] mt-4 max-w-[560px]"
-          style="font-size: clamp(15px, 1.7vw, 19px); text-shadow: 0 2px 10px rgba(0,0,0,.6)"
+          class="mt-4 max-w-[560px] text-[clamp(15px,1.7vw,19px)] leading-[1.55] text-white/90 [text-shadow:0_2px_10px_rgba(0,0,0,.6)]"
         >
           Una comunidad donde estudiantes, profesores y egresados de Ingeniería en Sistemas
           comparten conocimiento y crecen juntos.
@@ -54,8 +44,7 @@ import heroImage from '@/assets/images/itver.jpg'
         <div class="mt-7">
           <RouterLink
             to="/register"
-            class="inline-block font-bold rounded-[15px] no-underline transition-[filter] hover:brightness-[1.07] active:scale-[.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-acento"
-            style="font-size: 17px; color: #3a2a08; background: var(--color-acento); padding: 15px 30px; box-shadow: 0 6px 18px rgba(0,0,0,.35)"
+            class="inline-block rounded-[15px] bg-acento px-[30px] py-[15px] text-[17px] font-bold text-[#3a2a08] no-underline shadow-[0_6px_18px_rgba(0,0,0,.35)] transition-[filter,transform] hover:brightness-[1.07] active:scale-[.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-acento"
           >
             Forma parte de la comunidad
           </RouterLink>

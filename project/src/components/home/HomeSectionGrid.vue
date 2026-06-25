@@ -41,38 +41,20 @@ onUnmounted(() => revealObserver?.disconnect())
 
 <template>
   <section
-    class="w-full border-b"
-    style="
-      background: linear-gradient(180deg, #060d18 0px, #0b1626 64px, #101d33 150px);
-      border-color: rgba(207,163,78,.35);
-      padding: clamp(56px,7vw,104px) clamp(16px,5vw,64px) clamp(48px,6vw,84px);
-      margin-bottom: 84px;
-    "
+    class="mb-[84px] w-full border-b border-acento/35 bg-[linear-gradient(180deg,#060d18_0px,#0b1626_64px,#101d33_150px)] px-[clamp(16px,5vw,64px)] pb-[clamp(48px,6vw,84px)] pt-[clamp(56px,7vw,104px)]"
   >
-    <div class="max-w-[1460px] mx-auto">
+    <div class="mx-auto max-w-[1460px]">
       <!-- Encabezado -->
       <div class="text-center mb-3.5">
-        <h2
-          class="font-bold text-acento m-0"
-          style="font-size: clamp(28px, 4vw, 44px)"
-        >
-          Secciones de Interés
-        </h2>
-        <p
-          class="text-white/80 mx-auto mt-3 max-w-[620px]"
-          style="font-size: clamp(14px, 1.6vw, 18px)"
-        >
-          Explora la plataforma: descubre las categorías de aprendizaje, conoce el proyecto y
-          accede a todos los recursos.
+        <h2 class="m-0 text-[clamp(28px,4vw,44px)] font-bold text-acento">Secciones de Interés</h2>
+        <p class="mx-auto mt-3 max-w-[620px] text-[clamp(14px,1.6vw,18px)] text-white/80">
+          Explora la plataforma: descubre las categorías de aprendizaje, conoce el proyecto y accede
+          a todos los recursos.
         </p>
       </div>
 
       <!-- Grid de tarjetas -->
-      <div
-        ref="gridRef"
-        class="grid mt-10"
-        style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px"
-      >
+      <div ref="gridRef" class="mt-10 grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-7">
         <HomeSectionCard
           v-for="(card, i) in cards"
           :key="card.type"

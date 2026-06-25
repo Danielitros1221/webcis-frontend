@@ -23,47 +23,37 @@ const initials = computed(() =>
     :href="linkedin"
     target="_blank"
     rel="noopener noreferrer"
-    class="flex flex-col items-center text-center rounded-[24px] p-7 no-underline transition-[transform,border-color,box-shadow] duration-[250ms] ease-out hover:-translate-y-[6px] hover:shadow-[0_16px_34px_rgba(0,0,0,.4)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento/55"
-    style="background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12)"
+    class="flex flex-col items-center rounded-[24px] border border-white/10 bg-white/[.05] p-7 text-center no-underline transition-[transform,border-color,box-shadow] duration-[250ms] ease-out hover:-translate-y-[6px] hover:border-acento/30 hover:shadow-[0_16px_34px_rgba(0,0,0,.4)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-acento/55"
   >
     <!-- Avatar -->
-    <div
-      class="size-[104px] rounded-full p-[3px]"
-      style="background: linear-gradient(135deg, #CFA34E, #A86E2E)"
-    >
+    <div class="size-[104px] rounded-full bg-[linear-gradient(135deg,#CFA34E,#A86E2E)] p-[3px]">
       <img
         v-if="photo"
         :src="photo"
         :alt="name"
         width="104"
         height="104"
-        class="size-full rounded-full object-cover block"
-        style="border: 3px solid #1a2433"
+        class="block size-full rounded-full border-[3px] border-[#1a2433] object-cover"
         loading="lazy"
       />
       <div
         v-else
-        class="size-full rounded-full flex items-center justify-center font-bold text-2xl"
-        style="background: #1a2433; border: 3px solid #1a2433; color: #CFA34E"
+        class="flex size-full items-center justify-center rounded-full border-[3px] border-[#1a2433] bg-[#1a2433] text-2xl font-bold text-acento"
       >
         {{ initials }}
       </div>
     </div>
 
-    <div
-      class="font-semibold text-white mt-[18px] leading-[1.3]"
-      style="font-size: 17px"
-    >
+    <div class="mt-[18px] text-[17px] font-semibold leading-[1.3] text-white">
       {{ name }}
     </div>
-    <div class="text-acento mt-1.5" style="font-size: 13px">
+    <div class="mt-1.5 text-[13px] text-acento">
       {{ role }}
     </div>
 
     <!-- Badge LinkedIn -->
     <span
-      class="inline-flex items-center gap-2 rounded-full mt-[18px] font-semibold text-white"
-      style="background: #0A66C2; padding: 8px 18px; font-size: 14px"
+      class="mt-[18px] inline-flex items-center gap-2 rounded-full bg-[#0A66C2] px-[18px] py-2 text-sm font-semibold text-white"
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff">
         <path

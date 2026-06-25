@@ -17,7 +17,6 @@ import obj5 from '@/assets/images/home/home-background.png'
 
 const activeModal = ref(null)
 const toastMsg = ref(null)
-let toastTimer = null
 
 const objectives = [
   {
@@ -68,26 +67,15 @@ function openModal(type) {
 function closeModal() {
   activeModal.value = null
 }
-
-function showToast(msg) {
-  toastMsg.value = msg
-  clearTimeout(toastTimer)
-  toastTimer = setTimeout(() => {
-    toastMsg.value = null
-  }, 2600)
-}
 </script>
 
 <template>
-  <div class="min-h-screen font-display" style="background-color: #0c1a33">
+  <div class="min-h-screen bg-home-bg font-display">
     <HomeHero />
 
     <HomeSectionGrid @open-modal="openModal" />
 
-    <div
-      class="max-w-[1460px] mx-auto pb-[90px]"
-      style="padding-left: clamp(16px,5vw,64px); padding-right: clamp(16px,5vw,64px)"
-    >
+    <div class="mx-auto max-w-[1460px] px-[clamp(16px,5vw,64px)] pb-[90px]">
       <div class="flex flex-wrap gap-7 mb-[84px]">
         <HomeMission />
         <HomeGoals />

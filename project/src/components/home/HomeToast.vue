@@ -34,19 +34,12 @@ watch(
     >
       <div
         v-if="visible && message"
-        class="fixed bottom-7 left-1/2 z-[200] flex items-center gap-3 -translate-x-1/2 rounded-[14px]"
-        style="
-          background: #15294a;
-          border: 1px solid rgba(207,163,78,.45);
-          padding: 14px 22px;
-          box-shadow: 0 14px 36px rgba(0,0,0,.5);
-        "
+        class="fixed bottom-7 left-1/2 z-[200] flex w-[min(calc(100%-2rem),520px)] -translate-x-1/2 items-center gap-3 rounded-[14px] border border-acento/45 bg-[#15294a] px-[22px] py-3.5 shadow-[0_14px_36px_rgba(0,0,0,.5)]"
         role="status"
         aria-live="polite"
       >
         <span
-          class="flex size-7 shrink-0 items-center justify-center rounded-full text-acento"
-          style="background: rgba(207,163,78,.2)"
+          class="flex size-7 shrink-0 items-center justify-center rounded-full bg-acento/20 text-acento"
         >
           <svg
             width="16"
@@ -62,7 +55,7 @@ watch(
             <path d="M12 8v5M12 16h.01"></path>
           </svg>
         </span>
-        <span class="font-medium text-white whitespace-nowrap" style="font-size: 15px">
+        <span class="text-[15px] font-medium leading-snug text-white">
           {{ message }}
         </span>
       </div>

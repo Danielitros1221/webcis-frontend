@@ -9,19 +9,11 @@ const metas = [
 
 <template>
   <div
-    class="grow shrink basis-[420px] rounded-[28px] border"
-    style="
-      background: linear-gradient(160deg, #28384e, #161e29);
-      border-color: rgba(207,163,78,.32);
-      padding: clamp(28px, 3.5vw, 44px);
-    "
+    class="grow shrink basis-[420px] rounded-[28px] border border-acento/30 bg-[linear-gradient(160deg,#28384e,#161e29)] p-[clamp(28px,3.5vw,44px)]"
   >
     <!-- Ícono + título -->
-    <div class="flex items-center gap-3.5 mb-[18px]">
-      <div
-        class="flex size-[52px] shrink-0 items-center justify-center rounded-2xl"
-        style="background: rgba(207,163,78,.16)"
-      >
+    <div class="mb-[18px] flex items-center gap-3.5">
+      <div class="flex size-[52px] shrink-0 items-center justify-center rounded-2xl bg-acento/15">
         <svg
           width="28"
           height="28"
@@ -36,24 +28,14 @@ const metas = [
           <path d="M5 21h6"></path>
         </svg>
       </div>
-      <h2
-        class="font-bold text-acento m-0"
-        style="font-size: clamp(26px, 3.4vw, 38px)"
-      >
-        Metas
-      </h2>
+      <h2 class="m-0 text-[clamp(26px,3.4vw,38px)] font-bold text-acento">Metas</h2>
     </div>
 
     <!-- Lista de metas -->
-    <ul class="list-none m-0 p-0 flex flex-col gap-3.5">
-      <li
-        v-for="(meta, i) in metas"
-        :key="i"
-        class="flex items-start gap-3"
-      >
+    <ul class="m-0 flex list-none flex-col gap-3.5 p-0">
+      <li v-for="(meta, i) in metas" :key="i" class="flex items-start gap-3">
         <span
-          class="flex shrink-0 items-center justify-center size-[22px] rounded-full mt-[3px]"
-          style="background: rgba(207,163,78,.18)"
+          class="mt-[3px] flex size-[22px] shrink-0 items-center justify-center rounded-full bg-acento/20"
         >
           <svg
             width="13"
@@ -68,10 +50,7 @@ const metas = [
             <path d="M20 6 9 17l-5-5"></path>
           </svg>
         </span>
-        <span
-          class="text-white/90 leading-[1.5]"
-          style="font-size: clamp(15px, 1.6vw, 18px)"
-        >
+        <span class="text-[clamp(15px,1.6vw,18px)] leading-[1.5] text-white/90">
           {{ meta }}
         </span>
       </li>

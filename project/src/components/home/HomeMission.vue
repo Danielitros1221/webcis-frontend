@@ -5,19 +5,11 @@ const mision =
 
 <template>
   <div
-    class="grow shrink basis-[420px] rounded-[28px] border"
-    style="
-      background: linear-gradient(160deg, #28384e, #161e29);
-      border-color: rgba(207,163,78,.32);
-      padding: clamp(28px, 3.5vw, 44px);
-    "
+    class="grow shrink basis-[420px] rounded-[28px] border border-acento/30 bg-[linear-gradient(160deg,#28384e,#161e29)] p-[clamp(28px,3.5vw,44px)]"
   >
     <!-- Ícono + título -->
-    <div class="flex items-center gap-3.5 mb-[18px]">
-      <div
-        class="flex size-[52px] shrink-0 items-center justify-center rounded-2xl"
-        style="background: rgba(207,163,78,.16)"
-      >
+    <div class="mb-[18px] flex items-center gap-3.5">
+      <div class="flex size-[52px] shrink-0 items-center justify-center rounded-2xl bg-acento/15">
         <svg
           width="28"
           height="28"
@@ -33,18 +25,10 @@ const mision =
           <circle cx="12" cy="12" r="1" fill="#CFA34E"></circle>
         </svg>
       </div>
-      <h2
-        class="font-bold text-acento m-0"
-        style="font-size: clamp(26px, 3.4vw, 38px)"
-      >
-        Misión
-      </h2>
+      <h2 class="m-0 text-[clamp(26px,3.4vw,38px)] font-bold text-acento">Misión</h2>
     </div>
 
-    <p
-      class="text-white/90 leading-[1.65] m-0"
-      style="font-size: clamp(15px, 1.7vw, 19px)"
-    >
+    <p class="m-0 text-[clamp(15px,1.7vw,19px)] leading-[1.65] text-white/90">
       {{ mision }}
     </p>
   </div>

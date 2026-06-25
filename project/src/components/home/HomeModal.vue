@@ -13,7 +13,10 @@ function onKey(e) {
 }
 
 onMounted(() => document.addEventListener('keydown', onKey))
-onUnmounted(() => document.removeEventListener('keydown', onKey))
+onUnmounted(() => {
+  document.removeEventListener('keydown', onKey)
+  document.body.style.overflow = ''
+})
 
 watch(
   () => props.type,
@@ -27,25 +30,25 @@ const categories = [
     tag: 'POO',
     name: 'Programación Orientada a Objetos',
     desc: 'Clases, herencia, polimorfismo y encapsulamiento aplicados a tus proyectos.',
-    pillStyle: { background: '#BBD9F7', color: '#0B2545' },
+    pillClass: 'bg-[#BBD9F7] text-[#0B2545]',
   },
   {
     tag: 'Algoritmo',
     name: 'Algoritmos y Estructuras de Datos',
     desc: 'Lógica, estructuras y resolución de problemas paso a paso.',
-    pillStyle: { background: '#F7A8C4', color: '#6E1233' },
+    pillClass: 'bg-[#F7A8C4] text-[#6E1233]',
   },
   {
     tag: 'Web',
     name: 'Desarrollo Web',
     desc: 'HTML, CSS, JavaScript y frameworks para construir aplicaciones modernas.',
-    pillStyle: { background: '#C9E8D0', color: '#1E5631' },
+    pillClass: 'bg-[#C9E8D0] text-[#1E5631]',
   },
   {
     tag: 'Datos',
     name: 'Bases de Datos',
     desc: 'Modelado, SQL y administración de bases de datos relacionales.',
-    pillStyle: { background: '#F4D9A0', color: '#7A4E12' },
+    pillClass: 'bg-[#F4D9A0] text-[#7A4E12]',
   },
 ]
 
@@ -107,46 +110,26 @@ const modalTitles = {
       <div
         v-if="type"
         @click="emit('close')"
-        class="fixed inset-0 z-[100] flex items-center justify-center"
-        style="
-          background: rgba(5,8,16,.72);
-          backdrop-filter: blur(6px);
-          padding: clamp(16px,4vw,40px);
-        "
+        class="fixed inset-0 z-[100] flex items-center justify-center bg-[#050810]/70 p-[clamp(16px,4vw,40px)] backdrop-blur-md"
         role="dialog"
         :aria-label="modalTitles[type]"
         aria-modal="true"
       >
         <div
           @click.stop
-          class="w-full max-w-[720px] max-h-[86vh] overflow-y-auto rounded-[28px]"
-          style="
-            background: linear-gradient(180deg, #15294a, #0e1b32);
-            border: 1px solid rgba(207,163,78,.35);
-            box-shadow: 0 30px 70px rgba(0,0,0,.6);
-            animation: modalReveal .28s cubic-bezier(.2,.8,.2,1);
-          "
+          class="max-h-[86vh] w-full max-w-[720px] overflow-y-auto rounded-[28px] border border-acento/35 bg-[linear-gradient(180deg,#15294a,#0e1b32)] shadow-[0_30px_70px_rgba(0,0,0,.6)] animate-[modalReveal_.28s_cubic-bezier(.2,.8,.2,1)]"
         >
           <!-- Cabecera fija -->
           <div
-            class="sticky top-0 flex items-center justify-between gap-4 border-b"
-            style="
-              padding: 24px clamp(22px,4vw,36px);
-              background: linear-gradient(180deg, #15294a, rgba(21,41,74,.9));
-              border-color: rgba(255,255,255,.1);
-            "
+            class="sticky top-0 flex items-center justify-between gap-4 border-b border-white/10 bg-[linear-gradient(180deg,#15294a,rgba(21,41,74,.9))] px-[clamp(22px,4vw,36px)] py-6"
           >
-            <h2
-              class="font-bold text-acento m-0"
-              style="font-size: clamp(22px, 3vw, 30px)"
-            >
+            <h2 class="m-0 text-[clamp(22px,3vw,30px)] font-bold text-acento">
               {{ modalTitles[type] }}
             </h2>
             <button
               @click="emit('close')"
               aria-label="Cerrar"
-              class="flex size-11 shrink-0 items-center justify-center rounded-full border text-white cursor-pointer transition-[background] hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-acento/55"
-              style="background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2)"
+              class="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-[background] hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-acento/55"
             >
               <svg
                 width="20"
@@ -163,36 +146,30 @@ const modalTitles = {
           </div>
 
           <!-- Cuerpo -->
-          <div :style="{ padding: 'clamp(22px,4vw,36px)' }">
-
+          <div class="p-[clamp(22px,4vw,36px)]">
             <!-- Contenido: Categorías -->
             <template v-if="type === 'categorias'">
-              <p class="text-white/82 leading-[1.6] m-0 mb-6" style="font-size: 16px">
-                Los contenidos de WebCIS se organizan en cuatro pilares de aprendizaje de la
-                carrera de ISC:
+              <p class="m-0 mb-6 text-base leading-[1.6] text-white/[.82]">
+                Los contenidos de WebCIS se organizan en cuatro pilares de aprendizaje de la carrera
+                de ISC:
               </p>
               <div class="flex flex-col gap-4">
                 <div
                   v-for="cat in categories"
                   :key="cat.tag"
-                  class="flex items-start gap-4 rounded-[18px]"
-                  style="
-                    padding: 18px 20px;
-                    background: rgba(255,255,255,.05);
-                    border: 1px solid rgba(255,255,255,.1);
-                  "
+                  class="flex items-start gap-4 rounded-[18px] border border-white/10 bg-white/[.05] px-5 py-[18px]"
                 >
                   <span
-                    class="shrink-0 font-bold rounded-full px-4 py-1.5"
-                    :style="{ ...cat.pillStyle, fontSize: '14px' }"
+                    class="shrink-0 rounded-full px-4 py-1.5 text-sm font-bold"
+                    :class="cat.pillClass"
                   >
                     {{ cat.tag }}
                   </span>
                   <div>
-                    <div class="font-semibold text-white" style="font-size: 17px">
+                    <div class="text-[17px] font-semibold text-white">
                       {{ cat.name }}
                     </div>
-                    <p class="text-white/72 leading-[1.5] m-0 mt-1" style="font-size: 14px">
+                    <p class="m-0 mt-1 text-sm leading-[1.5] text-white/[.72]">
                       {{ cat.desc }}
                     </p>
                   </div>
@@ -206,54 +183,46 @@ const modalTitles = {
                 <img
                   :src="webcisLogo"
                   alt="WebCIS"
-                  class="h-[120px]"
-                  style="filter: drop-shadow(0 6px 18px rgba(207,163,78,.3))"
+                  class="h-[120px] drop-shadow-[0_6px_18px_rgba(207,163,78,.3)]"
                 />
               </div>
               <p
                 v-for="(para, i) in aboutParas"
                 :key="i"
-                class="text-white/86 leading-[1.65] mb-4"
-                style="font-size: 16px"
+                class="mb-4 text-base leading-[1.65] text-white/[.86]"
               >
                 {{ para }}
               </p>
-              <div class="text-center font-bold text-acento mt-2" style="font-size: 20px">
+              <div class="mt-2 text-center text-xl font-bold text-acento">
                 Piensa, aprende, desarrolla y crea.
               </div>
             </template>
 
             <!-- Contenido: Recursos -->
             <template v-if="type === 'recursos'">
-              <p class="text-white/82 leading-[1.6] m-0 mb-6" style="font-size: 16px">
-                Material de apoyo creado y validado por la comunidad, disponible para reforzar
-                tu aprendizaje:
+              <p class="m-0 mb-6 text-base leading-[1.6] text-white/[.82]">
+                Material de apoyo creado y validado por la comunidad, disponible para reforzar tu
+                aprendizaje:
               </p>
-              <div
-                class="grid"
-                style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px"
-              >
+              <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
                 <div
                   v-for="r in recursos"
                   :key="r.title"
-                  class="rounded-[18px] p-5"
-                  style="background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1)"
+                  class="rounded-[18px] border border-white/10 bg-white/[.05] p-5"
                 >
                   <div
-                    class="flex size-[46px] items-center justify-center rounded-[12px] mb-3 text-acento"
-                    style="background: rgba(207,163,78,.16)"
+                    class="mb-3 flex size-[46px] items-center justify-center rounded-[12px] bg-acento/15 text-acento"
                     v-html="r.icon"
                   ></div>
-                  <div class="font-semibold text-white" style="font-size: 17px">
+                  <div class="text-[17px] font-semibold text-white">
                     {{ r.title }}
                   </div>
-                  <p class="text-white/72 leading-[1.5] m-0 mt-1.5" style="font-size: 14px">
+                  <p class="m-0 mt-1.5 text-sm leading-[1.5] text-white/[.72]">
                     {{ r.desc }}
                   </p>
                 </div>
               </div>
             </template>
-
           </div>
         </div>
       </div>
