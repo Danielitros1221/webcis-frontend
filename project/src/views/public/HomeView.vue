@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import bgHome from '@/assets/images/home/background-home.png'
+import studentPhoto from '@/assets/images/home/student.jpg'
 import HomeHero from '@/components/home/HomeHero.vue'
 import HomeSectionGrid from '@/components/home/HomeSectionGrid.vue'
 import HomeMission from '@/components/home/HomeMission.vue'
@@ -52,14 +53,13 @@ const objectives = [
   },
 ]
 
-const students = [
-  {
-    name: 'Sergio Emanuel Soberano Paredes',
-    role: 'Alumno · Creador de contenido',
-    photo: null,
-    linkedin: 'https://www.linkedin.com/in/sergio-soberano/',
-  },
-]
+const sergio = {
+  name: 'Sergio Emanuel Soberano Paredes',
+  role: 'Alumno · Creador de contenido',
+  photo: studentPhoto,
+  linkedin: 'https://www.linkedin.com/in/sergio-soberano/',
+}
+const students = [sergio, sergio, sergio, sergio]
 
 function openModal(type) {
   activeModal.value = type
