@@ -14,7 +14,7 @@ import logoTECNM from '@/assets/images/logo-TECNM.png'
           alt="Gobierno de México"
           width="536"
           height="236"
-          class="h-8 w-auto"
+          class="h-11 w-auto"
         >
       </div>
     </div>
