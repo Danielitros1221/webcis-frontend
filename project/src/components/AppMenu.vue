@@ -25,7 +25,7 @@ const mobileOpen = ref(false)
           alt="WebCIS"
           width="1077"
           height="719"
-          class="h-14 w-auto"
+          class="h-18 w-auto"
         >
       </RouterLink>
 
