@@ -7,6 +7,7 @@ import RegisterEmail from '@/components/register/RegisterEmail.vue'
 import RegisterInfo from '@/components/register/RegisterInfo.vue'
 import RegisterConfirmed from '@/components/register/RegisterConfirmed.vue'
 import RegisterForm from '@/components/register/RegisterForm.vue'
+import RegisterSuccess from '@/components/register/RegisterSuccess.vue'
 
 const route = useRoute()
 
@@ -36,6 +37,10 @@ function handleConfirmedContinue({ token, email: confirmedEmail }) {
   step.value = 4
 }
 
+function handleRegistered() {
+  step.value = 5
+}
+
 </script>
 
 <template>
@@ -46,7 +51,8 @@ function handleConfirmedContinue({ token, email: confirmedEmail }) {
       <RegisterEmail v-if="step === 1 && !isVerifyRoute" @next="handleEmailNext" />
       <RegisterInfo v-else-if="step === 2 && !isVerifyRoute" :email="email" @back="step = 1" />
       <RegisterConfirmed v-else-if="step === 3 && isVerifyRoute" @continue="handleConfirmedContinue"/>
-      <RegisterForm v-else-if="step === 4" :email="email" :token="verifyToken" />
+      <RegisterForm v-else-if="step === 4" :email="email" :token="verifyToken" @registered="handleRegistered" />
+      <RegisterSuccess v-else-if="step === 5" />
 
     </div>
   </section>

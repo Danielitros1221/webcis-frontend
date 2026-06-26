@@ -6,13 +6,13 @@ import { RouterLink } from 'vue-router'
   <div class="flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
     <RouterLink
       to="/login"
-      class="rounded-md px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-white/10"
+      class="rounded-xl border border-acento px-5 py-2.5 text-center text-sm font-semibold text-acento transition hover:bg-acento/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-acento"
     >
-      Iniciar sesión
+      Iniciar Sesión
     </RouterLink>
     <RouterLink
       to="/register"
-      class="rounded-md bg-acento px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-yellow-500"
+      class="rounded-xl bg-acento px-5 py-2.5 text-center text-sm font-bold text-[#2a1a00] transition hover:brightness-105 active:scale-[.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-acento"
     >
       Registrarse
     </RouterLink>
