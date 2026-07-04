@@ -32,11 +32,13 @@ function toPayload(value, key) {
   return { [key]: value }
 }
 
-export async function login({ email, username, pass, role }) {
-  if (!pass) {
+export async function login({ email, username, pass, password, role }) {
+  const resolvedPassword = password ?? pass
+
+  if (!resolvedPassword) {
     throw {
       status: 0,
-      message: "Falta el campo Contraseña.",
+      message: 'Falta el campo Contraseña.',
       data: null,
       isNetworkError: false,
     }
@@ -54,7 +56,7 @@ export async function login({ email, username, pass, role }) {
   if (!identifier) {
     throw {
       status: 0,
-      message: "Debes ingresar Correo o Nombre de Usuario",
+      message: 'Debes ingresar Correo o Nombre de Usuario',
       data: null,
       isNetworkError: false,
     }
@@ -62,7 +64,7 @@ export async function login({ email, username, pass, role }) {
 
   const payload = {
     identifier,
-    pass,
+    pass: resolvedPassword,
     role,
   }
 

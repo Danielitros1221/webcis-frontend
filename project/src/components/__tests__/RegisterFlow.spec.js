@@ -9,6 +9,7 @@ import RegisterView from '@/views/public/RegisterView.vue'
 const mocks = vi.hoisted(() => ({
   confirmVerificationEmail: vi.fn(),
   register: vi.fn(),
+  resetCaptcha: vi.fn(),
   route: { path: '/register/verify' },
   routerPush: vi.fn(),
   sendVerificationEmail: vi.fn(),
@@ -31,6 +32,9 @@ vi.mock('vue3-recaptcha-v2', () => ({
       />
     `,
   },
+  useRecaptcha: () => ({
+    handleReset: mocks.resetCaptcha,
+  }),
 }))
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -57,25 +61,25 @@ function mountRegisterForm() {
 }
 
 async function completeRegisterForm(wrapper) {
-  await wrapper.get('input[name="name"]').setValue('Ana')
+  await wrapper.get('input[name="names"]').setValue('Ana')
   await wrapper.get('input[name="surname"]').setValue('López')
   await wrapper.get('input[name="username"]').setValue('ana_lopez')
   await wrapper.get('input[name="control_number"]').setValue('12345678')
-  await wrapper.get('input[name="pass"]').setValue('Secret1!')
-  await wrapper.get('input[name="pass_confirm"]').setValue('Secret1!')
+  await wrapper.get('input[name="password"]').setValue('Secret1!')
+  await wrapper.get('input[name="password_confirm"]').setValue('Secret1!')
   await wrapper.get('[data-test="captcha"]').trigger('click')
 }
 
 async function submitRegisterForm(wrapper) {
   await wrapper.findComponent(Form).vm.$emit('submit', {
-    name: 'Ana',
-    surname: 'López',
-    second_surname: '',
     email: 'ana@example.com',
     username: 'ana_lopez',
+    password: 'Secret1!',
+    password_confirm: 'Secret1!',
+    names: 'Ana',
+    surname: 'López',
+    second_surname: '',
     control_number: '12345678',
-    pass: 'Secret1!',
-    pass_confirm: 'Secret1!',
   })
 }
 
@@ -148,6 +152,17 @@ describe('register flow', () => {
     await flushPromises()
 
     expect(wrapper.text()).toContain('Token inválido.')
+    expect(mocks.register).toHaveBeenCalledWith({
+      email: 'ana@example.com',
+      username: 'ana_lopez',
+      password: 'Secret1!',
+      names: 'Ana',
+      surname: 'López',
+      second_surname: '',
+      control_number: '12345678',
+      token: 'verify-token',
+      recaptcha_token: 'captcha-token',
+    })
     expect(wrapper.emitted('registered')).toBeUndefined()
   })
 

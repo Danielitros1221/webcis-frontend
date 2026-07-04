@@ -60,7 +60,7 @@ describe('auth service', () => {
     expect(apiPost).toHaveBeenCalledWith('/email/verification', {
       email: 'ana@example.com',
     })
-    expect(apiPost).toHaveBeenCalledWith('/email/confirm', {
+    expect(apiPost).toHaveBeenCalledWith('/email/verification/confirm', {
       token: 'verify-token',
     })
     expect(apiPost).toHaveBeenCalledWith('/auth/register', {

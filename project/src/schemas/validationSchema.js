@@ -3,11 +3,8 @@ import { toTypedSchema } from '@vee-validate/yup'
 
 export const registerEmailSchema = toTypedSchema(
   yup.object({
-    email: yup
-      .string()
-      .required('El correo es obligatorio')
-      .email('Ingresa un correo válido'),
-  })
+    email: yup.string().required('El correo es obligatorio').email('Ingresa un correo válido'),
+  }),
 )
 
 /**
@@ -18,13 +15,12 @@ export const registerEmailSchema = toTypedSchema(
  * - 1 número
  * - 1 símbolo
  */
-const passwordRules =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/
+const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/
 
 export const registerFormSchema = toTypedSchema(
   yup.object({
     // Datos personales
-    name: yup
+    names: yup
       .string()
       .required('El nombre es obligatorio')
       .min(2, 'Mínimo 2 caracteres')
@@ -50,21 +46,16 @@ export const registerFormSchema = toTypedSchema(
       .max(40, 'Máximo 40 caracteres')
       .matches(/^[a-zA-Z0-9._-]+$/, 'Solo letras, números, punto, guion y guion bajo'),
 
-    control_number: yup
-      .string()
-      .max(10, "Máximo 10 caracteres"),
+    control_number: yup.string().max(10, 'Máximo 10 caracteres'),
 
-    pass: yup
+    password: yup
       .string()
       .required('La contraseña es obligatoria')
-      .matches(
-        passwordRules,
-        'Mín. 8 caracteres, mayúscula, minúscula, número y símbolo'
-      ),
+      .matches(passwordRules, 'Mín. 8 caracteres, mayúscula, minúscula, número y símbolo'),
 
-    pass_confirm: yup
+    password_confirm: yup
       .string()
       .required('Confirma tu contraseña')
-      .oneOf([yup.ref('pass')], 'Las contraseñas no coinciden'),
-  })
+      .oneOf([yup.ref('password')], 'Las contraseñas no coinciden'),
+  }),
 )
