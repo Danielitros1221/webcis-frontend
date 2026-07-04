@@ -52,15 +52,15 @@ describe('auth service', () => {
     expect(apiPost).toHaveBeenCalledWith('/auth/logout')
   })
 
-  it('centralizes the register and verification auth endpoints', async () => {
+  it('centralizes the register and verification endpoints', async () => {
     await sendVerificationEmail('ana@example.com')
     await confirmVerificationEmail({ token: 'verify-token' })
     await register({ email: 'ana@example.com', pass: 'Secret1!' })
 
-    expect(apiPost).toHaveBeenCalledWith('/auth/send-verification-email', {
+    expect(apiPost).toHaveBeenCalledWith('/email/verification', {
       email: 'ana@example.com',
     })
-    expect(apiPost).toHaveBeenCalledWith('/auth/confirm-verification-email', {
+    expect(apiPost).toHaveBeenCalledWith('/email/confirm', {
       token: 'verify-token',
     })
     expect(apiPost).toHaveBeenCalledWith('/auth/register', {

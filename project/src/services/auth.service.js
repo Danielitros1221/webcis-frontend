@@ -1,6 +1,7 @@
 import { apiGet, apiPost, backendBaseURL } from './api.js'
 
 const AUTH_BASE = '/auth'
+const EMAIL_BASE = '/email'
 const CSRF_COOKIE_ENDPOINT = '/sanctum/csrf-cookie'
 
 async function ensureCsrfCookie() {
@@ -10,6 +11,13 @@ async function ensureCsrfCookie() {
 async function authPost(endpoint, payload) {
   await ensureCsrfCookie()
   const url = `${AUTH_BASE}${endpoint}`
+  if (payload === undefined) return apiPost(url)
+  return apiPost(url, payload)
+}
+
+async function emailPost(endpoint, payload) {
+  await ensureCsrfCookie()
+  const url = `${EMAIL_BASE}${endpoint}`
   if (payload === undefined) return apiPost(url)
   return apiPost(url, payload)
 }
@@ -70,11 +78,11 @@ export async function logout() {
 }
 
 export async function sendVerificationEmail(payload) {
-  return authPost('/send-verification-email', toPayload(payload, 'email'))
+  return emailPost('/verification', toPayload(payload, 'email'))
 }
 
 export async function confirmVerificationEmail(payload) {
-  return authPost('/confirm-verification-email', toPayload(payload, 'token'))
+  return emailPost('/verification/confirm', toPayload(payload, 'token'))
 }
 
 export async function register(payload) {

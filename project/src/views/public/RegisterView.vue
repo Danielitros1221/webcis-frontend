@@ -40,20 +40,23 @@ function handleConfirmedContinue({ token, email: confirmedEmail }) {
 function handleRegistered() {
   step.value = 5
 }
-
 </script>
 
 <template>
   <section class="relative min-h-screen overflow-hidden">
     <img :src="bgRegister" alt="bgImg" class="absolute inset-0 w-full h-full object-cover" />
 
-    <div class=" w-full max-w-auto relative min-h-screen flex items-center justify-center px-13 lg:px-16 py-10">
+    <div
+      class="w-full max-w-auto relative min-h-screen flex items-center justify-center px-13 lg:px-16 py-10"
+    >
       <RegisterEmail v-if="step === 1 && !isVerifyRoute" @next="handleEmailNext" />
-      <RegisterInfo v-else-if="step === 2 && !isVerifyRoute" :email="email" @back="step = 1" />
+      <RegisterInfo v-else-if="step === 2 && !isVerifyRoute" :email="email" @back="step = 1" @continue="handleConfirmedContinue" />
       <RegisterConfirmed v-else-if="step === 3 && isVerifyRoute" @continue="handleConfirmedContinue"/>
       <RegisterForm v-else-if="step === 4" :email="email" :token="verifyToken" @registered="handleRegistered" />
       <RegisterSuccess v-else-if="step === 5" />
-
     </div>
   </section>
 </template>
+
+
+

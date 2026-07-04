@@ -3,16 +3,21 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Form } from 'vee-validate'
 
 import RegisterForm from '@/components/register/RegisterForm.vue'
+import RegisterInfo from '@/components/register/RegisterInfo.vue'
 import RegisterView from '@/views/public/RegisterView.vue'
 
 const mocks = vi.hoisted(() => ({
+  confirmVerificationEmail: vi.fn(),
   register: vi.fn(),
   route: { path: '/register/verify' },
   routerPush: vi.fn(),
+  sendVerificationEmail: vi.fn(),
 }))
 
 vi.mock('@/services/auth.service', () => ({
+  confirmVerificationEmail: mocks.confirmVerificationEmail,
   register: mocks.register,
+  sendVerificationEmail: mocks.sendVerificationEmail,
 }))
 
 vi.mock('vue3-recaptcha-v2', () => ({
@@ -78,7 +83,12 @@ describe('register flow', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.route.path = '/register/verify'
+    mocks.confirmVerificationEmail.mockResolvedValue({
+      token: 'server-token',
+      email: 'ana@example.com',
+    })
     mocks.register.mockResolvedValue({ id: 1 })
+    mocks.sendVerificationEmail.mockResolvedValue({})
   })
 
   it('transitions to the success confirmation after a successful registration', async () => {
@@ -88,7 +98,8 @@ describe('register flow', () => {
           RegisterEmail: { template: '<div />' },
           RegisterInfo: { template: '<div />' },
           RegisterConfirmed: {
-            template: '<button data-test="confirmed" @click="$emit(\'continue\', { token: \'verify-token\', email: \'ana@example.com\' })" />',
+            template:
+              "<button data-test=\"confirmed\" @click=\"$emit('continue', { token: 'verify-token', email: 'ana@example.com' })\" />",
           },
           RegisterForm: {
             template: '<button data-test="registered" @click="$emit(\'registered\')" />',
@@ -104,6 +115,28 @@ describe('register flow', () => {
     await wrapper.get('[data-test="registered"]').trigger('click')
 
     expect(wrapper.find('[data-test="register-success"]').exists()).toBe(true)
+  })
+
+  it('confirms the email code and continues the register flow', async () => {
+    const wrapper = mount(RegisterInfo, {
+      props: {
+        email: 'ana@example.com',
+      },
+    })
+
+    await wrapper.get('input[name="verification_code"]').setValue('123456')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+
+    expect(mocks.confirmVerificationEmail).toHaveBeenCalledWith({
+      email: 'ana@example.com',
+      code: '123456',
+      token: '123456',
+    })
+    expect(wrapper.emitted('continue')?.[0]?.[0]).toEqual({
+      token: 'server-token',
+      email: 'ana@example.com',
+    })
   })
 
   it('shows the backend error when the register token is invalid', async () => {
