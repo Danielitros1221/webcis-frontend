@@ -14,6 +14,7 @@ const route = useRoute()
 const step = ref(1)
 const email = ref('')
 const verifyToken = ref('')
+const userType = ref(0)
 
 const isVerifyRoute = computed(() => route.path.includes('/register/verify'))
 
@@ -28,12 +29,14 @@ watchEffect(() => {
 
 function handleEmailNext(payload) {
   email.value = payload.email
+  userType.value = payload.userType ?? 0
   step.value = 2
 }
 
-function handleConfirmedContinue({ token, email: confirmedEmail }) {
+function handleConfirmedContinue({ token, email: confirmedEmail, userType: confirmedUserType }) {
   verifyToken.value = token
   email.value = confirmedEmail || email.value
+  if (confirmedUserType !== undefined) userType.value = confirmedUserType
   step.value = 4
 }
 
@@ -52,7 +55,13 @@ function handleRegistered() {
       <RegisterEmail v-if="step === 1 && !isVerifyRoute" @next="handleEmailNext" />
       <RegisterInfo v-else-if="step === 2 && !isVerifyRoute" :email="email" @back="step = 1" @continue="handleConfirmedContinue" />
       <RegisterConfirmed v-else-if="step === 3 && isVerifyRoute" @continue="handleConfirmedContinue"/>
-      <RegisterForm v-else-if="step === 4" :email="email" :token="verifyToken" @registered="handleRegistered" />
+      <RegisterForm
+        v-else-if="step === 4"
+        :email="email"
+        :token="verifyToken"
+        :user-type="userType"
+        @registered="handleRegistered"
+      />
       <RegisterSuccess v-else-if="step === 5" />
     </div>
   </section>

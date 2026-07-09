@@ -161,6 +161,7 @@ describe('register flow', () => {
       second_surname: '',
       control_number: '12345678',
       token: 'verify-token',
+      type: 0,
       recaptcha_token: 'captcha-token',
     })
     expect(wrapper.emitted('registered')).toBeUndefined()

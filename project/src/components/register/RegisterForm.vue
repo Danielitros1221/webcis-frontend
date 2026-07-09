@@ -8,6 +8,7 @@ import { register } from '@/services/auth.service'
 const props = defineProps({
   email: { type: String, default: '' },
   token: { type: String, default: '' },
+  userType: { type: Number, default: 0 },
   loading: { type: Boolean, default: false },
 })
 
@@ -170,6 +171,7 @@ async function onSubmit(values) {
       ...registerValues,
       email: props.email || values.email,
       token: props.token,
+      type: props.userType,
       recaptcha_token: recaptchaToken.value,
     })
     emit('registered', response)
