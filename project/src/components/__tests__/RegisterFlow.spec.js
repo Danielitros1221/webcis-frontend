@@ -2,8 +2,8 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Form } from 'vee-validate'
 
-import RegisterForm from '@/components/register/RegisterForm.vue'
-import RegisterInfo from '@/components/register/RegisterInfo.vue'
+import RegisterForm from '@/components/public/register/RegisterForm.vue'
+import RegisterInfo from '@/components/public/register/RegisterInfo.vue'
 import RegisterView from '@/views/public/RegisterView.vue'
 
 const mocks = vi.hoisted(() => ({

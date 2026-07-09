@@ -1,5 +1,5 @@
 <script setup>
-  import LoginCard from "@/components/login/LoginCard.vue";
+  import LoginCard from "@/components/public/login/LoginCard.vue";
   import bgLogin from "@/assets/images/login.jpg";
 </script>
 

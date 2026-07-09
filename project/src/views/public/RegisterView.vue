@@ -3,11 +3,11 @@ import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
 import bgRegister from '@/assets/images/itver.jpg'
-import RegisterEmail from '@/components/register/RegisterEmail.vue'
-import RegisterInfo from '@/components/register/RegisterInfo.vue'
-import RegisterConfirmed from '@/components/register/RegisterConfirmed.vue'
-import RegisterForm from '@/components/register/RegisterForm.vue'
-import RegisterSuccess from '@/components/register/RegisterSuccess.vue'
+import RegisterEmail from '@/components/public/register/RegisterEmail.vue'
+import RegisterInfo from '@/components/public/register/RegisterInfo.vue'
+import RegisterConfirmed from '@/components/public/register/RegisterConfirmed.vue'
+import RegisterForm from '@/components/public/register/RegisterForm.vue'
+import RegisterSuccess from '@/components/public/register/RegisterSuccess.vue'
 
 const route = useRoute()
 
