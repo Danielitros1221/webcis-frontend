@@ -32,11 +32,13 @@ function toPayload(value, key) {
   return { [key]: value }
 }
 
-export async function login({ email, username, pass, role }) {
-  if (!pass) {
+export async function login({ email, username, pass, password, role }) {
+  const resolvedPassword = password ?? pass
+
+  if (!resolvedPassword) {
     throw {
       status: 0,
-      message: "Falta el campo Contraseña.",
+      message: 'Falta el campo Contraseña.',
       data: null,
       isNetworkError: false,
     }
@@ -54,21 +56,33 @@ export async function login({ email, username, pass, role }) {
   if (!identifier) {
     throw {
       status: 0,
-      message: "Debes ingresar Correo o Nombre de Usuario",
+      message: 'Debes ingresar Correo o Nombre de Usuario',
       data: null,
       isNetworkError: false,
     }
   }
 
   const payload = {
-    identifier,
-    pass,
+    // Nombres exactos que valida LoginRequest.php en el backend (WebCIS):
+    // solo `login` y `password`. `login` puede ser email o username, el
+    // backend lo detecta con filter_var().
+    login: identifier,
+    password: resolvedPassword,
+    // `role` no es parte del contrato de /auth/login todavía (el backend no
+    // lo valida ni lo usa). Se sigue enviando porque el selector de rol del
+    // LoginCard está pensado para usarse cuando el backend lo soporte; por
+    // ahora Laravel simplemente lo ignora.
     role,
   }
 
   return authPost('/login', payload)
 }
 
+// El backend (WebCIS) todavía no expone un endpoint para obtener el usuario
+// autenticado: no existe GET /user ni /me en routes/api.php (solo
+// /auth/login, /auth/logout, /auth/register, materials/* y recuperación de
+// password). Esta función queda lista para cuando ese endpoint exista; hoy
+// siempre responderá 404.
 export async function getCurrentUser() {
   return apiGet('/user')
 }

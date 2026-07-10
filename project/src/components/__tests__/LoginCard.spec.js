@@ -1,7 +1,7 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import LoginCard from '@/components/login/LoginCard.vue'
+import LoginCard from '@/components/public/login/LoginCard.vue'
 
 const mocks = vi.hoisted(() => ({
   authLogin: vi.fn(),

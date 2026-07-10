@@ -3,17 +3,18 @@ import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
 import bgRegister from '@/assets/images/itver.jpg'
-import RegisterEmail from '@/components/register/RegisterEmail.vue'
-import RegisterInfo from '@/components/register/RegisterInfo.vue'
-import RegisterConfirmed from '@/components/register/RegisterConfirmed.vue'
-import RegisterForm from '@/components/register/RegisterForm.vue'
-import RegisterSuccess from '@/components/register/RegisterSuccess.vue'
+import RegisterEmail from '@/components/public/register/RegisterEmail.vue'
+import RegisterInfo from '@/components/public/register/RegisterInfo.vue'
+import RegisterConfirmed from '@/components/public/register/RegisterConfirmed.vue'
+import RegisterForm from '@/components/public/register/RegisterForm.vue'
+import RegisterSuccess from '@/components/public/register/RegisterSuccess.vue'
 
 const route = useRoute()
 
 const step = ref(1)
 const email = ref('')
 const verifyToken = ref('')
+const userType = ref(0)
 
 const isVerifyRoute = computed(() => route.path.includes('/register/verify'))
 
@@ -28,12 +29,14 @@ watchEffect(() => {
 
 function handleEmailNext(payload) {
   email.value = payload.email
+  userType.value = payload.userType ?? 0
   step.value = 2
 }
 
-function handleConfirmedContinue({ token, email: confirmedEmail }) {
+function handleConfirmedContinue({ token, email: confirmedEmail, userType: confirmedUserType }) {
   verifyToken.value = token
   email.value = confirmedEmail || email.value
+  if (confirmedUserType !== undefined) userType.value = confirmedUserType
   step.value = 4
 }
 
@@ -52,7 +55,13 @@ function handleRegistered() {
       <RegisterEmail v-if="step === 1 && !isVerifyRoute" @next="handleEmailNext" />
       <RegisterInfo v-else-if="step === 2 && !isVerifyRoute" :email="email" @back="step = 1" @continue="handleConfirmedContinue" />
       <RegisterConfirmed v-else-if="step === 3 && isVerifyRoute" @continue="handleConfirmedContinue"/>
-      <RegisterForm v-else-if="step === 4" :email="email" :token="verifyToken" @registered="handleRegistered" />
+      <RegisterForm
+        v-else-if="step === 4"
+        :email="email"
+        :token="verifyToken"
+        :user-type="userType"
+        @registered="handleRegistered"
+      />
       <RegisterSuccess v-else-if="step === 5" />
     </div>
   </section>

@@ -34,8 +34,8 @@ describe('auth service', () => {
       baseURL: backendBaseURL,
     })
     expect(apiPost).toHaveBeenCalledWith('/auth/login', {
-      identifier: 'ana@example.com',
-      pass: 'secret',
+      login: 'ana@example.com',
+      password: 'secret',
       role: 'alumno',
     })
     expect(apiGet.mock.invocationCallOrder[0]).toBeLessThan(apiPost.mock.invocationCallOrder[0])
@@ -60,7 +60,7 @@ describe('auth service', () => {
     expect(apiPost).toHaveBeenCalledWith('/email/verification', {
       email: 'ana@example.com',
     })
-    expect(apiPost).toHaveBeenCalledWith('/email/confirm', {
+    expect(apiPost).toHaveBeenCalledWith('/email/verification/confirm', {
       token: 'verify-token',
     })
     expect(apiPost).toHaveBeenCalledWith('/auth/register', {

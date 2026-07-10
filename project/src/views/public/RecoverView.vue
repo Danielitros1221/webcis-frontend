@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import RecoverInfo from '@/components/recover/RecoverInfo.vue'
-import RecoverCode from '@/components/recover/RecoverCode.vue'
-import RecoverReset from '@/components/recover/RecoverReset.vue'
-import RecoverDone from '@/components/recover/RecoverDone.vue'
+import RecoverInfo from '@/components/public/recover/RecoverInfo.vue'
+import RecoverCode from '@/components/public/recover/RecoverCode.vue'
+import RecoverReset from '@/components/public/recover/RecoverReset.vue'
+import RecoverDone from '@/components/public/recover/RecoverDone.vue'
 import bgRecover from '@/assets/images/itver.jpg'
 
 const currentStep = ref(0)

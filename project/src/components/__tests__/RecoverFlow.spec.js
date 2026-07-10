@@ -1,8 +1,8 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import RecoverInfo from '@/components/recover/RecoverInfo.vue'
-import RecoverReset from '@/components/recover/RecoverReset.vue'
+import RecoverInfo from '@/components/public/recover/RecoverInfo.vue'
+import RecoverReset from '@/components/public/recover/RecoverReset.vue'
 
 const mocks = vi.hoisted(() => ({
   forgotPassword: vi.fn(),

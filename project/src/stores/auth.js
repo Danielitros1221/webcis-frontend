@@ -25,12 +25,20 @@ export function normalizeServerUser(serverUser) {
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
+  // Bandera temporal: el backend confirma el login (200 + mensaje) pero no
+  // expone todavía un endpoint de perfil (ver comentario en getCurrentUser,
+  // en auth.service.js). Mientras no exista, esta bandera permite que
+  // isAuthenticated sea true tras un login válido aunque no tengamos `user`.
+  // Quitar cuando el backend agregue GET /user o /me y refreshSession()
+  // pueda poblar `user` de verdad.
+  const sessionConfirmed = ref(false)
 
-  const isAuthenticated = computed(() => Boolean(user.value))
+  const isAuthenticated = computed(() => Boolean(user.value) || sessionConfirmed.value)
   const role = computed(() => user.value?.role ?? null)
 
   function clearSession() {
     user.value = null
+    sessionConfirmed.value = false
   }
 
   function setUser(serverUser) {
@@ -60,10 +68,17 @@ export const useAuthStore = defineStore('auth', () => {
 
     if (responseUser && setUser(responseUser)) return response
 
-    if (!(await refreshSession())) {
-      throw new Error('No se pudo obtener el usuario de la sesión.')
-    }
+    // refreshSession() intenta GET /user para traer el perfil real. Se deja
+    // intacta (no se borra) para cuando el backend agregue ese endpoint;
+    // hoy siempre devuelve false porque la ruta no existe (404).
+    if (await refreshSession()) return response
 
+    // Sin endpoint de perfil no sabemos rol/nombre todavía, pero el login
+    // en sí fue exitoso (POST /auth/login respondió 200). No bloqueamos al
+    // usuario: marcamos la sesión como confirmada para que los guards de
+    // requiresAuth dejen pasar. `role` seguirá siendo null hasta que exista
+    // un endpoint real de perfil.
+    sessionConfirmed.value = true
     return response
   }
 
