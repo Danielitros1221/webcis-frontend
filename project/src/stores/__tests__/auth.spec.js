@@ -74,6 +74,18 @@ describe('auth store', () => {
     expect(auth.user).toEqual({ id: 8, role: 'profesor', name: 'Luis' })
   })
 
+  it('confirms the session without a profile when /user does not exist yet (404)', async () => {
+    vi.mocked(login).mockResolvedValue({ message: 'Successful login' })
+    vi.mocked(getCurrentUser).mockRejectedValue({ status: 404 })
+    const auth = useAuthStore()
+
+    await auth.login({ email: 'ana@example.com', pass: 'secret', role: 'alumno' })
+
+    expect(auth.user).toBeNull()
+    expect(auth.role).toBeNull()
+    expect(auth.isAuthenticated).toBe(true)
+  })
+
   it('calls the backend logout and always clears local state', async () => {
     vi.mocked(logout).mockRejectedValue({ status: 500 })
     const auth = useAuthStore()

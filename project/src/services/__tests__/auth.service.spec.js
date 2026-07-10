@@ -34,8 +34,8 @@ describe('auth service', () => {
       baseURL: backendBaseURL,
     })
     expect(apiPost).toHaveBeenCalledWith('/auth/login', {
-      identifier: 'ana@example.com',
-      pass: 'secret',
+      login: 'ana@example.com',
+      password: 'secret',
       role: 'alumno',
     })
     expect(apiGet.mock.invocationCallOrder[0]).toBeLessThan(apiPost.mock.invocationCallOrder[0])
