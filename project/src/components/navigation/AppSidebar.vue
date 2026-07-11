@@ -20,14 +20,37 @@ const auth = useAuthStore()
 const canAdmin = computed(() => auth.role === 'admin')
 
 const navItems = computed(() => [
-  { label: 'Inicio', to: '/app' },
-  { label: 'Cursos', to: '/app/explorer' },
-  { label: 'Repositorio', to: '/app/repository' },
-  ...(canAdmin.value ? [{ label: 'Administración', to: '/admin' }] : []),
+  {
+    label: 'Inicio',
+    to: '/app',
+    paths: ['M3 10.5 12 3l9 7.5', 'M5 9.5V20h14V9.5'],
+  },
+  {
+    label: 'Cursos',
+    to: '/app/explorer',
+    paths: ['M5 4.5h12.5A1.5 1.5 0 0 1 19 6v14H6.5A1.5 1.5 0 0 1 5 18.5z', 'M9 4.5V14l2.4-1.6L13.8 14V4.5'],
+  },
+  {
+    label: 'Repositorio',
+    to: '/app/repository',
+    ellipse: { cx: 12, cy: 6, rx: 7.5, ry: 3 },
+    paths: ['M4.5 6v12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V6', 'M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3'],
+  },
+  ...(canAdmin.value
+    ? [{
+        label: 'Administración',
+        to: '/admin',
+        paths: ['M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z', 'm9 12 2 2 4-4'],
+      }]
+    : []),
 ])
 
 function isActive(path) {
   return route.path === path
+}
+
+function iconStroke(path) {
+  return isActive(path) ? 'var(--color-acento)' : 'rgba(255,255,255,.7)'
 }
 </script>
 
@@ -51,6 +74,10 @@ function isActive(path) {
         class="absolute inset-y-2 -left-2 w-1 rounded-r-sm bg-acento"
         :class="isActive(item.to) ? 'opacity-100' : 'opacity-0'"
       />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" :stroke="iconStroke(item.to)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="flex-none">
+        <ellipse v-if="item.ellipse" :cx="item.ellipse.cx" :cy="item.ellipse.cy" :rx="item.ellipse.rx" :ry="item.ellipse.ry" />
+        <path v-for="d in item.paths" :key="d" :d="d" />
+      </svg>
       <span v-if="!collapsed">{{ item.label }}</span>
     </RouterLink>
 
@@ -60,6 +87,10 @@ function isActive(path) {
         class="flex cursor-not-allowed items-center gap-3 py-3 font-display text-sm font-medium text-white/30"
         title="Próximamente"
       >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="flex-none">
+          <circle cx="12" cy="8.5" r="3.5" />
+          <path d="M5 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5" />
+        </svg>
         <span v-if="!collapsed">Mi perfil</span>
       </span>
 
