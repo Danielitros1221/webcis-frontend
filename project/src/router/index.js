@@ -21,7 +21,7 @@ const router = createRouter({
       component: () => import('@/layouts/AppLayout.vue'),
       meta: { requiresAuth: true },
       children: [
-        { path: '', component: () => import('@/views/app/MyCoursesView.vue') },
+        { path: '', component: () => import('@/views/app/DashboardView.vue') },
         { path: 'explorer', component: () => import('@/views/app/ExplorerView.vue') },
         { path: 'repository', component: () => import('@/views/app/RepositoryView.vue') },
       ],

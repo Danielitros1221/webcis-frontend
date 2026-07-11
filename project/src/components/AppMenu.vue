@@ -2,14 +2,13 @@
 import { ref } from 'vue'
 
 import AdminNav from '@/components/navigation/AdminNav.vue'
-import AppNav from '@/components/navigation/AppNav.vue'
 import PublicNav from '@/components/navigation/PublicNav.vue'
 
 defineProps({
   variant: {
     type: String,
     default: 'public',
-    validator: (value) => ['public', 'app', 'admin'].includes(value),
+    validator: (value) => ['public', 'admin'].includes(value),
   },
 })
 
@@ -49,7 +48,6 @@ const mobileOpen = ref(false)
         @click="mobileOpen = false"
       >
         <PublicNav v-if="variant === 'public'" />
-        <AppNav v-else-if="variant === 'app'" />
         <AdminNav v-else-if="variant === 'admin'" />
         <PublicNav v-else />
       </div>
