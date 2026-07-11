@@ -4,7 +4,7 @@ import AppUserMenu from '@/components/navigation/AppUserMenu.vue'
 </script>
 
 <template>
-  <header class="flex h-[74px] items-center gap-6 bg-azul-nav px-6">
+  <header class="flex h-[74px] items-center gap-6 border-b border-white/8 bg-azul-nav px-6">
     <RouterLink to="/app" aria-label="Ir al inicio">
       <img :src="logo" alt="WebCIS" class="h-10 w-auto" >
     </RouterLink>

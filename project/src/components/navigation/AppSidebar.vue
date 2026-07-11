@@ -33,7 +33,7 @@ function isActive(path) {
 
 <template>
   <aside
-    class="flex shrink-0 flex-col bg-[#08101e]/90 py-4"
+    class="flex shrink-0 flex-col border-r border-white/8 bg-sidebar/55 py-4"
     :class="collapsed ? 'w-[76px]' : 'w-[248px]'"
   >
     <p class="px-4 pb-2 font-body text-[11px] font-semibold uppercase tracking-wider text-white/40">
@@ -44,11 +44,11 @@ function isActive(path) {
       v-for="item in navItems"
       :key="item.to"
       :to="item.to"
-      class="relative flex items-center gap-3 px-4 py-3 font-display text-sm font-medium text-white/80 hover:bg-white/5"
-      :class="{ 'bg-white/10 text-white': isActive(item.to) }"
+      class="relative mx-2 my-0.5 flex items-center gap-3 rounded-xl px-4 py-3 font-display text-sm font-medium text-white/80 hover:bg-white/5"
+      :class="{ 'bg-acento/15 text-white': isActive(item.to) }"
     >
       <span
-        class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-acento"
+        class="absolute inset-y-2 -left-2 w-1 rounded-r-sm bg-acento"
         :class="isActive(item.to) ? 'opacity-100' : 'opacity-0'"
       />
       <span v-if="!collapsed">{{ item.label }}</span>
@@ -65,7 +65,7 @@ function isActive(path) {
 
       <div v-if="!collapsed" class="mt-3 rounded-2xl border border-acento/25 bg-acento/10 p-4">
         <p class="mb-2 font-display text-xs font-semibold text-white">Progreso del cuatrimestre</p>
-        <ProgressBar :percent="0" track-class="bg-white/10" fill-class="bg-acento" />
+        <ProgressBar :percent="0" track-class="bg-white/10" fill-class="bg-(image:--gradient-gold)" />
         <p class="mt-2 font-body text-[11px] text-white/60">Sin datos aún</p>
       </div>
     </div>

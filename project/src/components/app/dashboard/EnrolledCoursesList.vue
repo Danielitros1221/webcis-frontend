@@ -41,10 +41,25 @@ defineProps({
       v-else
       class="flex flex-col items-center gap-2 rounded-(--radius-card) border border-dashed border-white/20 bg-white/4 px-6 py-12 text-center"
     >
-      <p class="mt-2 font-display text-xl font-bold text-white">
+      <svg
+        width="72"
+        height="72"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--color-acento)"
+        stroke-width="1.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="opacity-85"
+      >
+        <path d="M5 4.5h12.5A1.5 1.5 0 0 1 19 6v14H6.5A1.5 1.5 0 0 1 5 18.5z" />
+        <path d="M9 4.5V14l2.4-1.6L13.8 14V4.5" />
+        <path d="M12 17.5v3M9 20.5h6" />
+      </svg>
+      <p class="mt-2 font-display text-[22px] font-bold text-white">
         Aún no te has inscrito a ningún curso
       </p>
-      <p class="max-w-md font-body text-sm text-white/60">
+      <p class="max-w-[400px] font-display text-[15px] font-normal text-white/60">
         Explora el catálogo y encuentra cursos de la comunidad de Ingeniería en Sistemas para empezar a aprender.
       </p>
       <RouterLink to="/app/explorer" class="mt-3">
