@@ -12,9 +12,6 @@ const global = {
     PublicNav: {
       template: '<div data-test="public-nav" />',
     },
-    AppNav: {
-      template: '<div data-test="app-nav" />',
-    },
     AdminNav: {
       template: '<div data-test="admin-nav" />',
     },
@@ -26,17 +23,7 @@ describe('AppMenu', () => {
     const wrapper = mount(AppMenu, { global })
 
     expect(wrapper.find('[data-test="public-nav"]').exists()).toBe(true)
-    expect(wrapper.find('[data-test="app-nav"]').exists()).toBe(false)
     expect(wrapper.find('[data-test="admin-nav"]').exists()).toBe(false)
-  })
-
-  it('renders app navigation when variant is app', () => {
-    const wrapper = mount(AppMenu, {
-      props: { variant: 'app' },
-      global,
-    })
-
-    expect(wrapper.find('[data-test="app-nav"]').exists()).toBe(true)
   })
 
   it('renders admin navigation when variant is admin', () => {

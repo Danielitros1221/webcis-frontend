@@ -24,6 +24,29 @@
   --font-display: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-body: "Alata", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-inter: "Inter", system-ui, sans-serif;
+
+  /* Tokens del shell autenticado (Claude Design "WebCIS Sistema"),
+     valores tomados de tokens/colors.css del proyecto de diseño */
+  --color-azul-nav: #193A68;
+  --color-cobre-digital: #A86E2E;
+  --color-gris-interfaz: #E0E0E0;
+  --color-oro-soft: #D9A94E;
+  --color-oro-faint: rgba(207, 163, 78, 0.18);
+  --color-sidebar: #08101E;
+  --gradient-page: linear-gradient(180deg, #193A68 0%, #0F1D32 46%, #0A0A0A 100%);
+  --gradient-gold: linear-gradient(90deg, #D9A94E 0%, #CFA34E 100%);
+
+  /* Colores de las etiquetas de categoría (course pills / stat icons) */
+  --color-tag-poo-bg: #BBD9F7;
+  --color-tag-poo-fg: #0B2545;
+  --color-tag-web-bg: #C9E8D0;
+  --color-tag-web-fg: #1E5631;
+  --color-tag-datos-bg: #F4D9A0;
+  --color-tag-datos-fg: #7A4E12;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.18);
+  --radius-card: 24px;
+  --radius-lg: 20px;
 }
 
 .light {
@@ -62,6 +85,17 @@
     font-weight: 700;
     font-size: 64px;
     line-height: 1.15;
+  }
+
+  /* Botones del shell autenticado (Claude Design "WebCIS Sistema") */
+  .btn-webcis-blue {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 font-display text-sm font-semibold text-white transition bg-primario hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-webcis-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 font-display text-sm font-semibold text-texto transition bg-acento hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-webcis-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-borde px-6 py-3 font-display text-sm font-semibold text-texto transition bg-transparent hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-50;
   }
 /*
   .ty-encabezado3 {
