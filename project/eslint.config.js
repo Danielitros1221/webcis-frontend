@@ -24,7 +24,15 @@ export default defineConfig([
 
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
-  
+
+  {
+    rules: {
+      // Permite destructurar para excluir un campo (p. ej. password_confirm)
+      // sin que ESLint lo marque como no usado.
+      'no-unused-vars': ['error', { ignoreRestSiblings: true }],
+    },
+  },
+
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
