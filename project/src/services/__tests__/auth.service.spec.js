@@ -63,10 +63,14 @@ describe('auth service', () => {
     expect(apiPost).toHaveBeenCalledWith('/email/verification/confirm', {
       token: 'verify-token',
     })
-    expect(apiPost).toHaveBeenCalledWith('/auth/register', {
-      email: 'ana@example.com',
-      pass: 'Secret1!',
-    })
+    expect(apiPost).toHaveBeenCalledWith(
+      '/auth/register',
+      {
+        email: 'ana@example.com',
+        pass: 'Secret1!',
+      },
+      { validateStatus: expect.any(Function) },
+    )
   })
 
   it('centralizes the password recovery auth endpoints', async () => {

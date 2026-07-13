@@ -30,12 +30,21 @@ export function normalizeApiError(error) {
   }
 }
 
+// Endpoints donde un 401 significa "token de un paso previo del flujo
+// inválido/expirado" (verificado con backend), no una sesión de Sanctum
+// vencida. Un 401 de estos no debe limpiar la sesión ni redirigir a /login.
+const SESSION_INDEPENDENT_401_PATHS = new Set([
+  '/auth/register',
+  '/email/verification/confirm',
+  '/reset-password',
+])
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const normalized = normalizeApiError(error)
 
-    if (normalized.status === 401) {
+    if (normalized.status === 401 && !SESSION_INDEPENDENT_401_PATHS.has(error.config?.url)) {
       const auth = useAuthStore()
       auth.clearSession()
 
