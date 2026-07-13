@@ -8,11 +8,13 @@ async function ensureCsrfCookie() {
   await apiGet(CSRF_COOKIE_ENDPOINT, { baseURL: backendBaseURL })
 }
 
-async function authPost(endpoint, payload) {
+async function authPost(endpoint, payload, config) {
   await ensureCsrfCookie()
   const url = `${AUTH_BASE}${endpoint}`
-  if (payload === undefined) return apiPost(url)
-  return apiPost(url, payload)
+  if (payload === undefined) {
+    return config === undefined ? apiPost(url) : apiPost(url, undefined, config)
+  }
+  return config === undefined ? apiPost(url, payload) : apiPost(url, payload, config)
 }
 
 async function emailPost(endpoint, payload) {
@@ -100,7 +102,11 @@ export async function confirmVerificationEmail(payload) {
 }
 
 export async function register(payload) {
-  return authPost('/register', payload)
+  // El backend (UserController::store) tiene un único camino de éxito y
+  // siempre responde 201 al crear el usuario (confirmado con backend). Se
+  // exige el status exacto para no avanzar al paso de éxito con una
+  // respuesta 2xx inesperada.
+  return authPost('/register', payload, { validateStatus: (status) => status === 201 })
 }
 
 export async function forgotPassword(payload) {

@@ -15,6 +15,7 @@ build/
 coverage/
 md/
 *.md
+.claude/
 
 # Playwright test artifacts
 test-results/
