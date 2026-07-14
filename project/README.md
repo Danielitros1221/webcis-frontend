@@ -67,3 +67,17 @@ npm run test:e2e -- --debug
 ```sh
 npm run lint
 ```
+
+## Docker (desarrollo y pruebas)
+
+No requiere tener Node/Playwright instalados localmente. Antes del primer uso, copiar
+`.env.example` a `.env` y ajustar `VITE_API_URL`.
+
+```sh
+docker compose up front           # dev server en http://localhost:5173
+docker compose run --rm test-unit # vitest (una corrida, sin watch)
+docker compose run --rm test-e2e  # build + preview + playwright (chromium/firefox/webkit)
+```
+
+No es una imagen de producción: usa la imagen oficial de Playwright para tener los
+navegadores ya instalados y así correr `test:e2e` sin pasos extra.
