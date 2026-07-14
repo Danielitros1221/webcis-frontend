@@ -55,13 +55,13 @@ describe('recover flow', () => {
       global,
     })
 
-    await wrapper.get('input[inputmode="numeric"]').setValue('12345678')
+    await wrapper.get('input[inputmode="numeric"]').setValue('1234')
     await wrapper.get('form').trigger('submit')
     await flushPromises()
 
     expect(mocks.validateResetToken).toHaveBeenCalledWith({
       email: 'ana@example.com',
-      code: '12345678',
+      code: '1234',
     })
     expect(wrapper.emitted('continue')?.[0]).toEqual([{ token: 'reset-token' }])
   })
@@ -76,7 +76,7 @@ describe('recover flow', () => {
       global,
     })
 
-    await wrapper.get('input[inputmode="numeric"]').setValue('12345678')
+    await wrapper.get('input[inputmode="numeric"]').setValue('1234')
     await wrapper.get('form').trigger('submit')
     await flushPromises()
 

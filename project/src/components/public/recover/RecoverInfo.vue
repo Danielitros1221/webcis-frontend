@@ -41,7 +41,7 @@ async function onSubmit() {
       </h1>
 
       <p class="text-center text-base text-white/80 leading-relaxed px-4 mb-8">
-        Ingresa tu correo electrónico y te enviaremos un código de 8 dígitos para restablecer tu contraseña.
+        Ingresa tu correo electrónico y te enviaremos un código de 4 dígitos para restablecer tu contraseña.
       </p>
 
       <form class="space-y-5" @submit.prevent="onSubmit">
