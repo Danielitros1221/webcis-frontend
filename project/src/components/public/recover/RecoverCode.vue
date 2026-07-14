@@ -48,7 +48,13 @@ async function onVerify() {
     if (!token) throw new Error('El backend no devolvió el token de restablecimiento.')
     emit('continue', { token })
   } catch (err) {
-    errorMsg.value = err?.message || 'No se pudo validar el código.'
+    // Backend (TokenValidationException) responde 403 para código inválido o
+    // expirado, con un mensaje técnico en inglés ("Expired or invalid
+    // token"). Se muestra un mensaje claro en español en vez del crudo.
+    errorMsg.value =
+      err?.status === 403
+        ? 'El código es incorrecto o ya expiró. Verifica los dígitos o solicita uno nuevo.'
+        : err?.message || 'No se pudo validar el código.'
   } finally {
     loading.value = false
   }
