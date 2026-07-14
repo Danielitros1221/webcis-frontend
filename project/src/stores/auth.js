@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import {
-  getCurrentUser,
+  getDashboard,
   login as requestLogin,
   logout as requestLogout,
 } from '@/services/auth.service'
@@ -11,27 +11,51 @@ function userFromResponse(response) {
   return response?.user ?? response?.data?.user ?? response?.data ?? response ?? null
 }
 
+// UserType (backend): Student=0, Professor=1, Extern=2, Admin=3. El endpoint
+// /dashboard hoy serializa user_role como el int crudo del enum (bug
+// reportado a backend); UserResource en cambio expone el nombre del case
+// ("Student", "Professor", ...). Se acepta cualquiera de las dos formas para
+// no depender de cuál corrijan primero.
+const USER_ROLES_BY_TYPE = ['student', 'professor', 'extern', 'admin']
+
+function normalizeUserRole(value) {
+  if (typeof value === 'number') return USER_ROLES_BY_TYPE[value] ?? null
+
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase()
+    return USER_ROLES_BY_TYPE.includes(normalized) ? normalized : null
+  }
+
+  return null
+}
+
 export function normalizeServerUser(serverUser) {
   if (!serverUser || typeof serverUser !== 'object') return null
 
-  const user = {
-    id: serverUser.id ?? null,
-    role: serverUser.role ?? serverUser.rol ?? null,
-    name: serverUser.name ?? serverUser.nombre ?? null,
-  }
+  const username = serverUser.username ?? null
+  if (!username) return null
 
-  return user.id === null ? null : user
+  return {
+    // /dashboard no expone id todavía; se conserva por si lo agregan.
+    id: serverUser.id ?? null,
+    username,
+    role: normalizeUserRole(serverUser.user_role ?? serverUser.role ?? serverUser.rol),
+    // name tampoco existe aún en /dashboard (TODO del backend); se usa
+    // username mientras tanto para no mostrar el genérico "Usuario".
+    name: serverUser.name ?? serverUser.nombre ?? username,
+  }
 }
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
-  // Bandera temporal: el backend confirma el login (200 + mensaje) pero no
-  // expone todavía un endpoint de perfil (ver comentario en getCurrentUser,
-  // en auth.service.js). Mientras no exista, esta bandera permite que
-  // isAuthenticated sea true tras un login válido aunque no tengamos `user`.
-  // Quitar cuando el backend agregue GET /user o /me y refreshSession()
-  // pueda poblar `user` de verdad.
+  // Bandera temporal: si /dashboard no responde (rama de backend todavía sin
+  // desplegar, o falla por otra razón) tras un login exitoso, esta bandera
+  // permite que isAuthenticated sea true igual, sin `user` poblado.
   const sessionConfirmed = ref(false)
+  // Marca si ya se intentó verificar la sesión contra /dashboard en esta
+  // carga de la app (éxito o fallo). El guard del router la usa para no
+  // repetir la llamada al backend en cada navegación entre rutas protegidas.
+  const sessionChecked = ref(false)
 
   const isAuthenticated = computed(() => Boolean(user.value) || sessionConfirmed.value)
   const role = computed(() => user.value?.role ?? null)
@@ -54,11 +78,13 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function refreshSession() {
     try {
-      const response = await getCurrentUser()
+      const response = await getDashboard()
       return setUser(userFromResponse(response))
     } catch {
       clearSession()
       return false
+    } finally {
+      sessionChecked.value = true
     }
   }
 
@@ -68,16 +94,13 @@ export const useAuthStore = defineStore('auth', () => {
 
     if (responseUser && setUser(responseUser)) return response
 
-    // refreshSession() intenta GET /user para traer el perfil real. Se deja
-    // intacta (no se borra) para cuando el backend agregue ese endpoint;
-    // hoy siempre devuelve false porque la ruta no existe (404).
     if (await refreshSession()) return response
 
-    // Sin endpoint de perfil no sabemos rol/nombre todavía, pero el login
-    // en sí fue exitoso (POST /auth/login respondió 200). No bloqueamos al
-    // usuario: marcamos la sesión como confirmada para que los guards de
-    // requiresAuth dejen pasar. `role` seguirá siendo null hasta que exista
-    // un endpoint real de perfil.
+    // /dashboard no confirmó un usuario (todavía sin desplegar, o sin los
+    // campos esperados), pero el login en sí fue exitoso (POST /auth/login
+    // respondió 200). No bloqueamos al usuario: marcamos la sesión como
+    // confirmada para que los guards de requiresAuth dejen pasar. `role`
+    // quedará null hasta que /dashboard responda con datos reales.
     sessionConfirmed.value = true
     return response
   }
@@ -97,6 +120,7 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     isAuthenticated,
     role,
+    sessionChecked,
     clearSession,
     setUser,
     refreshSession,

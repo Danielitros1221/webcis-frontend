@@ -80,13 +80,13 @@ export async function login({ email, username, pass, password, role }) {
   return authPost('/login', payload)
 }
 
-// El backend (WebCIS) todavía no expone un endpoint para obtener el usuario
-// autenticado: no existe GET /user ni /me en routes/api.php (solo
-// /auth/login, /auth/logout, /auth/register, materials/* y recuperación de
-// password). Esta función queda lista para cuando ese endpoint exista; hoy
-// siempre responderá 404.
-export async function getCurrentUser() {
-  return apiGet('/user')
+// El backend (WebCIS, rama feature/dashboard-endpoint, aún sin mergear) no
+// expone un /user//me dedicado: la verificación de sesión se hace contra
+// GET /dashboard (protegido con auth:sanctum), que hoy solo devuelve
+// { username, user_role } y eventualmente sumará imagen de perfil, cursos,
+// medallas y % de avance. Se usa aquí como fuente de identidad/sesión.
+export async function getDashboard() {
+  return apiGet('/dashboard')
 }
 
 export async function logout() {

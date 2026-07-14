@@ -37,10 +37,14 @@ const router = createRouter({
   ],
 })
 
-export function authNavigationGuard(to) {
+export async function authNavigationGuard(to) {
   const auth = useAuthStore()
 
-  if (to.meta.requiresAuth && !auth.isAuthenticated) return { path: '/login' }
+  if (to.meta.requiresAuth) {
+    if (!auth.sessionChecked) await auth.refreshSession()
+    if (!auth.isAuthenticated) return { path: '/login' }
+  }
+
   if (to.meta.guest && auth.isAuthenticated) return { path: '/app' }
   if (to.meta.requiresAdmin && auth.role !== 'admin') return { path: '/app' }
 

@@ -1,0 +1,52 @@
+# Uso:
+#   cp .env.example .env   # si aún no existe, y ajustar VITE_API_URL
+#   docker compose up front           # dev server en http://localhost:5173
+#   docker compose run --rm test-unit # vitest (una corrida, sin watch)
+#   docker compose run --rm test-e2e  # playwright (build + preview + tests)
+#
+# Todos los servicios comparten la misma imagen (Dockerfile) y montan el
+# código fuente como bind mount para hot-reload; node_modules queda en un
+# volumen aparte para no pisar el de la imagen con el del host.
+
+services:
+  front:
+    build: .
+    ports:
+      - "5173:5173"
+      - "4173:4173"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: npm run dev -- --host 0.0.0.0
+
+  test-unit:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: npm run test:unit -- --run
+
+  test-e2e:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - CI=true
+    ports:
+      - "4173:4173"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    # Playwright recomienda --ipc=host para que Chromium no crashee por
+    # falta de memoria compartida (/dev/shm) dentro del contenedor.
+    ipc: host
+    # En modo CI, playwright.config.js sirve los tests con `npm run preview`
+    # (requiere dist/ ya compilado), por eso el build va antes.
+    command: sh -c "npm run build && npm run test:e2e"
+
+volumes:
+  node_modules:
