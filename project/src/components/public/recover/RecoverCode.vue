@@ -9,14 +9,16 @@ const props = defineProps({
 
 const emit = defineEmits(['continue'])
 
+const CODE_LENGTH = 4
+
 const code = ref('')
 const loading = ref(false)
 const errorMsg = ref('')
 
-const isValid = computed(() => code.value.trim().length === 8)
+const isValid = computed(() => code.value.trim().length === CODE_LENGTH)
 
 function handleInput(e) {
-  code.value = e.target.value.replace(/\D/g, '').slice(0, 8)
+  code.value = e.target.value.replace(/\D/g, '').slice(0, CODE_LENGTH)
 }
 
 function resetTokenFromResponse(response) {
@@ -33,7 +35,7 @@ async function onVerify() {
   }
 
   if (!isValid.value) {
-    errorMsg.value = 'El código debe tener 8 dígitos.'
+    errorMsg.value = `El código debe tener ${CODE_LENGTH} dígitos.`
     return
   }
 
@@ -81,9 +83,9 @@ async function onVerify() {
             @input="handleInput"
             type="text"
             inputmode="numeric"
-            maxlength="8"
+            :maxlength="CODE_LENGTH"
             :disabled="loading"
-            placeholder="Código de 8 dígitos"
+            :placeholder="`Código de ${CODE_LENGTH} dígitos`"
             class="w-full rounded-lg border border-white/20 bg-black/20 px-4 py-3 text-white text-center text-lg tracking-widest placeholder:text-white/60 placeholder:italic placeholder:text-base placeholder:tracking-normal outline-none focus:border-white/70"
           />
         </div>
