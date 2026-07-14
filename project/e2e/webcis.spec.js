@@ -60,7 +60,7 @@ test.describe('WebCIS responsive layout', () => {
     const toggle = page.getByRole('button', { name: /Abrir men./ })
     await expect(toggle).toBeVisible()
     await toggle.click()
-    await expect(page.getByRole('link', { name: /Iniciar sesi.n/ })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Iniciar sesi.n/i })).toBeVisible()
 
     const overflow = await page.evaluate(() => (
       document.documentElement.scrollWidth - document.documentElement.clientWidth
