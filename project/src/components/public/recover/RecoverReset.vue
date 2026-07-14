@@ -95,7 +95,13 @@ async function onSubmit() {
     })
     emit('continue')
   } catch (err) {
-    errorMsg.value = err?.message || 'No se pudo actualizar la contraseña.'
+    // Mismo TokenValidationException que en /validate-reset-token, pero acá
+    // el backend no lo atrapa: llega como 401 puro en vez de 403. Se muestra
+    // un mensaje claro y en español en vez del crudo del backend.
+    errorMsg.value =
+      err?.status === 401
+        ? 'El enlace de recuperación expiró o ya fue usado. Vuelve a solicitar un código nuevo desde el correo.'
+        : err?.message || 'No se pudo actualizar la contraseña.'
   } finally {
     loading.value = false
   }

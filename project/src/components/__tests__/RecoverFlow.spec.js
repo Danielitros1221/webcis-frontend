@@ -1,17 +1,20 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import RecoverCode from '@/components/public/recover/RecoverCode.vue'
 import RecoverInfo from '@/components/public/recover/RecoverInfo.vue'
 import RecoverReset from '@/components/public/recover/RecoverReset.vue'
 
 const mocks = vi.hoisted(() => ({
   forgotPassword: vi.fn(),
   resetPassword: vi.fn(),
+  validateResetToken: vi.fn(),
 }))
 
 vi.mock('@/services/auth.service', () => ({
   forgotPassword: mocks.forgotPassword,
   resetPassword: mocks.resetPassword,
+  validateResetToken: mocks.validateResetToken,
 }))
 
 const global = {
@@ -28,6 +31,7 @@ describe('recover flow', () => {
     vi.clearAllMocks()
     mocks.forgotPassword.mockResolvedValue({ message: 'Código enviado' })
     mocks.resetPassword.mockResolvedValue({ message: 'Contraseña actualizada' })
+    mocks.validateResetToken.mockResolvedValue({ token: 'reset-token' })
   })
 
   it('step 1 requests the recovery code with the user email', async () => {
@@ -43,6 +47,44 @@ describe('recover flow', () => {
     expect(wrapper.emitted('continue')?.[0]).toEqual([
       { email: 'ana@example.com' },
     ])
+  })
+
+  it('step 2 validates the code and continues with the reset token', async () => {
+    const wrapper = mount(RecoverCode, {
+      props: { email: 'ana@example.com' },
+      global,
+    })
+
+    await wrapper.get('input[inputmode="numeric"]').setValue('12345678')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+
+    expect(mocks.validateResetToken).toHaveBeenCalledWith({
+      email: 'ana@example.com',
+      code: '12345678',
+    })
+    expect(wrapper.emitted('continue')?.[0]).toEqual([{ token: 'reset-token' }])
+  })
+
+  it('step 2 shows a clear message when the backend rejects an invalid or expired code (403)', async () => {
+    mocks.validateResetToken.mockRejectedValue({
+      status: 403,
+      message: 'Expired or invalid token',
+    })
+    const wrapper = mount(RecoverCode, {
+      props: { email: 'ana@example.com' },
+      global,
+    })
+
+    await wrapper.get('input[inputmode="numeric"]').setValue('12345678')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+
+    expect(wrapper.text()).toContain(
+      'El código es incorrecto o ya expiró. Verifica los dígitos o solicita uno nuevo.',
+    )
+    expect(wrapper.text()).not.toContain('Expired or invalid token')
+    expect(wrapper.emitted('continue')).toBeUndefined()
   })
 
   it('step 3 resets the password with email, password and reset token', async () => {
@@ -85,6 +127,32 @@ describe('recover flow', () => {
     await flushPromises()
 
     expect(wrapper.text()).toContain('Token inválido.')
+    expect(wrapper.emitted('continue')).toBeUndefined()
+  })
+
+  it('step 3 shows a clear message when the reset token expired or was already used (401)', async () => {
+    mocks.resetPassword.mockRejectedValue({
+      status: 401,
+      message: 'Expired or invalid token',
+    })
+    const wrapper = mount(RecoverReset, {
+      props: {
+        email: 'ana@example.com',
+        token: 'expired-token',
+      },
+      global,
+    })
+    const [passwordInput, confirmPasswordInput] = wrapper.findAll('input[type="password"]')
+
+    await passwordInput.setValue('Secret1!')
+    await confirmPasswordInput.setValue('Secret1!')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+
+    expect(wrapper.text()).toContain(
+      'El enlace de recuperación expiró o ya fue usado. Vuelve a solicitar un código nuevo desde el correo.',
+    )
+    expect(wrapper.text()).not.toContain('Expired or invalid token')
     expect(wrapper.emitted('continue')).toBeUndefined()
   })
 })
