@@ -38,6 +38,32 @@ test.describe('WebCIS public flows', () => {
     await expect(page).toHaveURL(/\/login$/)
     await expect(page.getByRole('heading', { name: /Inicio de sesi.n/ })).toBeVisible()
   })
+
+  test('logs in successfully and reaches the dashboard (mocked backend)', async ({ page }) => {
+    await page.route('**/sanctum/csrf-cookie', (route) => route.fulfill({ status: 204, body: '' }))
+    await page.route('**/api/v1/auth/login', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'Successful login' }),
+      }),
+    )
+    await page.route('**/api/v1/dashboard', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ username: 'ana', user_role: 0 }),
+      }),
+    )
+
+    await page.goto('/login')
+    await page.getByPlaceholder(/Usuario o correo electr.nico/).fill('ana@example.com')
+    await page.getByPlaceholder(/Contrase.a/).fill('Secret1!')
+    await page.getByRole('button', { name: '¡ENTRAR!' }).click()
+
+    await expect(page).toHaveURL(/\/app$/)
+    await expect(page.getByText(/Hola, ana/)).toBeVisible()
+  })
 })
 
 test.describe('WebCIS responsive layout', () => {

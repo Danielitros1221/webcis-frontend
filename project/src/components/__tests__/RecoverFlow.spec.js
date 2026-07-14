@@ -49,6 +49,18 @@ describe('recover flow', () => {
     ])
   })
 
+  it('step 1 shows the backend error and does not continue when the request fails', async () => {
+    mocks.forgotPassword.mockRejectedValue({ message: 'No existe una cuenta con ese correo.' })
+    const wrapper = mount(RecoverInfo, { global })
+
+    await wrapper.get('input[type="email"]').setValue('ana@example.com')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('No existe una cuenta con ese correo.')
+    expect(wrapper.emitted('continue')).toBeUndefined()
+  })
+
   it('step 2 validates the code and continues with the reset token', async () => {
     const wrapper = mount(RecoverCode, {
       props: { email: 'ana@example.com' },
