@@ -143,6 +143,28 @@ describe('register flow', () => {
     })
   })
 
+  it('submits successfully and emits the registered event with the backend response', async () => {
+    const wrapper = mountRegisterForm()
+
+    await completeRegisterForm(wrapper)
+    await submitRegisterForm(wrapper)
+    await flushPromises()
+
+    expect(mocks.register).toHaveBeenCalledWith({
+      email: 'ana@example.com',
+      username: 'ana_lopez',
+      password: 'Secret1!',
+      names: 'Ana',
+      surname: 'López',
+      second_surname: '',
+      control_number: '12345678',
+      token: 'verify-token',
+      type: 0,
+      recaptcha_token: 'captcha-token',
+    })
+    expect(wrapper.emitted('registered')?.[0]).toEqual([{ id: 1 }])
+  })
+
   it('shows the backend error when the register token is invalid', async () => {
     mocks.register.mockRejectedValue({ message: 'Token inválido.' })
     const wrapper = mountRegisterForm()
