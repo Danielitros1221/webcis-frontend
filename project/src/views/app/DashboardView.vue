@@ -62,7 +62,7 @@ const progressValue = computed(() =>
     </div>
 
     <div class="mt-9">
-      <EnrolledCoursesList :courses="[]" />
+      <EnrolledCoursesList :courses="dashboard.recentCourses" />
     </div>
   </section>
 </template>
