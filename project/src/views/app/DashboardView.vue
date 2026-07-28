@@ -24,7 +24,7 @@ const progressValue = computed(() =>
     <WelcomeHeader />
 
     <div class="mt-7 grid grid-cols-1 gap-6 lg:grid-cols-[1.6fr_1fr]">
-      <ContinueCourseCard :course="null" />
+      <ContinueCourseCard :course="dashboard.latestCourse" />
 
       <div class="flex flex-col gap-4">
         <!-- "Cursos inscritos": /dashboard no expone un conteo de inscripciones
