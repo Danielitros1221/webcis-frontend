@@ -1,13 +1,22 @@
 <script setup>
+import { computed } from 'vue'
+
 import ContinueCourseCard from '@/components/app/dashboard/ContinueCourseCard.vue'
 import EnrolledCoursesList from '@/components/app/dashboard/EnrolledCoursesList.vue'
 import QuickAccessGrid from '@/components/app/dashboard/QuickAccessGrid.vue'
 import StatCard from '@/components/app/dashboard/StatCard.vue'
 import WelcomeHeader from '@/components/app/dashboard/WelcomeHeader.vue'
+import { useDashboardStore } from '@/stores/dashboard'
 
-// Esta vista queda lista para conectar cursos inscritos y estadísticas reales
-// cuando el backend defina el contrato (ver deuda técnica: no existe endpoint
-// de progreso/inscripciones todavía).
+// El store ya se puebla desde el guard de sesión (refreshSession() en
+// stores/auth.js llama GET /dashboard una vez por carga de la SPA), así que
+// esta vista solo lee el estado, sin disparar su propia petición.
+const dashboard = useDashboardStore()
+
+const medalsValue = computed(() => (dashboard.loaded ? dashboard.medals : '—'))
+const progressValue = computed(() =>
+  dashboard.loaded && dashboard.progress !== null ? `${dashboard.progress}%` : '—',
+)
 </script>
 
 <template>
@@ -18,6 +27,11 @@ import WelcomeHeader from '@/components/app/dashboard/WelcomeHeader.vue'
       <ContinueCourseCard :course="null" />
 
       <div class="flex flex-col gap-4">
+        <!-- "Cursos inscritos": /dashboard no expone un conteo de inscripciones
+             (EnrollmentService::count() existe en el backend pero
+             DashboardController no lo llama todavía). Placeholder explícito
+             a propósito, no se simula con recent_courses.length (viene topado
+             a 5 y filtrado por actividad reciente). -->
         <StatCard value="—" label="Cursos inscritos" icon-bg-class="bg-tag-poo-bg">
           <template #icon>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-tag-poo-fg)" stroke-width="1.9">
@@ -25,14 +39,14 @@ import WelcomeHeader from '@/components/app/dashboard/WelcomeHeader.vue'
             </svg>
           </template>
         </StatCard>
-        <StatCard value="—" label="Progreso promedio" icon-bg-class="bg-tag-web-bg">
+        <StatCard :value="progressValue" label="Progreso promedio" icon-bg-class="bg-tag-web-bg">
           <template #icon>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-tag-web-fg)" stroke-width="1.9">
               <path d="M3 17l5-5 4 4 8-8" />
             </svg>
           </template>
         </StatCard>
-        <StatCard value="—" label="Medallas obtenidas" icon-bg-class="bg-tag-datos-bg">
+        <StatCard :value="medalsValue" label="Medallas obtenidas" icon-bg-class="bg-tag-datos-bg">
           <template #icon>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-tag-datos-fg)" stroke-width="1.9">
               <circle cx="12" cy="9" r="5" />
