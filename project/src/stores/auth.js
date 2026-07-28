@@ -49,6 +49,11 @@ export function normalizeServerUser(serverUser) {
     email: serverUser.email ?? null,
     surname: serverUser.surname ?? null,
     secondSurname: serverUser.second_surname ?? null,
+    // Path crudo tal cual lo manda user_path_profile_picture (sin
+    // Storage::url() en el backend). No se transforma aquí; se usaría
+    // directo como src cuando algún componente lo consuma (ninguno lo hace
+    // todavía). No hay ejemplo real con valor no nulo — revisar el formato
+    // cuando aparezca uno.
     profile: serverUser.profile ?? null,
     createdAt: serverUser.created_at ?? null,
   }

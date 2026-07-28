@@ -7,6 +7,14 @@ import { defineStore } from 'pinia'
 // short_title, icon, last_accessed_at }] } — máx. 5, solo cursos con
 // last_accessed_at no nulo (confirmado en EnrollmentService del backend).
 // No es la lista completa de cursos inscritos.
+//
+// `icon` se pasa tal cual a los componentes (ContinueCourseCard.vue,
+// EnrolledCoursesList.vue usan `:src="course.icon"` directo) asumiendo que
+// cuando el backend mande un valor no nulo será una URL completa y
+// utilizable. Decisión: no se construye una URL desde un path relativo aquí.
+// No hay todavía un ejemplo real con valor no nulo para confirmar el
+// formato — revisar esto en cuanto aparezca uno (ver dashboard_api_contract
+// en memoria).
 function normalizeCourse(course) {
   if (!course || typeof course !== 'object') return null
 
