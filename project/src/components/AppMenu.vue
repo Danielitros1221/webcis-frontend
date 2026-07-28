@@ -16,7 +16,7 @@ const mobileOpen = ref(false)
 </script>
 
 <template>
-  <nav class="relative z-30 w-full bg-[#193A68] shadow-lg" aria-label="Navegación principal">
+  <nav class="relative z-30 w-full bg-azul-nav shadow-lg" aria-label="Navegación principal">
     <div class="mx-auto flex min-h-18 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
       <RouterLink to="/" class="shrink-0 py-2" aria-label="Ir al inicio de WebCIS">
         <img
@@ -43,7 +43,7 @@ const mobileOpen = ref(false)
       <div
         id="primary-navigation"
         data-test="primary-navigation"
-        class="absolute left-0 right-0 top-full border-t border-white/15 bg-[#193A68] px-4 py-3 shadow-lg md:static md:block md:border-0 md:bg-transparent md:p-0 md:shadow-none"
+        class="absolute left-0 right-0 top-full border-t border-white/15 bg-azul-nav px-4 py-3 shadow-lg md:static md:block md:border-0 md:bg-transparent md:p-0 md:shadow-none"
         :class="mobileOpen ? 'block' : 'hidden'"
         @click="mobileOpen = false"
       >
