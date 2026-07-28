@@ -6,16 +6,19 @@ import {
   login as requestLogin,
   logout as requestLogout,
 } from '@/services/auth.service'
+import { useDashboardStore } from '@/stores/dashboard'
 
+// GET /dashboard devuelve { user: {...}, medals, progress, recent_courses }
+// (confirmado en el backend, rama dev: DashboardController::index()). El
+// objeto `user` viene de UserResource.
 function userFromResponse(response) {
   return response?.user ?? response?.data?.user ?? response?.data ?? response ?? null
 }
 
-// UserType (backend): Student=0, Professor=1, Extern=2, Admin=3. El endpoint
-// /dashboard hoy serializa user_role como el int crudo del enum (bug
-// reportado a backend); UserResource en cambio expone el nombre del case
-// ("Student", "Professor", ...). Se acepta cualquiera de las dos formas para
-// no depender de cuál corrijan primero.
+// UserType (backend): Student=0, Professor=1, Extern=2, Admin=3. UserResource
+// serializa el rol como `type` con el nombre del case ("Student", ...). Se
+// conservan `user_role`/`role`/`rol` como fallback tolerante por si el shape
+// vuelve a cambiar, y el int crudo por si algún endpoint futuro lo manda así.
 const USER_ROLES_BY_TYPE = ['student', 'professor', 'extern', 'admin']
 
 function normalizeUserRole(value) {
@@ -39,10 +42,15 @@ export function normalizeServerUser(serverUser) {
     // /dashboard no expone id todavía; se conserva por si lo agregan.
     id: serverUser.id ?? null,
     username,
-    role: normalizeUserRole(serverUser.user_role ?? serverUser.role ?? serverUser.rol),
-    // name tampoco existe aún en /dashboard (TODO del backend); se usa
-    // username mientras tanto para no mostrar el genérico "Usuario".
+    role: normalizeUserRole(
+      serverUser.type ?? serverUser.user_role ?? serverUser.role ?? serverUser.rol,
+    ),
     name: serverUser.name ?? serverUser.nombre ?? username,
+    email: serverUser.email ?? null,
+    surname: serverUser.surname ?? null,
+    secondSurname: serverUser.second_surname ?? null,
+    profile: serverUser.profile ?? null,
+    createdAt: serverUser.created_at ?? null,
   }
 }
 
@@ -79,9 +87,13 @@ export const useAuthStore = defineStore('auth', () => {
   async function refreshSession() {
     try {
       const response = await getDashboard()
+      // Misma respuesta trae medals/progress/recent_courses; se reparte al
+      // store de dashboard aquí para no duplicar la llamada a GET /dashboard.
+      useDashboardStore().setDashboardData(response)
       return setUser(userFromResponse(response))
     } catch {
       clearSession()
+      useDashboardStore().clear()
       return false
     } finally {
       sessionChecked.value = true
@@ -113,6 +125,7 @@ export const useAuthStore = defineStore('auth', () => {
       return false
     } finally {
       clearSession()
+      useDashboardStore().clear()
     }
   }
 
