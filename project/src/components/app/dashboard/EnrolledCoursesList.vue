@@ -2,12 +2,24 @@
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 defineProps({
-  // [] mientras no exista un endpoint que reporte los cursos inscritos del usuario
+  // dashboard.recentCourses (stores/dashboard.js): hasta 5 cursos activos con
+  // actividad reciente, cada uno { token, title, shortTitle, icon,
+  // lastAccessedAt }. No es necesariamente el total de cursos inscritos (ver
+  // gap documentado en DashboardView.vue).
   courses: {
     type: Array,
     default: () => [],
   },
 })
+
+function formatLastAccessed(value) {
+  if (!value) return null
+  // "2026-07-27 23:52:09" (formato MySQL) -> parseable en todos los
+  // navegadores solo si se convierte a ISO 8601 primero.
+  const date = new Date(value.replace(' ', 'T'))
+  if (Number.isNaN(date.getTime())) return null
+  return date.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' })
+}
 </script>
 
 <template>
@@ -17,14 +29,26 @@ defineProps({
     <div v-if="courses.length" class="flex flex-col gap-4">
       <div
         v-for="course in courses"
-        :key="course.code"
+        :key="course.token"
         class="grid grid-cols-[160px_1fr] gap-6 rounded-(--radius-card) bg-white p-6 shadow-(--shadow-card)"
       >
-        <img :src="course.thumb" alt="" class="aspect-square rounded-2xl bg-gris-interfaz object-contain p-2" >
+        <img
+          v-if="course.icon"
+          :src="course.icon"
+          alt=""
+          class="aspect-square rounded-2xl bg-gris-interfaz object-contain p-2"
+        >
+        <div v-else class="flex aspect-square items-center justify-center rounded-2xl bg-gris-interfaz">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-acento)" stroke-width="1.5">
+            <path d="M5 4.5h12.5A1.5 1.5 0 0 1 19 6v14H6.5A1.5 1.5 0 0 1 5 18.5z" />
+          </svg>
+        </div>
         <div class="flex flex-col">
-          <p class="font-display text-xl font-bold text-texto">{{ course.code }}</p>
-          <p class="mt-1 font-display text-base font-semibold text-texto">{{ course.subtitle }}</p>
-          <p class="mt-2 font-body text-sm text-texto/70">{{ course.desc }}</p>
+          <p class="font-display text-xl font-bold text-texto">{{ course.title }}</p>
+          <p class="mt-1 font-display text-base font-semibold text-texto">{{ course.shortTitle }}</p>
+          <p v-if="course.lastAccessedAt" class="mt-2 font-body text-sm text-texto/70">
+            Último acceso: {{ formatLastAccessed(course.lastAccessedAt) }}
+          </p>
           <div class="mt-auto flex justify-end gap-3 pt-4">
             <RouterLink :to="`/app/repository`">
               <BaseButton variant="gold">Contenido</BaseButton>
