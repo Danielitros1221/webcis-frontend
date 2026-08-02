@@ -27,6 +27,7 @@ defineProps({
 })
 
 const tab = defineModel('tab', { default: 'muro' })
+defineEmits(['open-avatar', 'open-banner'])
 </script>
 
 <template>
@@ -37,21 +38,48 @@ const tab = defineModel('tab', { default: 'muro' })
         class="absolute inset-0"
         style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(10, 10, 10, 0.55))"
       />
+      <div class="absolute inset-0 mx-auto max-w-[900px] px-6">
+        <button
+          type="button"
+          title="Cambiar foto de banner"
+          class="absolute top-3 right-6 flex size-8.5 items-center justify-center rounded-xl border border-white/25 bg-[rgba(8,16,30,.6)] text-white sm:size-10.5"
+          @click="$emit('open-banner')"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2.5" />
+            <circle cx="9" cy="10.5" r="1.8" />
+            <path d="m5.5 17 4-4.2 2.7 2.8 3-3.6L21 16" />
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="mx-auto max-w-[900px] px-6">
       <div class="relative z-10 -mt-[38px] flex items-end gap-4 sm:-mt-[52px] sm:gap-5">
-        <div
-          class="size-20 flex-none overflow-hidden rounded-full border-4 border-[#e7e5df] sm:size-28"
-          style="box-shadow: 0 0 0 3px var(--color-oro-ingenieril)"
-        >
-          <img v-if="avatarSrc" :src="avatarSrc" alt="" class="size-full object-cover">
+        <div class="relative size-20 flex-none sm:size-28">
           <div
-            v-else
-            class="flex size-full items-center justify-center bg-primario font-display text-lg font-semibold text-white sm:text-2xl"
+            class="size-full overflow-hidden rounded-full border-4 border-[#e7e5df]"
+            style="box-shadow: 0 0 0 3px var(--color-oro-ingenieril)"
           >
-            {{ initials }}
+            <img v-if="avatarSrc" :src="avatarSrc" alt="" class="size-full object-cover">
+            <div
+              v-else
+              class="flex size-full items-center justify-center bg-primario font-display text-lg font-semibold text-white sm:text-2xl"
+            >
+              {{ initials }}
+            </div>
           </div>
+          <button
+            type="button"
+            title="Cambiar foto de perfil"
+            class="absolute right-0.5 bottom-0.5 flex size-6.5 items-center justify-center rounded-full border-[3px] border-[#e7e5df] bg-oro-ingenieril text-[#3a2a08] sm:size-8"
+            @click="$emit('open-avatar')"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 7h3l2-2.5h6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" />
+              <circle cx="12" cy="13" r="3.4" />
+            </svg>
+          </button>
         </div>
 
         <div class="min-w-0 flex-1 pb-1.5">

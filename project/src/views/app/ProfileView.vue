@@ -3,6 +3,9 @@ import { computed, reactive, ref } from 'vue'
 
 import AboutCard from '@/components/app/profile/AboutCard.vue'
 import AllMedalsModal from '@/components/app/profile/AllMedalsModal.vue'
+import AvatarUploadModal from '@/components/app/profile/AvatarUploadModal.vue'
+import { BANNER_OPTIONS } from '@/components/app/profile/banner-options'
+import BannerPickerModal from '@/components/app/profile/BannerPickerModal.vue'
 import EditProfileForm from '@/components/app/profile/EditProfileForm.vue'
 import MedalsCard from '@/components/app/profile/MedalsCard.vue'
 import { MOCK_ACTIVITY, MOCK_BIO, MOCK_CONTROL_NUMBER, MOCK_MEDALS } from '@/components/app/profile/profile.mock'
@@ -12,7 +15,6 @@ import ToastHost from '@/components/ui/ToastHost.vue'
 import { useFeaturedMedals } from '@/composables/useFeaturedMedals'
 import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
-import defaultBanner from '@/assets/images/home/hero-itver.jpg'
 import { roleLabel as labelForRole } from '@/utils/roleLabels'
 import { initialsFromName } from '@/utils/text'
 
@@ -62,6 +64,28 @@ function handleSaveFeatured(ids) {
   notify('Selección de medallas actualizada.')
 }
 
+// Avatar y banner: sin endpoint de upload en el backend, así que "guardar"
+// solo actualiza este estado de la vista — a diferencia de la selección de
+// medallas, acá no se persiste en localStorage (decisión tomada para esta
+// historia): se pierde al recargar.
+const bannerSrc = ref(BANNER_OPTIONS[0].src)
+const avatarOverride = ref(null)
+const avatarSrc = computed(() => avatarOverride.value ?? auth.user?.profile ?? null)
+const avatarModalOpen = ref(false)
+const bannerModalOpen = ref(false)
+
+function handleSaveAvatar(src) {
+  avatarOverride.value = src
+  avatarModalOpen.value = false
+  notify('Foto de perfil actualizada.')
+}
+
+function handleSaveBanner(src) {
+  bannerSrc.value = src
+  bannerModalOpen.value = false
+  notify('Banner actualizado.')
+}
+
 function handleSaveProfile(values) {
   profile.email = values.email
   profile.username = values.username
@@ -87,12 +111,14 @@ function handleSaveProfile(values) {
   <section>
     <ProfileHeader
       v-model:tab="tab"
-      :banner-src="defaultBanner"
+      :banner-src="bannerSrc"
       :full-name="fullName"
       :username="profile.username"
       :role-label="roleLabel"
-      :avatar-src="auth.user?.profile"
+      :avatar-src="avatarSrc"
       :initials="initials"
+      @open-avatar="avatarModalOpen = true"
+      @open-banner="bannerModalOpen = true"
     />
 
     <div class="mx-auto max-w-[900px] px-6 pb-10">
@@ -127,6 +153,18 @@ function handleSaveProfile(values) {
       :featured-ids="featuredIds"
       @close="medalsModalOpen = false"
       @save="handleSaveFeatured"
+    />
+    <AvatarUploadModal
+      :open="avatarModalOpen"
+      :current-src="avatarSrc"
+      @close="avatarModalOpen = false"
+      @save="handleSaveAvatar"
+    />
+    <BannerPickerModal
+      :open="bannerModalOpen"
+      :current-src="bannerSrc"
+      @close="bannerModalOpen = false"
+      @save="handleSaveBanner"
     />
     <ToastHost />
   </section>
