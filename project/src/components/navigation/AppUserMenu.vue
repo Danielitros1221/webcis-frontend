@@ -3,28 +3,20 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '@/stores/auth'
+import { roleLabel as labelForRole } from '@/utils/roleLabels'
+import { initialsFromName } from '@/utils/text'
 
 const router = useRouter()
 const auth = useAuthStore()
 const open = ref(false)
 
-const roleLabels = {
-  student: 'Alumno',
-  professor: 'Profesor',
-  extern: 'Egresado',
-  admin: 'Administrador',
-}
-
 const displayName = computed(() => auth.user?.name ?? 'Usuario')
-const initials = computed(() =>
-  displayName.value
-    .split(' ')
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase(),
-)
-const roleLabel = computed(() => roleLabels[auth.role] ?? '')
+const initials = computed(() => initialsFromName(displayName.value))
+const roleLabel = computed(() => labelForRole(auth.role))
+
+function goToProfile() {
+  open.value = false
+}
 
 async function handleLogout() {
   open.value = false
@@ -59,10 +51,11 @@ async function handleLogout() {
         <p class="font-display text-sm font-semibold">{{ displayName }}</p>
       </div>
 
-      <span
-        class="mt-1 flex cursor-not-allowed items-center gap-2 rounded-lg px-3 py-2 font-display text-sm text-texto/40"
-        title="Próximamente"
-      >Mi perfil</span>
+      <RouterLink
+        to="/app/profile"
+        class="mt-1 flex items-center gap-2 rounded-lg px-3 py-2 font-display text-sm text-texto hover:bg-black/5"
+        @click="goToProfile"
+      >Mi perfil</RouterLink>
       <span
         class="flex cursor-not-allowed items-center gap-2 rounded-lg px-3 py-2 font-display text-sm text-texto/40"
         title="Próximamente"
