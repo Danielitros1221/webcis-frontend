@@ -4,8 +4,9 @@ import { computed, ref } from 'vue'
 import AboutCard from '@/components/app/profile/AboutCard.vue'
 import AllMedalsModal from '@/components/app/profile/AllMedalsModal.vue'
 import MedalsCard from '@/components/app/profile/MedalsCard.vue'
-import { MOCK_BIO, MOCK_CONTROL_NUMBER, MOCK_MEDALS } from '@/components/app/profile/profile.mock'
+import { MOCK_ACTIVITY, MOCK_BIO, MOCK_CONTROL_NUMBER, MOCK_MEDALS } from '@/components/app/profile/profile.mock'
 import ProfileHeader from '@/components/app/profile/ProfileHeader.vue'
+import RecentActivityCard from '@/components/app/profile/RecentActivityCard.vue'
 import ToastHost from '@/components/ui/ToastHost.vue'
 import { useFeaturedMedals } from '@/composables/useFeaturedMedals'
 import { useToast } from '@/composables/useToast'
@@ -62,6 +63,7 @@ function handleSaveFeatured(ids) {
           :featured-medals="featuredMedals"
           @open-all="medalsModalOpen = true"
         />
+        <RecentActivityCard :full-name="fullName" :activities="MOCK_ACTIVITY" />
       </div>
 
       <div v-else class="mt-5 flex flex-col gap-[18px]">

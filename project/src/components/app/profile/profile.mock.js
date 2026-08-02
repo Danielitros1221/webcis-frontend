@@ -37,3 +37,14 @@ export function formatCompletedDate(isoDate) {
   const date = new Date(`${isoDate}T00:00:00`)
   return `Completado ${date.getDate()} ${MONTHS_ES[date.getMonth()]} ${date.getFullYear()}`
 }
+
+// Feed de actividad reciente: no hay ningún endpoint de actividad en el
+// backend (ver nota arriba), `time` queda como texto fijo en vez de
+// calcularse a partir de una fecha real porque no hay timestamp real que
+// formatear todavía.
+export const MOCK_ACTIVITY = [
+  { text: 'completó el curso Principios_POO y obtuvo una medalla.', time: 'hace 3 días', kind: 'medalla' },
+  { text: 'se inscribió al curso Estructuras_Datos.', time: 'hace 1 semana', kind: 'curso' },
+  { text: 'descargó el material Manual de POO en C++.', time: 'hace 2 semanas', kind: 'material' },
+  { text: 'actualizó su foto de perfil.', time: 'hace 3 semanas', kind: 'perfil' },
+]
