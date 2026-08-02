@@ -2,8 +2,13 @@
 import { computed, ref } from 'vue'
 
 import AboutCard from '@/components/app/profile/AboutCard.vue'
-import { MOCK_BIO, MOCK_CONTROL_NUMBER } from '@/components/app/profile/profile.mock'
+import AllMedalsModal from '@/components/app/profile/AllMedalsModal.vue'
+import MedalsCard from '@/components/app/profile/MedalsCard.vue'
+import { MOCK_BIO, MOCK_CONTROL_NUMBER, MOCK_MEDALS } from '@/components/app/profile/profile.mock'
 import ProfileHeader from '@/components/app/profile/ProfileHeader.vue'
+import ToastHost from '@/components/ui/ToastHost.vue'
+import { useFeaturedMedals } from '@/composables/useFeaturedMedals'
+import { useToast } from '@/composables/useToast'
 import { useAuthStore } from '@/stores/auth'
 import defaultBanner from '@/assets/images/home/hero-itver.jpg'
 import { roleLabel as labelForRole } from '@/utils/roleLabels'
@@ -19,6 +24,17 @@ const fullName = computed(() => {
 })
 const roleLabel = computed(() => labelForRole(auth.role))
 const initials = computed(() => initialsFromName(fullName.value))
+
+const username = computed(() => auth.user?.username ?? null)
+const { featuredIds, featuredMedals, saveFeatured } = useFeaturedMedals(username, MOCK_MEDALS)
+const { notify } = useToast()
+const medalsModalOpen = ref(false)
+
+function handleSaveFeatured(ids) {
+  saveFeatured(ids)
+  medalsModalOpen.value = false
+  notify('Selección de medallas actualizada.')
+}
 </script>
 
 <template>
@@ -41,6 +57,11 @@ const initials = computed(() => initialsFromName(fullName.value))
           :control-number="MOCK_CONTROL_NUMBER"
           :role-label="roleLabel"
         />
+        <MedalsCard
+          :total-count="MOCK_MEDALS.length"
+          :featured-medals="featuredMedals"
+          @open-all="medalsModalOpen = true"
+        />
       </div>
 
       <div v-else class="mt-5 flex flex-col gap-[18px]">
@@ -50,5 +71,14 @@ const initials = computed(() => initialsFromName(fullName.value))
         </div>
       </div>
     </div>
+
+    <AllMedalsModal
+      :open="medalsModalOpen"
+      :all-medals="MOCK_MEDALS"
+      :featured-ids="featuredIds"
+      @close="medalsModalOpen = false"
+      @save="handleSaveFeatured"
+    />
+    <ToastHost />
   </section>
 </template>
