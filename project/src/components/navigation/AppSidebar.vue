@@ -81,14 +81,14 @@ function iconStroke(path) {
       <span v-if="!collapsed">{{ item.label }}</span>
     </RouterLink>
 
-    <div class="mt-auto px-4">
+    <div class="mt-auto">
       <RouterLink
         to="/app/profile"
-        class="relative flex items-center gap-3 rounded-xl px-0 py-3 font-display text-sm font-medium text-white/80 hover:text-white"
-        :class="{ 'text-white': isActive('/app/profile') }"
+        class="relative mx-2 my-0.5 flex items-center gap-3 rounded-xl px-4 py-3 font-display text-sm font-medium text-white/80 hover:bg-white/5"
+        :class="{ 'bg-acento/15 text-white': isActive('/app/profile') }"
       >
         <span
-          class="absolute inset-y-2 -left-4 w-1 rounded-r-sm bg-acento"
+          class="absolute inset-y-2 -left-2 w-1 rounded-r-sm bg-acento"
           :class="isActive('/app/profile') ? 'opacity-100' : 'opacity-0'"
         />
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" :stroke="iconStroke('/app/profile')" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="flex-none">
@@ -98,7 +98,7 @@ function iconStroke(path) {
         <span v-if="!collapsed">Mi perfil</span>
       </RouterLink>
 
-      <div v-if="!collapsed" class="mt-3 rounded-2xl border border-acento/25 bg-acento/10 p-4">
+      <div v-if="!collapsed" class="mx-4 mt-3 rounded-2xl border border-acento/25 bg-acento/10 p-4">
         <p class="mb-2 font-display text-xs font-semibold text-white">Progreso del cuatrimestre</p>
         <ProgressBar :percent="0" track-class="bg-white/10" fill-class="bg-(image:--gradient-gold)" />
         <p class="mt-2 font-body text-[11px] text-white/60">Sin datos aún</p>
